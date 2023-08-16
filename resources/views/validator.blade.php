@@ -34,8 +34,16 @@
                             <div class="alert alert-danger">
                               {{ session('errors') }}
                             </div>
-                            @endif
                         </div>
+                        @endif
+
+                        @if ($message = Session::get('success'))
+                        <div class="col-3 mt-3">
+                            <div class="alert alert-success">
+                                <strong class="">{{ $message }}</strong>
+                            </div>
+                        </div>
+                        @endif
                         <div class="bg-white top-chart-earn">
                             <div class="col-sm-12 my-2 ps-0">
                                     <div class="classic-tabs ms-2">
@@ -85,10 +93,10 @@
                                                                                 @endforeach <br> 
                                                                     <span class="label">{{$pelanggan->area}}</span>
                                                                     </td>
-                                                                    <td>SC.123487
-                                                                        <small>(/12345)</small><br>
+                                                                    <td>SC.{{ $pelanggan->number }}
+                                                                        <small>(/{{ $pelanggan->inet }})</small><br>
                                                                         <span class="label-sales">NEW SALES</span>
-                                                                        <span class="label-tanggal">13-JUL-2023</span>
+                                                                        <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
                                                                     </td>
                                                                     <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
                                                                     <td>ODP-BDG-TST/123</td>
@@ -98,7 +106,7 @@
                                                                     </button></td>
                                                                     <td>Open</td>
                                                                     <td>
-                                                                        <a href="/validator/{{$pelanggan->id}}">Cek Bukti</a>
+                                                                        <a href="/validator/cek/{{$pelanggan->id}}">Cek Bukti</a>
                                                                     </td>
                                                                 </tr>
                     
@@ -115,31 +123,43 @@
                                                                <td>ORDER_ID</td> 
                                                                <td>NAMA PELANGGAN</td> 
                                                                <td>LOC_ID</td> 
-                                                               <td>##</td> 
-                                                               <td>STATUS</td> 
+                                                               <td>##</td>
+                                                               <td>STATUS</td>
+                                                               <td>aAction</td>
                                                             </tr>
                                                         </thead>
                         
                                                         <tbody>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>
-                                                                    CILIWUNG <br> 
-                                                                <span class="label">BDG</span>
-                                                                </td>
-                                                                <td>SC.567789
-                                                                    <small>(/12345)</small><br>
-                                                                    <span class="label-sales">NEW SALES</span>
-                                                                    <span class="label-tanggal">13-JUL-2023</span>
-                                                                </td>
-                                                                <td>AGUNG (+62-123456) <br> JALAN TELEKOMUNIKASI NO.1</td>
-                                                                <td>ODP-BDG-TST/123</td>
-                                                                <td> <button type="submit">
-                                                                    <i class="uil uil-process"></i>
-                                                                    Process
-                                                                </button></td>
-                                                                <td>Open</td>
-                                                            </tr>
+                                                            @php
+                                                                $no = 1
+                                                            @endphp
+                                                            @foreach ($pelangganFoto as $pelanggan)
+                                                                <tr>
+                                                                    <td>{{$no++}}</td>
+                                                                    <td>
+                                                                        @foreach ($areas as $key => $item)
+                                                                                {{$pelanggan->area == $key ? $item  : '' }}
+                                                                                @endforeach <br> 
+                                                                    <span class="label">{{$pelanggan->area}}</span>
+                                                                    </td>
+                                                                    <td>SC.{{ $pelanggan->number }}
+                                                                        <small>(/{{ $pelanggan->inet }})</small><br>
+                                                                        <span class="label-sales">NEW SALES</span>
+                                                                        <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
+                                                                    </td>
+                                                                    <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
+                                                                    <td>ODP-BDG-TST/123</td>
+                                                                    <td> <button type="submit">
+                                                                        <i class="uil uil-process"></i>
+                                                                        Process
+                                                                    </button></td>
+                                                                    <td>Open</td>
+                                                                    <td>
+                                                                        <a href="/validator/cek/{{$pelanggan->id}}">Cek Bukti</a>
+                                                                    </td>
+                                                                </tr>
+                    
+                                                            @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>

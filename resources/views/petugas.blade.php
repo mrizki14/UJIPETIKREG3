@@ -91,10 +91,10 @@
                                                                         @endforeach <br> 
                                                             <span class="label">{{$pelanggan->area}}</span>
                                                             </td>
-                                                            <td>SC.567789
-                                                                <small>(/12345)</small><br>
+                                                            <td>SC.{{ $pelanggan->number }}
+                                                                <small>(/{{ $pelanggan->inet }})</small><br>
                                                                 <span class="label-sales">NEW SALES</span>
-                                                                <span class="label-tanggal">13-JUL-2023</span>
+                                                                <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
                                                             </td>
                                                             <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
                                                             <td>ODP-BDG-TST/123</td>
@@ -107,7 +107,7 @@
                                                             <td>Bukti sudah terupload</td>
                                                             @elseif($pelanggan->fotos->count() <=28 )
                                                             <td>
-                                                                <a href="/petugas/{{$pelanggan->id}}">Add Bukti</a>
+                                                                <a href="/petugas/add/{{$pelanggan->id}}">Add Bukti</a>
                                                             </td>
                                                             @endif
                                                             </tr>
@@ -134,6 +134,7 @@
                                                             @php
                                                                 $no = 1
                                                             @endphp
+                                                            @if ($pelanggan->status === 'N')
                                                             @foreach ($pelanggans as $pelanggan)
                                                             <tr>
                                                                 <td>{{$no++}}</td>
@@ -143,10 +144,10 @@
                                                                             @endforeach <br> 
                                                                 <span class="label">{{$pelanggan->area}}</span>
                                                                 </td>
-                                                                <td>SC.567789
-                                                                    <small>(/12345)</small><br>
+                                                                <td>SC.{{ $pelanggan->number }}
+                                                                    <small>(/{{ $pelanggan->inet }})</small><br>
                                                                     <span class="label-sales">NEW SALES</span>
-                                                                    <span class="label-tanggal">13-JUL-2023</span>
+                                                                    <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
                                                                 </td>
                                                                 <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
                                                                 <td>ODP-BDG-TST/123</td>
@@ -156,8 +157,8 @@
                                                                 </button></td>
                                                                 <td>Open</td>
                                                                 </tr>
-                                                              
-                                                            @endforeach
+                                                                @endforeach
+                                                                @endif
                                                         </tbody>
                                                     </table>
                                                 </div>

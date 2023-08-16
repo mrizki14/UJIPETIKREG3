@@ -33,12 +33,12 @@ class PetugasController extends Controller
         ];
         $pelanggans = Pelanggan::findOrFail($id);
         $images = PelangganFoto::all();
-        $checklistOdp = [1=>"Konektor dan Adapter tipe SC-UPC",2=>"Instalasi kabel, pastikan rapi (tidak ada bending)"];
+        
         return view('petugas-detail',[
         'pelanggans' => $pelanggans, 
         'areas' => $areas,
         'images' => $images,
-        'checklistOdp' => $checklistOdp
+   
         
         ]);
        
@@ -48,7 +48,7 @@ class PetugasController extends Controller
         $validator = Validator::make($request->all(),[
             "file" => "required|image|mimes:jpeg,png,jpg",
             "catatan" => "required",
-            "odp_id" => "nullable",
+            "odp" => "nullable"
         ],[
             'file.required' => 'file harus diisi',
             'catatan.required' => 'catatan harus diisi',
@@ -65,11 +65,12 @@ class PetugasController extends Controller
         }
         $file = $request->file('file');
         $input = $request->input('pelanggans_id');
+        // $odp = $request->input('odp');
         $file_name = time() . '_' . $file->getClientOriginalName();
         $foto = new PelangganFoto([
             'file' => $file_name,
             'catatan' => $request->catatan,
-            'odp_id' => $request->odp_id,
+            'odp' => $request->odp,
             'pelanggans_id' => $input
             
         ]);

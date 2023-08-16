@@ -38,10 +38,10 @@ Route::post('/pelanggan', [PelangganController::class,'store'])->name('pelanggan
 
 //PETUGAS
 Route::get('/petugas', [PetugasController::class,'index'])->middleware('auth');
-Route::get('/petugas/{id}', [PetugasController::class,'petugasDetail'])->name('petugas.detail')->middleware('auth');
+Route::get('/petugas/add/{id}', [PetugasController::class,'petugasDetail'])->name('petugas.detail')->middleware('auth');
 Route::post('/petugas/{id}', [PetugasController::class,'store'])->name('petugas.store')->middleware('auth');
 
 //VALIDATOR
 Route::get('/validator', [ValidatorController::class,'index'])->name('validator.index')->middleware('auth');;
-Route::get('/validator/{id}', [ValidatorController::class,'validatorDetail'])->middleware('auth');;
-// Route::post('/validator/{id}', [ValidatorController::class,'store']);
+Route::get('/validator/cek/{id}', [ValidatorController::class,'validatorDetail'])->middleware('auth');
+Route::put('/validator/{id}/save', [ValidatorController::class,'update'])->name('validator.update')->middleware('auth');

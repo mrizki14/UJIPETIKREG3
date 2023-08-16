@@ -32,6 +32,7 @@ class PelangganController extends Controller
             "kontak" => 'required',
             "location" => 'required',
             "odp_loc" => 'required',
+            "number" => "nullable"
         ]);
 
         if ($validator->fails()) {

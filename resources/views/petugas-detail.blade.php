@@ -141,64 +141,64 @@
   
                                           <tr>
                                           
+                                        <form action="{{route('petugas.store', $pelanggans->id)}}" method="post" enctype="multipart/form-data">
+                                            @csrf                  
                                           <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">1. Konektor dan Adapter tipe SC-UPC</td>
                                           <td style="vertical-align: middle !important;">:</td>                    
                                           <td style="vertical-align: middle !important;">  
-                                        
-                                            <form action="{{route('petugas.store', $pelanggans->id)}}" method="post" enctype="multipart/form-data">
-                                                @csrf                  
-                                              <div class="form-floating d-flex">
-                                                  <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                                                  <label for="floatingTextarea">Catatan</label>
-                                                  <!-- Button trigger modal -->
-                                                  <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal1">
-                                                      <i class="fa fa-plus-circle"></i>
-                                                  </button> 
-                                                  <!-- Modal -->
-                                                  <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                  <div class="modal-dialog">
-                                                                  <div class="modal-content">
-                                                                      <div class="modal-header">
-                                                                          <h5 class="modal-title" id="exampleModalLabel">UPLOAD</h5>
-                                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                      </div>
-                                                                      <div class="modal-body">
-                                                                          <div class="row">
-                                                                              <div class="col-md-12">
-                                                                                  <form action="">
-                                                                                      <div class="form-group">
-                                                                                        <input type="hidden" name="pelanggans_id" value="1">
-                                                                                          <label for="" class="col-md-2 control-label">Berkas</label>
-                                                                                          <div class="col-md-10 ms-3">
-                                                                                            <input type="hidden" name="odp_id">
-                                                                                              <input type="file" name="file" area-required="true">
-                                                                                              <p class="help-block">
-                                                                                                  <em>
-                                                                                                      File extension jpg. jpeg or png
-                                                                                                 </em>
-                                                                                              </p>
-                                                                                              <hr class="inner">
-                                                                                              <div class="form-group d-flex justify-content-lg-center">
-                                                                                                  <button class="btn btn-primary" type="submit">
-                                                                                                      <i class="fa fa-check-circle"></i>
-                                                                                                      Submit
-                                                                                                  </button>
-                                                                                              </div>
-                                                                                          </div>
-                                                                                      </div>
-                                                                                  </form>
-                                                                              </div>
-                                                                          </div>
-                                                                     
-                                                                      </div>
-                                                                      <div class="modal-footer">
-                                                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                      </div>
-                                                                  </div>
-                                                                  </div>
-                                                  </div>
-                                              </div>        
-                                            </form>                                     
+                                            <div class="form-floating d-flex">
+                                                <input type="hidden" name="odp" value="odp_1">
+                                                <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                                                <label for="floatingTextarea">Catatan</label>
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                                                    <i class="fa fa-plus-circle"></i>
+                                                </button> 
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">UPLOAD</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <form action="">
+                                                                                    <div class="form-group">
+                                                                                    <input type="hidden" name="pelanggans_id" value="1">
+                                                                                        <label for="" class="col-md-2 control-label">Berkas</label>
+                                                                                        <div class="col-md-10 ms-3">
+                                                                                        <input type="hidden" name="odp_id">
+                                                                                            <input type="file" name="file" area-required="true">
+                                                                                            <p class="help-block">
+                                                                                                <em>
+                                                                                                    File extension jpg. jpeg or png
+                                                                                                </em>
+                                                                                            </p>
+                                                                                            <hr class="inner">
+                                                                                            <div class="form-group d-flex justify-content-lg-center">
+                                                                                                <button class="btn btn-primary" type="submit">
+                                                                                                    <i class="fa fa-check-circle"></i>
+                                                                                                    Submit
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                </div>
+                                            </div>        
+                                        </form>                                     
                                    
                                           </td>                                  
                                           </tr>
@@ -212,6 +212,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf            
                                               <div class="form-floating d-flex">
+                                                <input type="hidden" name="odp" value="odp_2">
                                                   <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                   <label for="floatingTextarea">Catatan</label>
                                                   <!-- Button trigger modal -->
@@ -273,6 +274,7 @@
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf                 
                                                   <div class="form-floating d-flex">
+                                                    <input type="hidden" name="odp" value="odp_3">
                                                       <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                       <label for="floatingTextarea">Catatan</label>
                                                       <!-- Button trigger modal -->
@@ -329,6 +331,7 @@
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
+                                                    <input type="hidden" name="odp" value="odp_4">
                                                       <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                       <label for="floatingTextarea">Catatan</label>
                                                       <!-- Button trigger modal -->
@@ -387,6 +390,7 @@
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
+                                                    <input type="hidden" name="odp" value="odp_5">
                                                       <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                       <label for="floatingTextarea">Catatan</label>
                                                       <!-- Button trigger modal -->
@@ -445,6 +449,7 @@
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
+                                                    <input type="hidden" name="odp" value="odp_6">
                                                       <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                       <label for="floatingTextarea">Catatan</label>
                                                       <!-- Button trigger modal -->
@@ -504,6 +509,7 @@
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
+                                                    <input type="hidden" name="odp" value="odp_7">
                                                       <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                       <label for="floatingTextarea">Catatan</label>
                                                       <!-- Button trigger modal -->
@@ -562,6 +568,7 @@
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
+                                                    <input type="hidden" name="odp" value="odp_8">
                                                       <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                       <label for="floatingTextarea">Catatan</label>
                                                       <!-- Button trigger modal -->
@@ -619,6 +626,7 @@
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
+                                                    <input type="hidden" name="odp" value="odp_9">
                                                       <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                       <label for="floatingTextarea">Catatan</label>
                                                       <!-- Button trigger modal -->
@@ -677,6 +685,7 @@
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
+                                                    <input type="hidden" name="odp" value="odp_10">
                                                       <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                       <label for="floatingTextarea">Catatan</label>
                                                       <!-- Button trigger modal -->
@@ -735,6 +744,7 @@
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
+                                                    <input type="hidden" name="odp" value="odp_11">
                                                       <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                       <label for="floatingTextarea">Catatan</label>
                                                       <!-- Button trigger modal -->
@@ -793,6 +803,7 @@
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
+                                                    <input type="hidden" name="odp" value="odp_12">
                                                       <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                       <label for="floatingTextarea">Catatan</label>
                                                       <!-- Button trigger modal -->
@@ -851,6 +862,7 @@
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
+                                                    <input type="hidden" name="odp" value="odp_13">
                                                       <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                       <label for="floatingTextarea">Catatan</label>
                                                       <!-- Button trigger modal -->
@@ -919,6 +931,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                             <input type="hidden" name="odp" value="odp_14">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -980,6 +993,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_15">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -1039,6 +1053,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_16">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -1098,6 +1113,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_17">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -1154,7 +1170,8 @@
                                           (Penanaman tiang jika diperlukan)</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">    
+                                            <input type="hidden" name="odp" value="odp_18">                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1217,6 +1234,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_19">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -1276,6 +1294,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_20">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -1336,6 +1355,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_21">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -1395,6 +1415,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_22">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -1463,6 +1484,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_23">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -1523,6 +1545,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_24">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -1583,6 +1606,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_25">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -1643,6 +1667,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_26">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -1702,6 +1727,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_27">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -1762,6 +1788,7 @@
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_28">
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->

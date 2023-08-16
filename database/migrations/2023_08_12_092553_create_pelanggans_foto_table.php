@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('pelanggan_fotos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pelanggans_id')->constrained();
-            $table->string('odp_id')->nullable();
+            $table->string('odp');
             $table->string('file');
             $table->text('catatan');
+            $table->string('status')->nullable();
+            $table->text('catatan_keseluruhan')->nullable();
             $table->timestamps();
         });
     }

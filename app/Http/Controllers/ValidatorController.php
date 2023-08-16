@@ -37,36 +37,53 @@ class ValidatorController extends Controller
             "SKB" => 'SUKABUMI',
             "TSM" => 'TASIKMALAYA'
         ];
-        // $pelanggansFoto = PelangganFoto::findOrFail($id);
-        // $pelanggans = Pelanggan::get();
-        $cekBukti = PelangganFoto::where('pelanggans_id', $id)->count();
 
-        if ($cekBukti < 28) {
-            return redirect()->route('validator.index')->with('errors', 'Bukti kurang cukup.');
-        }
+        // $cekBukti = PelangganFoto::where('pelanggans_id', $id)->count();
+
+        // if ($cekBukti < 28) {
+        //     return redirect()->route('validator.index')->with('errors', 'Bukti kurang cukup.');
+        // }
             $pelanggansFoto = PelangganFoto::with('pelanggan')
             ->where('pelanggans_id', $id)
             ->orderBy('file','asc')
             ->get()
             ->groupBy('pelanggans_id')
             ->values();
-            // dd($pelanggansFoto);
-            // dd($pelanggansFoto);
-            // ->map(function ($group) {
-            //     return $group->first();
-        
-            // });
-
-            // $pelanggansFoto = PelangganFoto::with('pelanggan')
-            
-            // ->get();
             return view('validator-detail', compact('pelanggansFoto','areas'));
- 
-
-        // $pelanggansFoto = Pelanggan::has('fotos')
-        // ->with('fotos')
-        // ->get();
-        // dd($pelanggansFoto);
-        // return view('validator-detail', compact('pelanggansFoto','areas'));
     }
+
+    public function update(Request $request,$id) {
+
+        $request->validate([
+            'status' => 'required|array',
+            'catatan_keseluruhan' => 'nullable|string',
+            // tambahkan validasi lain sesuai kebutuhan
+        ]);
+        // $statusData = $request->input('status');
+        // $catatan = $request->input('catatan_keseluruhan');
+
+        // foreach ($statusData as $pelanggansId => $status) {
+            
+        //     PelangganFoto::where('pelanggans_id', $pelanggansId)
+        //         ->update(['status' => $status, 'catatan_keseluruhan' => $catatan]);
+        // }
+         $statusValues = $request->input('status');
+         $catatanKeseluruhan = $request->input('catatan_keseluruhan');
+    
+        foreach ($statusValues as $pelangganId => $statusArray) {
+            foreach ($statusArray as $odp => $status) {
+                $foto = PelangganFoto::where('pelanggans_id', $pelangganId)
+                    ->where('odp', $odp)
+                    ->first();
+                if ($foto) {
+                    $foto->status = $status;
+                    $foto->catatan_keseluruhan = $catatanKeseluruhan; // set catatan keseluruhan
+                    $foto->save();
+                  
+                }
+            }
+            }
+        return redirect()->route('validator.index')->with('success', 'Status dan catatan berhasil disimpan.');
+    }
+    
 }

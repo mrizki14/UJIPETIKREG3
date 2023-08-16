@@ -2,16 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Pelanggan;
-use App\Models\PelangganFoto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PelangganFoto>
  */
 class PelangganFotoFactory extends Factory
 {
-    protected $model = PelangganFoto::class;
     /**
      * Define the model's default state.
      *
@@ -20,10 +17,14 @@ class PelangganFotoFactory extends Factory
     public function definition(): array
     {
         return [
-            'pelanggans_id' => Pelanggan::factory(),
-            'catatan' => $this->faker->sentence,
-            'file' => $this->faker->image(storage_path('app/public/images'), 400, 300, null, false),
-            'urutan' => $this->faker->unique()->numberBetween(1, 28)
+            'pelanggans_id' => 15, // Assuming Pelanggan IDs range from 1 to 100
+            'odp' => fake()->unique()->word,
+            'file' => fake()->word . '.png',
+            'catatan' => fake()->sentence,
+            'status' => fake()->randomElement(['Y', 'N']),
+            'catatan_keseluruhan' => fake()->sentence,
+            'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
+            'updated_at' => fake()->dateTimeBetween('-1 year', 'now'), //
         ];
     }
 }

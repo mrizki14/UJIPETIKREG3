@@ -10,7 +10,7 @@ class PelangganFoto extends Model
 {
     use HasFactory;
     // protected $table = 'pelanggan_fotos';
-    protected $fillable = ['pelanggans_id', 'file', 'catatan', 'odp_id'];
+    protected $fillable = ['pelanggans_id', 'file', 'catatan', 'odp','status','catatan_keseluruhan'];
 
     /**
      * Get the pelanggan that owns the PelangganFoto
