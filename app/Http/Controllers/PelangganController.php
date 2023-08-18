@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Pelanggan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\PelangganCreatedNotification;
+use Illuminate\Notifications\Events\NotificationSent;
 
 class PelangganController extends Controller
 {
@@ -41,9 +46,19 @@ class PelangganController extends Controller
                 ->withInput();
             // dd('ada kesalahan');
         }
-
         $input = $request->all();
-        $create = Pelanggan::create($input);
+        DB::beginTransaction();
+        try {
+            $pelanggan = Pelanggan::create($input);
+            $petugas = User::where('role_id', 3)->get();
+            Notification::send($petugas, new PelangganCreatedNotification($pelanggan));
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->with('errors', $th->getMessage());
+        }
+
+
         return redirect()->route('pelanggan.index')->with('success', 'Pelanggan berhasil ditambahkan');
     }
 }

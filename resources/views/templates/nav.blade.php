@@ -15,12 +15,12 @@
                 <li class="nav-item dropdown user-profile-dropdown">
                     <a href="" class="nav-link user" id="" data-bs-toggle="dropdown">
                         <i class="uil uil-bell icon"></i>
-                        <p class="count purple-gradient">3</p>
+                        <p class="count purple-gradient">{{ auth()->user()->unreadNotifications->count() }}</p>
                     </a>
 
                     <div class="dropdown-menu">
                         <div class="dp-main-menu">
-                            <a href="" class="dropdown-item message-item">
+                            {{-- <a href="" class="dropdown-item message-item">
                                 <i class="uil uil-servers user-note"></i>
                                 <div class="note-info-desmis">
                                     <div class="user-notify-info">
@@ -31,62 +31,88 @@
                                         <span class="fas fa-times"></span>
                                     </p>
                                 </div>
-                            </a>
+                            </a> --}}
+                            {{-- NOTIFIKASI ROLE VALIDATOR --}}
                             @if (Auth()->user()->role_id === 2 )
-                            <a href="" class="dropdown-item message-item">
+                            @foreach (auth()->user()->unreadNotifications as $notification)
+                            <a href="{{ $notification->data['url'].'?'.$notification->id.'&mark_as_read=true&notification_id='.$notification->id  }}" class="dropdown-item message-item">
                                 <i class="uil uil-envelope-add user-note"></i>
                                 <div class="note-info-desmis">
                                     <div class="user-notify-info">
-                                        <p class="note-name">New Validation</p>
-                                        <p class="note-time">25 min ago</p>
+                                        <p class="note-name">{{ ucwords($notification->data['message']) }}</p>
+                                        <p class="note-time">{{ $notification->created_at->diffForHumans() }}</p>
                                     </div>
                                     <p href="" class="status-link">
                                         <span class="fas fa-times"></span>
                                     </p>
                                 </div>
                             </a>
+                            @endforeach
+                            @foreach (auth()->user()->unreadNotifications as $notification)
                             <a href="" class="dropdown-item message-item">
                                 <i class="uil uil-envelope-redo user-note"></i>
                                 <div class="note-info-desmis">
                                     <div class="user-notify-info">
-                                        <p class="note-name">New Revision</p>
-                                        <p class="note-time">15 min ago</p>
+                                        <p class="note-name">{{ ucwords($notification->data['message']) }}</p>
+                                        <p class="note-time">{{ $notification->created_at->diffForHumans() }}</p>
                                     </div>
                                     <p href="" class="status-link">
                                         <span class="fas fa-times"></span>
                                     </p>
                                 </div>
                             </a>
+                            @endforeach
                             @endif
-                            @if (Auth()->user()->role_id === 3 )
-                            <a href="" class="dropdown-item message-item">
-                                <i class="uil uil-envelope-add user-note"></i>
-                                <div class="note-info-desmis">
-                                    <div class="user-notify-info">
-                                        <p class="note-name">New Order</p>
-                                        <p class="note-time">25 min ago</p>
-                                    </div>
-                                    <p href="" class="status-link">
-                                        <span class="fas fa-times"></span>
-                                    </p>
-                                </div>
-                            </a>
-                            <a href="" class="dropdown-item message-item">
-                                <i class="uil uil-envelope-redo user-note"></i>
-                                <div class="note-info-desmis">
-                                    <div class="user-notify-info">
-                                        <p class="note-name">New Revision</p>
-                                        <p class="note-time">15 min ago</p>
-                                    </div>
-                                    <p href="" class="status-link">
-                                        <span class="fas fa-times"></span>
-                                    </p>
-                                </div>
-                            </a>
-                            @endif
-                            
 
-                           
+                            {{-- NOTIFIKASI ROLE PETUGAS --}}
+                            @if (Auth()->user()->role_id === 3 )
+                            @php
+                            $shownNotifications = [];
+                            @endphp
+                                @foreach (auth()->user()->unreadNotifications as $notification)
+                                
+                                    @if (isset($notification->data['url']) && isset($notification->data['message']) && !in_array($notification->id, $shownNotifications))
+                                    @php
+                                    $shownNotifications[] = $notification->id;
+                                    @endphp
+                                    <a href="{{ $notification->data['url'].'?'.$notification->id.'&mark_as_read=true&notification_id='.$notification->id }}" class="dropdown-item message-item">
+                                        <i class="uil uil-envelope-add user-note"></i>
+                                        <div class="note-info-desmis">
+                                            <div class="user-notify-info">
+                                                <p class="note-name">{{ ucwords($notification->data['message']) }}</p>
+                                                <p class="note-time">{{ $notification->created_at->diffForHumans() }}</p>
+                                            </div>
+                                            <p href="" class="status-link">
+                                                <span class="fas fa-times"></span>
+                                            </p>
+                                        </div>
+                                    </a>
+                                    @endif
+                                @endforeach
+
+                                @foreach (auth()->user()->unreadNotifications as $notification)
+                                    @if (isset($notification->data['url']) && isset($notification->data['message']) && !in_array($notification->id, $shownNotifications))
+                                    @php
+                                    $shownNotifications[] = $notification->id;
+                                    
+                                    @endphp
+                                    <a href="{{ $notification->data['url'].'?'.$notification->id.'&mark_as_read=true&notification_id='.$notification->id }}" class="dropdown-item message-item">
+                                        <i class="uil uil-envelope-add user-note"></i>
+                                        <div class="note-info-desmis">
+                                            <div class="user-notify-info">
+                                                <p class="note-name">{{ ucwords($notification->data['message']) }}</p>
+                                                <p class="note-time">{{ $notification->created_at->diffForHumans() }}</p>
+                                            </div>
+                                            <p href="" class="status-link">
+                                                <span class="fas fa-times"></span>
+                                            </p>
+                                        </div>
+                                    </a>
+                                    @endif
+                                    
+                                @endforeach
+                            
+                            @endif
                         </div>
                     </div>
                 </li>

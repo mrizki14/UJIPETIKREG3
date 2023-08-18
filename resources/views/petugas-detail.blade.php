@@ -27,27 +27,22 @@
                             <div class="row">
                               <div class="col-lg-4">
                                 <div class="table-responsive top-chart-earn sticky-top">
-                                    @if(!empty($errors))
-                                    @if($errors->any())
+                                    {{-- @if(!empty($errors)) --}}
+                            
+                                    {{-- @endif --}}
+                                 
+                                    {{-- @if (count($messages) > 0)
                                     <div class="col">
-                                        <div class="alert alert-danger"> 
+                                        <div class="alert alert-success">
                                             <ul>
-                                                @foreach($errors->all() as $error)
-                                                    <li>{!! $error !!}</li>
+                                                @foreach ($messages as $message)
+                                                    <li>{{ $message }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
                                     </div>
-                                    @endif
-                                    @endif
-                                  
-                                    @if ($message = Session::get('success'))
-                                    <div class="col">
-                                        <div class="alert alert-success">
-                                            <strong class="">{{ $message }}</strong>
-                                        </div>
-                                    </div>
-                                    @endif
+                                    @endif --}}
+                                 
                                   <table class="table-condensed">
                                     <tbody>
                                       <input type="hidden" name="order_id" id="order_id" value="">
@@ -121,9 +116,28 @@
                                       {{ session('error') }}
                                     </div>
                                     @endif
-                                        <table class="table table-condensed table-striped" style="color:#000000">
                                   
+                                        <table class="table table-condensed table-striped" style="color:#000000">
+                             
                                   <tbody>
+                                    @if ($message = Session::get('success'))
+                                    <div class="col">
+                                        <div class="alert alert-success">
+                                            <strong class="">{{ $message }}</strong>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    @if($errors->any())
+                                    <div class="col">
+                                        <div class="alert alert-danger"> 
+                                            <ul>
+                                                @foreach($errors->all() as $error)
+                                                    <li>{!! $error !!}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    @endif
                                       <div class="validator">
                                           <tr>
                                               <th width="1%" nowrap="">PETUGAS</th>
@@ -140,7 +154,8 @@
                                           </tr>
   
                                           <tr>
-                                          
+                               
+                            
                                         <form action="{{route('petugas.store', $pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                             @csrf                  
                                           <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">1. Konektor dan Adapter tipe SC-UPC</td>
@@ -198,9 +213,9 @@
                                                                 </div>
                                                 </div>
                                             </div>        
+                                        </td>                                  
                                         </form>                                     
-                                   
-                                          </td>                                  
+                                      
                                           </tr>
   
                                           <tr>
@@ -208,60 +223,65 @@
                                           <td style="vertical-align: middle !important;" width="1%">:</td>                    
                                           </td>
                                           <td style="vertical-align: middle !important;">      
-                             
+                                            
+                                         
+                                
+                                         
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf            
                                               <div class="form-floating d-flex">
                                                 <input type="hidden" name="odp" value="odp_2">
-                                                  <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                                                  <label for="floatingTextarea">Catatan</label>
-                                                  <!-- Button trigger modal -->
-                                                  <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                                                      <i class="fa fa-plus-circle"></i>
-                                                  </button> 
-                                                  <!-- Modal -->
-                                                  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                  <div class="modal-dialog">
-                                                                  <div class="modal-content">
-                                                                      <div class="modal-header">
-                                                                          <h5 class="modal-title" id="exampleModalLabel">UPLOAD</h5>
-                                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                      </div>
-                                                                      <div class="modal-body">
-                                                                          <div class="row">
-                                                                              <div class="col-md-12">
-                                                                                
-                                                                                      <div class="form-group">
-                                                                                        <input type="hidden" name="pelanggans_id" value="2">
-                                                                                          <label for="" class="col-md-2 control-label">Berkas</label>
-                                                                                          <div class="col-md-10 ms-3">
-                                                                                              <input type="file" name="file" area-required="true">
-                                                                                              <p class="help-block">
-                                                                                                  <em>
-                                                                                                      File extension jpg. jpeg or png
-                                                                                                 </em>
-                                                                                              </p>
-                                                                                              <hr class="inner">
-                                                                                              <div class="form-group d-flex justify-content-lg-center">
-                                                                                                  <button class="btn btn-primary" type="submit">
-                                                                                                      <i class="fa fa-check-circle"></i>
-                                                                                                      Submit
-                                                                                                  </button>
-                                                                                              </div>
-                                                                                          </div>
-                                                                                      </div>
-                                                                                
-                                                                              </div>
-                                                                          </div>
-                                                                      </div>
-                                                                      <div class="modal-footer">
-                                                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                      </div>
-                                                                  </div>
-                                                                  </div>
-                                                  </div>
+                                                <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                                                <label for="floatingTextarea">Catatan</label>
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                                                    <i class="fa fa-plus-circle"></i>
+                                                </button> 
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">UPLOAD</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                              
+                                                                                    <div class="form-group">
+                                                                                      <input type="hidden" name="pelanggans_id" value="2">
+                                                                                        <label for="" class="col-md-2 control-label">Berkas</label>
+                                                                                        <div class="col-md-10 ms-3">
+                                                                                            <input type="file" name="file" area-required="true">
+                                                                                            <p class="help-block">
+                                                                                                <em>
+                                                                                                    File extension jpg. jpeg or png
+                                                                                               </em>
+                                                                                            </p>
+                                                                                            <hr class="inner">
+                                                                                            <div class="form-group d-flex justify-content-lg-center">
+                                                                                                <button class="btn btn-primary" type="submit">
+                                                                                                    <i class="fa fa-check-circle"></i>
+                                                                                                    Submit
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                              
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                </div>
+                                        
                                               </div>
                                             </form>
+                                        
                             
                                           </td>
                                           </tr>
@@ -270,7 +290,8 @@
                                               <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">3. ODP bersih dari sampah instalasi, debu, air dan
                                               serangga</td>
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
-                                              <td style="vertical-align: middle !important;">       
+                                              <td style="vertical-align: middle !important;
+                                              ">       
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf                 
                                                   <div class="form-floating d-flex">
@@ -327,7 +348,8 @@
                                           <tr>
                                               <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">4. ODP Memiliki label drop core</td>
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
-                                              <td style="vertical-align: middle !important;">                       
+                                              <td style="vertical-align: middle !important;
+                                              ">                       
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
@@ -386,7 +408,8 @@
                                           <tr>
                                               <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">5. Tidak menggunakan pigtail kearah ke pelanggan</td>
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
-                                              <td style="vertical-align: middle !important;">                       
+                                              <td style="vertical-align: middle !important;
+                                              ">                       
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
@@ -445,7 +468,8 @@
                                           <tr>
                                               <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">6. Tidak memasukkan splitter tambahan (ODP gendong)</td>
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
-                                              <td style="vertical-align: middle !important;">                       
+                                              <td style="vertical-align: middle !important;
+                                              ">                       
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
@@ -505,7 +529,8 @@
                                               <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">7. Kabel drop yang masuk ODP memiliki panjang yang sama
                                               dan terikat rapi</td>
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
-                                              <td style="vertical-align: middle !important;">                       
+                                              <td style="vertical-align: middle !important;
+                                              ">                       
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
@@ -564,7 +589,8 @@
                                           <tr>
                                               <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">8. Kunci dome (Penutup ODP)</td>
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
-                                              <td style="vertical-align: middle !important;">                       
+                                              <td style="vertical-align: middle !important;
+                                              ">                       
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
@@ -622,7 +648,8 @@
                                           <tr>
                                               <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">9. Pintu ODP Tertutup/Terkunci</td>
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
-                                              <td style="vertical-align: middle !important;">                       
+                                              <td style="vertical-align: middle !important;
+                                              ">                       
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
@@ -681,7 +708,8 @@
                                           <tr>
                                               <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">10. Splitter, pastikan terpasang dengan baik</td>
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
-                                              <td style="vertical-align: middle !important;">                       
+                                              <td style="vertical-align: middle !important;
+                                              ">                       
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
@@ -740,7 +768,8 @@
                                           <tr>
                                               <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">11. Port idle, pastikan seluruhnya terpasang dust cap</td>
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
-                                              <td style="vertical-align: middle !important;">                       
+                                              <td style="vertical-align: middle !important;
+                                              ">                       
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
@@ -799,7 +828,8 @@
                                           <tr>
                                               <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">12. Bebas dari kabel drop yang sudah tidak terpakai</td>
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
-                                              <td style="vertical-align: middle !important;">                       
+                                              <td style="vertical-align: middle !important;
+                                              ">                       
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
@@ -858,7 +888,8 @@
                                           <tr>
                                               <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">13. Pengukuran di ODP (Gunakan OPM)</td>
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
-                                              <td style="vertical-align: middle !important;">                       
+                                              <td style="vertical-align: middle !important;
+                                              ">                       
                                                 <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
@@ -927,7 +958,8 @@
                                         <td style="vertical-align: middle !important;font-size:12px;" width="1%">1. Seluruh tambatan menggunakan s-clamp (tiang/odp)</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -989,7 +1021,8 @@
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
   
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1049,7 +1082,8 @@
                                         <td style="vertical-align: middle !important;font-size:12px;" width="1%">3. Tidak terdapat sambungan</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1109,7 +1143,8 @@
                                         <td style="vertical-align: middle !important;font-size:12px;" width="1%">4. Menggunakan OTP</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1171,7 +1206,8 @@
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
                                         <td style="vertical-align: middle !important;">    
-                                            <input type="hidden" name="odp" value="odp_18">                   
+                                            <input type="hidden" name="odp" value="odp_
+                                            18">                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1230,7 +1266,8 @@
                                         <td style="vertical-align: middle !important;font-size:12px;" width="1%">6. Penggunaan dropcore sesuai list of material</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1290,7 +1327,8 @@
                                         <td style="vertical-align: middle !important;font-size:12px;" width="1%">7. Penggunaan connector sesuai list of material</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1351,7 +1389,8 @@
                                           SPBT)</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1411,7 +1450,8 @@
                                         <td style="vertical-align: middle !important;font-size:12px;" width="1%">9. Messenger di tiang penanggal tidak dipotong</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1480,7 +1520,8 @@
                                         <td style="vertical-align: middle !important;font-size:12px;" width="1%">1. Menggunakan kabel indoor dari OTP ke roset</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1541,7 +1582,8 @@
                                           menghadap ke bawah Minimal 40 cm dari lantai</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1602,7 +1644,8 @@
                                           menyilang bidang)</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1663,7 +1706,8 @@
                                           tray, clip atau lem)</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1723,7 +1767,8 @@
                                         <td style="vertical-align: middle !important;font-size:12px;" width="1%">5. Kabel melalui jalur yang sudah disiapkan di rumah</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1784,7 +1829,8 @@
                                           Ibooster</td>
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
-                                        <td style="vertical-align: middle !important;">                       
+                                        <td style="vertical-align: middle !important;">
+                                                                   
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
@@ -1848,6 +1894,7 @@
                                           <input class="btn-custom btn-primary" type="submit" name="add_progress" value="Update Progress">
                                       </td>
                                     </tr>          
+                                
                                     </tbody>
                                   </table>
                                       </form>

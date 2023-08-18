@@ -63,6 +63,17 @@
                                                     </li>
                                             </ul>
                                             <div class="tab-content" id="pills-tabContent">
+                                            
+                                            {{-- @foreach ($revisiData as $data)
+                                            <div class="col">
+                                                <div class="alert alert-danger">
+                                                    <strong class="">Catatan validator: {{ $data['catatan_keseluruhan'] }}</strong>
+                                                    <p>{{ $data['selisih_waktu'] }}</p>
+                                                </div>
+                                            </div>   
+                                            @break
+                                            @endforeach --}}
+                                            
                                                 <div class="table-responsive tab-pane fade show active" id="pills-validasi" role="tabpanel" aria-labelledby="pills-validasi-tab">
                                                     <table id="example" class="table table-striped table-hover" style="width:100% ;">
                                                         <thead>
@@ -82,7 +93,7 @@
                                                             @php
                                                             $no = 1
                                                         @endphp
-                                                        @foreach ($pelanggans as $pelanggan)
+                                                        @foreach ($pelanggansIndex as $pelanggan)
                                                         <tr>
                                                             <td>{{$no++}}</td>
                                                             <td>
@@ -126,7 +137,7 @@
                                                                <td>LOC_ID</td> 
                                                                <td>##</td> 
                                                                <td>STATUS</td> 
-                                                         
+                                                               <td>action</td>
                                                             </tr>
                                                         </thead>
                         
@@ -134,31 +145,40 @@
                                                             @php
                                                                 $no = 1
                                                             @endphp
-                                                            @if ($pelanggan->status === 'N')
-                                                            @foreach ($pelanggans as $pelanggan)
-                                                            <tr>
-                                                                <td>{{$no++}}</td>
-                                                                <td>
-                                                                    @foreach ($areas as $key => $item)
-                                                                            {{$pelanggan->area == $key ? $item  : '' }}
-                                                                            @endforeach <br> 
-                                                                <span class="label">{{$pelanggan->area}}</span>
-                                                                </td>
-                                                                <td>SC.{{ $pelanggan->number }}
-                                                                    <small>(/{{ $pelanggan->inet }})</small><br>
-                                                                    <span class="label-sales">NEW SALES</span>
-                                                                    <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
-                                                                </td>
-                                                                <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
-                                                                <td>ODP-BDG-TST/123</td>
-                                                                <td> <button type="submit">
-                                                                    <i class="uil uil-process"></i>
-                                                                    Process
-                                                                </button></td>
-                                                                <td>Open</td>
-                                                                </tr>
-                                                                @endforeach
-                                                                @endif
+                                                       
+                                                            @foreach ($pelanggansRevisi as $pelanggan)
+                                                                    <tr>
+                                                                        <td>{{$no++}}</td>
+                                                                        <td>
+                                                                            @foreach ($areas as $key => $item)
+                                                                                    {{$pelanggan->area == $key ? $item  : '' }}
+                                                                                    @endforeach <br> 
+                                                                        <span class="label">{{$pelanggan->area}}</span>
+                                                                        </td>
+                                                                        <td>SC.{{ $pelanggan->number }}
+                                                                            <small>(/{{ $pelanggan->inet }})</small><br>
+                                                                            <span class="label-sales">NEW SALES</span>
+                                                                            <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
+                                                                        </td>
+                                                                        <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
+                                                                        <td>ODP-BDG-TST/123</td>
+                                                                        <td> <button type="submit">
+                                                                            <i class="uil uil-process"></i>
+                                                                            Process
+                                                                        </button></td>
+                                                                        @foreach ($pelanggan->fotos as $foto)
+                                                                            @if ($foto->status === 'NOK')
+                                                                                <td>{{ $foto->status }}</td>
+                                                                                @endif
+                                                                                @break
+                                                                                @endforeach
+                                                                        <td>
+                                                                            <a href="{{ route('petugas.revisi', ['id'=>$pelanggan->id]) }}">Edit Bukti</a>
+                                                                        </td>
+                                                                        
+                                                                    </tr>
+                                                             @endforeach
+                                                                    
                                                         </tbody>
                                                     </table>
                                                 </div>

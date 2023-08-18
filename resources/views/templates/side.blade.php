@@ -19,15 +19,17 @@
                                 <i class="fas fa-calender-alt"></i>
                                 Table
                             </a>
-
+                            @if (Auth()->user()->role_id === 1)
                             <a href="{{url('/pelanggan')}}">
                                 <i class="fas fa-calender-alt"></i>
                                 Data Pelanggan
                             </a>
+                            @endif
                         </li>
                     </ul>
                 </li>
 
+                @if (Auth()->user()->role_id != 1)
                 <li class="sub-menu">
                     <a href="#">
                         <i class="uil uil-inbox"></i>
@@ -36,13 +38,13 @@
                     </a>
                     <ul class="left-menu-dp">
                         <li>
-                            @if (Auth()->user()->role_id != 3)
+                            @if (Auth()->user()->role_id === 2)
                             <a href="{{url('validator')}}">
                                 <i class="uil uil-folder-open"></i>
                                 Validator
                             </a>
                             @endif
-                            @if(Auth()->user()->role_id != 2) 
+                            @if(Auth()->user()->role_id === 3) 
                                 <a href="{{url('petugas')}}">
                                     <i class="uil uil-folder-open"></i>
                                     Petugas
@@ -51,12 +53,15 @@
                         </li>
                     </ul>
                 </li>
+                @endif
+                @if (Auth()->user()->role_id === 1)
                 <li class="">
                     <a href="{{url('users')}}">
                         <i class="uil uil-user-plus"></i>
                         User Account
                     </a>
                 </li>
+                @endif
             </ul>
 
             <ul id="sidebar">

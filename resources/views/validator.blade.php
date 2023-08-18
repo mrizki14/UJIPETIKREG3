@@ -30,7 +30,7 @@
                             Inbox Validasi
                         </h3>
                         @if (session('errors'))
-                        <div class="col-3 mt-3">
+                        <div class="col-5 mt-3">
                             <div class="alert alert-danger">
                               {{ session('errors') }}
                             </div>

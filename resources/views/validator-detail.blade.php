@@ -115,11 +115,16 @@
                                 </div>
                   
                             <div class="col-lg-8">
-                                <div class="alert alert-success alert-dismissible">
-                                    <strong>Catatan Petugas :</strong>
-                                    <i>OK</i>
-                                    <br> 4 jam yang lalu
-                                </div>
+                              @if(isset($revisiData[0]))
+                              @endif 
+                              @foreach ($pelanggansFoto as $foto)
+                              <div class="alert alert-success alert-dismissible">
+                                  <strong>Catatan Petugas : </strong>
+                                  <i>{{ $revisiData[0]['foto']->catatan }}</i>
+                                  <br> {{ $revisiData[0]['selisih_waktu'] }}
+                              </div>
+                              @endforeach
+        
                                 <div class="table-responsive table-cs">
                                     <h6>Wajib di ceklist isi semua !</h6>
                                     <form action="{{ route('validator.update', ['id' => $pelanggansFoto[0][0]->pelanggan->id]) }}" method="post">
@@ -140,7 +145,7 @@
                                               <td style="vertical-align: middle;width:100px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_1]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_1' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_1]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_1' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -148,7 +153,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_1]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_1' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_1]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_1' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -156,7 +161,9 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">ok</font>
+                                                @if ($item->odp === 'odp_1' && $item->pelanggan->id)
+                                                <font size="1">{{ $item->status }}</font>
+                                                @endif
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -184,7 +191,7 @@
                                               <td style="vertical-align: middle;width:10px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_2]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_2' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_2]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_2' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -192,7 +199,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_2]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_2' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_2]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_2' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -200,7 +207,9 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">ok</font>
+                                                @if ($item->pelanggans_id === true && $item->odp === 'odp_2'  )
+                                                <font size="1">{{ $item->status }}</font>
+                                                @endif
                                               </td>
                                                   @if ($pelanggansFoto->isNotEmpty())
                                                   <td style="vertical-align: middle;">
@@ -229,7 +238,7 @@
                                               <td style="vertical-align: middle;width:10px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_3]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_3' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_3]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_3' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -237,7 +246,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_3]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_3' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_3]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_3' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -245,7 +254,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">ok</font>
+                                                <font size="1">{{ $item->status }}</font>
                                               </td>
                                               <td style="vertical-align: middle;">
                                                 <div class="pull-right">
@@ -274,7 +283,7 @@
                                               <td style="vertical-align: middle;width:10px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_4]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_4' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_4]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_4' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -282,7 +291,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_4]{{ $item->status === 'N' && $item->odp === 'odp_4' ? 'checked' : '' }}" value="N">
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_4]{{ $item->status === 'NOK' && $item->odp === 'odp_4' ? 'checked' : '' }}" value="NOK">
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -290,7 +299,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">ok</font>
+                                                <font size="1">{{ $item->status }}</font>
                                               </td>
                                               <td style="vertical-align: middle;">
                                                 <div class="pull-right">
@@ -319,7 +328,7 @@
                                               <td style="vertical-align: middle;width:10px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_5]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_5' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_5]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_5' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -327,7 +336,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_5]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_5' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_5]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_5' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -335,7 +344,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">ok</font>
+                                                <font size="1">{{ $item->status }}</font>
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -361,7 +370,7 @@
                                               <td style="vertical-align: middle;width:10px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_6]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_6' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_6]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_6' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -369,7 +378,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_6]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_6' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_6]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_6' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -377,7 +386,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">ok</font>
+                                                <font size="1">{{ $item->status }}</font>
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -404,7 +413,7 @@
                                               <td style="vertical-align: middle;width:10px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_7]{{ $item->status === 'Y' && $item->odp === 'odp_7' ? 'checked' : '' }}" value="Y">
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_7]{{ $item->status === 'OK' && $item->odp === 'odp_7' ? 'checked' : '' }}" value="OK">
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -412,7 +421,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_7]{{ $item->status === 'N' && $item->odp === 'odp_7' ? 'checked' : '' }}" value="N">
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_7]{{ $item->status === 'NOK' && $item->odp === 'odp_7' ? 'checked' : '' }}" value="NOK">
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -420,7 +429,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">ok</font>
+                                                <font size="1">{{ $item->status }}</font>
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -446,7 +455,7 @@
                                               <td style="vertical-align: middle;width:10px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_8]{{ $item->status === 'Y' && $item->odp === 'odp_8' ? 'checked' : '' }}" value="Y">
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_8]{{ $item->status === 'OK' && $item->odp === 'odp_8' ? 'checked' : '' }}" value="OK">
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -454,7 +463,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_8]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_8' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_8]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_8' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -462,7 +471,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">ok</font>
+                                                <font size="1">{{ $item->status }}</font>
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -488,7 +497,7 @@
                                               <td style="vertical-align: middle;width:10px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_9]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_9' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_9]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_9' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -496,7 +505,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}[odp_9]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_9' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}[odp_9]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_9' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -504,7 +513,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">ok</font>
+                                                <font size="1">{{ $item->status }}</font>
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -530,7 +539,7 @@
                                               <td style="vertical-align: middle;width:10px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_10]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_10' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_10]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_10' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -538,7 +547,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_10]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_10' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_10]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_10' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -546,7 +555,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">ok</font>
+                                                <font size="1">{{ $item->status }}</font>
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -572,7 +581,7 @@
                                               <td style="vertical-align: middle;width:10px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_11]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_11' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_11]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_11' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -580,7 +589,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_11]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_11' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_11]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_11' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -588,7 +597,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">ok</font>
+                                                <font size="1">{{ $item->status }}</font>
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -614,7 +623,7 @@
                                               <td style="vertical-align: middle;width:10px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_12]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_12' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_12]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_12' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -622,7 +631,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_12]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_12' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_12]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_12' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -630,7 +639,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">ok</font>
+                                                <font size="1">{{ $item->status }}</font>
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -656,7 +665,7 @@
                                               <td style="vertical-align: middle;width:10px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_13]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_13' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_13]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_13' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -664,7 +673,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_13]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_13' ? 'checked' : '' }}>
+                                                    <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_13]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_13' ? 'checked' : '' }}>
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -672,7 +681,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">ok</font>
+                                                <font size="1">{{ $item->status }}</font>
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -708,7 +717,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_14]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_14' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_14]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_14' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -716,7 +725,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_14]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_14' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_14]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_14' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -724,7 +733,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -752,7 +761,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_15]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_15' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_15]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_15' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -760,7 +769,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_15]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_15' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_15]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_15' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -768,7 +777,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -795,7 +804,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_16]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_16' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_16]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_16' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -803,7 +812,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_16]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_16' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_16]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_16' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -811,7 +820,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -838,7 +847,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_17]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_17' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_17]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_17' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -846,7 +855,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_17]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_17' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_17]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_17' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -854,7 +863,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -882,7 +891,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_18]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_18' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_18]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_18' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -890,7 +899,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_18]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_18' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_18]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_18' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -898,7 +907,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -925,7 +934,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_19]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_19' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_19]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_19' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -933,7 +942,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_19]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_19' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_19]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_19' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -941,7 +950,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -968,7 +977,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_20]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_20' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_20]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_20' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -976,7 +985,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_20]" value="N{{ $item->status === 'N' && $item->odp === 'odp_20' ? 'checked' : '' }}">
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_20]" value="N{{ $item->status === 'NOK' && $item->odp === 'odp_20' ? 'checked' : '' }}">
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -984,7 +993,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1012,7 +1021,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_21]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_21' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_21]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_21' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -1020,7 +1029,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_21]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_21' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_21]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_21' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -1028,7 +1037,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1055,7 +1064,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_22]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_22' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_22]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_22' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -1063,7 +1072,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_22]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_22' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_22]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_22' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -1071,7 +1080,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1107,7 +1116,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_23]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_23' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_23]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_23' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -1115,7 +1124,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_23]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_23' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_23]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_23' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -1123,7 +1132,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1151,7 +1160,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_24]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_24' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_24]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_24' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -1159,7 +1168,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_24]" value="N"{{ $item->status === '24' && $item->odp === 'odp_24' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_24]" value="NOK"{{ $item->status === '24' && $item->odp === 'odp_24' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -1167,7 +1176,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1195,7 +1204,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_25]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_25' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_25]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_25' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -1203,7 +1212,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_25]" value="N"{{ $item->status === '25' && $item->odp === 'odp_25' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_25]" value="NOK"{{ $item->status === '25' && $item->odp === 'odp_25' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -1211,7 +1220,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1239,7 +1248,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_26]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_26' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_26]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_26' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -1247,7 +1256,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_26]" value="N"{{ $item->status === '' && $item->odp === 'odp_26' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_26]" value="NOK"{{ $item->status === '' && $item->odp === 'odp_26' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -1255,7 +1264,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -1282,7 +1291,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_27]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_27' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_27]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_27' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -1290,7 +1299,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_27]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_27' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_27]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_27' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -1298,7 +1307,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1326,7 +1335,7 @@
                                             <td style="vertical-align: middle;">
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_28]" value="Y"{{ $item->status === 'Y' && $item->odp === 'odp_28' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_28]" value="OK"{{ $item->status === 'OK' && $item->odp === 'odp_28' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                     OKE
                                                   </div>
@@ -1334,7 +1343,7 @@
                                               </div>
                                               <div class="radio">
                                                 <label>
-                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_28]" value="N"{{ $item->status === 'N' && $item->odp === 'odp_28' ? 'checked' : '' }}>
+                                                  <input type="checkbox" name="status[{{ $item->pelanggan->id }}][odp_28]" value="NOK"{{ $item->status === 'NOK' && $item->odp === 'odp_28' ? 'checked' : '' }}>
                                                   <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                     NOK
                                                   </div>
@@ -1342,7 +1351,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">ok</font>
+                                              <font size="1">{{ $item->status }}</font>
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1358,6 +1367,7 @@
                                                     }
                                                   @endphp
                                                 @endforeach
+                                             
                                               </div>
                                             </td>
                                           @endif
