@@ -108,7 +108,7 @@
                                                                 <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
                                                             </td>
                                                             <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
-                                                            <td>ODP-BDG-TST/123</td>
+                                                            <td>ODP-{{$pelanggan->area}}/123</td>
                                                             <td> <button type="submit">
                                                                 <i class="uil uil-process"></i>
                                                                 Process
@@ -161,7 +161,7 @@
                                                                             <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
                                                                         </td>
                                                                         <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
-                                                                        <td>ODP-BDG-TST/123</td>
+                                                                        <td>ODP-{{$pelanggan->area}}/123</td>
                                                                         <td> <button type="submit">
                                                                             <i class="uil uil-process"></i>
                                                                             Process

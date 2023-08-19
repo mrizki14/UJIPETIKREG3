@@ -8,10 +8,12 @@ use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use App\Models\PelangganFoto;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ValidatorRevisiNotification;
+use App\Notifications\PelangganCreatedNotification;
 use App\Notifications\ValidatorCreatedNotification;
 
 class PetugasController extends Controller
@@ -71,12 +73,21 @@ class PetugasController extends Controller
         ];
         $pelanggans = Pelanggan::findOrFail($id);
         $images = PelangganFoto::all();
-        
+  
+        // $formSubmittedKey = 'form_submitted_' . $pelanggans->id;
+        // $formSubmitted = session($formSubmittedKey, false);
+        // $flashMessages = [
+        //     'odp_1' => 'Pesan flash untuk ODP 1.',
+        //     'odp_2' => 'Pesan flash untuk ODP 2.',
+        // //     // ... tambahkan pesan flash untuk ODP lainnya ...
+        // ];
         return view('petugas-detail',[
         'pelanggans' => $pelanggans, 
         'areas' => $areas,
         'images' => $images,
-   
+        // 'flashMessages' => $flashMessages,
+
+        // 'formSubmitted' => $formSubmitted, 
         
         ]);
        
@@ -115,20 +126,25 @@ class PetugasController extends Controller
         }
         $file = $request->file('file');
         $input = $request->input('pelanggans_id');
-        // $odp = $request->input('odp');
+        $odp = $request->input('odp');
         $file_name = time() . '_' . $file->getClientOriginalName();
         $foto = new PelangganFoto([
             'file' => $file_name,
             'catatan' => $request->catatan,
-            'odp' => $request->odp,
+            'odp' => $odp,
             'pelanggans_id' => $input
             
         ]);
 
         $file->storeAs('public/images', $file_name);
         $pelanggan->fotos()->save($foto);
-        $petugas = User::where('role_id', 2)->get();
-        Notification::send($petugas, new ValidatorCreatedNotification($pelanggan));
+
+        $validatorUsers = User::where('role_id', 2)->get();
+        $notificationThreshold = 28;
+    
+        if ($validatorUsers->count() >= $notificationThreshold) {
+            Notification::send($validatorUsers, new PelangganCreatedNotification($pelanggan));
+        }
         // session()->put('form_completed', true);
         // Session::flash('formSubmitted', true);
         // $messageKey = 'messages_' . $pelanggans_id;
@@ -138,7 +154,23 @@ class PetugasController extends Controller
         // $flagKey = 'form_sent_' . $pelanggans_id;
         // session([$flagKey => true]);
         // $request->session()->flash('form_sent_' . $pelanggans_id, true);
-        return redirect()->back()->with('success', 'Foto berhasil diunggah.');
+        // session(['form_submitted_' . $pelanggans_id => true]);
+        // session(['form_submitted_' . $pelanggans_id . '_' . $form_number => true]);
+        // Cookie::queue('form_message_' . $odp, 'Form ' . $odp . ' berhasil dikirim.');
+        // $flashMessage = 'Form ' . $odp . ' berhasil dikirim.';
+        // session()->flash('form_message_' . $odp, $flashMessage);
+        $flashMessages = [
+            'odp_1' => 'Pesan flash untuk ODP 1.',
+            'odp_2' => 'Pesan flash untuk ODP 2.',
+            // ... tambahkan pesan flash untuk ODP lainnya ...
+        ];
+        
+        // Simpan data flash message ke dalam session
+        // session()->flash('flashMessages', $flashMessages);
+        $flashMessage = 'Form ' . $odp . ' berhasil dikirim.';
+        session()->flash('form_message_' . $odp, $flashMessage);
+        return redirect()->back()->with('success', 'Data pelanggan berhasil dikirim.');
+
     }
 
     public function revisiBukti(Request $request,$id) {
@@ -244,12 +276,14 @@ class PetugasController extends Controller
             if (!empty($updateData)) {
                 $foto->update($updateData);
                 $validator = User::where('role_id', 2)->get();
-                Notification::send($validator, new ValidatorRevisiNotification($foto));
+                Notification::send($validator, new ValidatorRevisiNotification($pelanggan));
             }
         }
    
     }
-    return redirect()->route('petugas.revisi', ['id' => $id])
+
+    
+    return redirect()->route('petugas.revisi',['id' => $pelanggan->id])
     ->with('success', 'Data revisi berhasil diupdate');
         // foreach ($request->input('foto_id') as $index => $fotoId) {
         //     $foto = PelangganFoto::findOrFail($fotoId);

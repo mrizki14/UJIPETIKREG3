@@ -20,20 +20,8 @@
 
                     <div class="dropdown-menu">
                         <div class="dp-main-menu">
-                            {{-- <a href="" class="dropdown-item message-item">
-                                <i class="uil uil-servers user-note"></i>
-                                <div class="note-info-desmis">
-                                    <div class="user-notify-info">
-                                        <p class="note-name">Server Rebooted</p>
-                                        <p class="note-time">20 min ago</p>
-                                    </div>
-                                    <p href="" class="status-link">
-                                        <span class="fas fa-times"></span>
-                                    </p>
-                                </div>
-                            </a> --}}
                             {{-- NOTIFIKASI ROLE VALIDATOR --}}
-                            @if (Auth()->user()->role_id === 2 )
+                            {{-- @if (Auth()->user()->role_id === 2 ) --}}
                             @foreach (auth()->user()->unreadNotifications as $notification)
                             <a href="{{ $notification->data['url'].'?'.$notification->id.'&mark_as_read=true&notification_id='.$notification->id  }}" class="dropdown-item message-item">
                                 <i class="uil uil-envelope-add user-note"></i>
@@ -48,8 +36,8 @@
                                 </div>
                             </a>
                             @endforeach
-                            @foreach (auth()->user()->unreadNotifications as $notification)
-                            <a href="" class="dropdown-item message-item">
+                            {{-- @foreach (auth()->user()->unreadNotifications as $notification)
+                            <a href="{{ $notification->data['url'].'?'.$notification->id.'&mark_as_read=true&notification_id='.$notification->id  }}" class="dropdown-item message-item">
                                 <i class="uil uil-envelope-redo user-note"></i>
                                 <div class="note-info-desmis">
                                     <div class="user-notify-info">
@@ -61,11 +49,11 @@
                                     </p>
                                 </div>
                             </a>
-                            @endforeach
-                            @endif
+                            @endforeach --}}
+                            {{-- @endif --}}
 
                             {{-- NOTIFIKASI ROLE PETUGAS --}}
-                            @if (Auth()->user()->role_id === 3 )
+                            {{-- @if (Auth()->user()->role_id === 3 )
                             @php
                             $shownNotifications = [];
                             @endphp
@@ -112,7 +100,7 @@
                                     
                                 @endforeach
                             
-                            @endif
+                            @endif --}}
                         </div>
                     </div>
                 </li>

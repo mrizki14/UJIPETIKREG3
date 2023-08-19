@@ -2,10 +2,11 @@
 
 namespace App\Notifications;
 
+use App\Models\Pelanggan;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 class ValidatorRevisiNotification extends Notification
 {
@@ -47,10 +48,11 @@ class ValidatorRevisiNotification extends Notification
      * @return array<string, mixed>
      */
     public function toArray(object $notifiable): array
-    {
+    { 
+        // $pelanggan = Pelanggan::findOrFail($this->revisiDariPetugas);
         return [
             'message' => 'Data yang status NOK sudah di revisi petugas.',
-            'url' => route('validator.revisi', $this->revisiDariPetugas->id),
+            'url' => route('validator.revisi',  ['id' => $this->revisiDariPetugas->id]),
         ];
     }
 }

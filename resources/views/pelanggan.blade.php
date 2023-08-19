@@ -194,7 +194,7 @@
                                                     <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
                                                 </td>
                                                 <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
-                                                <td>ODP-BDG-TST/123</td>
+                                                <td>ODP-{{$pelanggan->area}}/123</td>
                                             </tr>
 
                                             @endforeach
@@ -210,7 +210,7 @@
                                                     <span class="label-tanggal">13-JUL-2023</span>
                                                 </td>
                                                 <td>AGUNG (+62-123456) <br> JALAN TELEKOMUNIKASI NO.1</td>
-                                                <td>ODP-BDG-TST/123</td>
+                                                <td>ODP-{{$pelanggan->area}}/123</td>
                                             </tr> --}}
                                                 
                                         </tbody>

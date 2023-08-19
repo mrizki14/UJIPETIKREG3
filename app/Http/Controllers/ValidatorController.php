@@ -98,14 +98,7 @@ class ValidatorController extends Controller
             'catatan_keseluruhan' => 'nullable|string',
 
         ]);
-        // $statusData = $request->input('status');
-        // $catatan = $request->input('catatan_keseluruhan');
 
-        // foreach ($statusData as $pelanggansId => $status) {
-            
-        //     PelangganFoto::where('pelanggans_id', $pelanggansId)
-        //         ->update(['status' => $status, 'catatan_keseluruhan' => $catatan]);
-        // }
          $statusValues = $request->input('status');
          $catatanKeseluruhan = $request->input('catatan_keseluruhan');
     
@@ -131,7 +124,91 @@ class ValidatorController extends Controller
         return redirect()->route('validator.index')->with('success', 'Status dan catatan berhasil disimpan.');
     }
     
-    public function revisiDariPetugas() {
-        echo "ini halaman revisi dari petugas";
+    public function revisiDariPetugas(Request $request,$id) {
+        if ($request->query('mark_as_read')) {
+            $notificationId = $request->query('notification_id');
+            $notification = auth()->user()->notifications->find($notificationId);
+            
+            if ($notification) {
+                $notification->markAsRead();
+            }
+        }
+        $areas = [
+            "BDG" => 'BANDUNG',
+            "BGB" => 'BANDUNG BARAT',
+            "CRB" => 'CIREBON',
+            "KRW" => 'KARAWANG',
+            "SKB" => 'SUKABUMI',
+            "TSM" => 'TASIKMALAYA'
+        ];
+        $odpDescriptions = [
+            'odp_1' => 'Konektor dan Adapter tipe SC-UPC',
+            'odp_2' => 'Instalasi kabel, pastikan rapi (tidak ada bending)',
+            'odp_3' => 'ODP bersih dari sampah instalasi, debu, air dan
+            serangga',
+            'odp_4' =>'ODP Memiliki label drop core',
+            'odp_5'=> 'Tidak menggunakan pigtail kearah ke pelanggan',
+            'odp_6'=> 'Tidak memasukkan splitter tambahan (ODP gendong)',
+            'odp_7'=> 'Kabel drop yang masuk ODP memiliki panjang yang sama
+            dan terikat rapi',
+            'odp_8'=> 'Kunci dome (Penutup ODP)',
+            'odp_9'=> 'Pintu ODP Tertutup/Terkunci',
+            'odp_10'=> 'Splitter, pastikan terpasang dengan baik',
+            'odp_11'=> 'Port idle, pastikan seluruhnya terpasang dust cap',
+            'odp_12'=> 'Bebas dari kabel drop yang sudah tidak terpakai',
+            'odp_13'=> 'Pengukuran di ODP (Gunakan OPM)',
+            'odp_14'=> 'Seluruh tambatan menggunakan s-clamp (tiang/odp)',
+            'odp_15'=> 'Di rumah pelanggan menggunakan clamp hook &amp;
+            s-clamp',
+            'odp_16'=> 'Tidak terdapat sambungan',
+            'odp_17'=> 'Menggunakan OTP',
+            'odp_18'=> 'Tidak ada penarikan dropcore di atas 50 m tanpa tiang
+            (Penanaman tiang jika diperlukan)',
+            'odp_19'=> 'Penggunaan dropcore sesuai list of material',
+            'odp_20'=> 'Penggunaan connector sesuai list of material',
+            'odp_21'=> 'Instalasi dropcore menggunakan pipa (bila menggunakan
+            SPBT)',
+            'odp_22'=> 'Messenger di tiang penanggal tidak dipotong',
+            'odp_23'=> 'Menggunakan kabel indoor dari OTP ke roset',
+            'odp_24'=> 'Roset terpasang dengan kuat dan kokoh dengan konektor
+            menghadap ke bawah Minimal 40 cm dari lantai',
+            'odp_25'=> 'Rute kabel harus berada di sudut dinding (jangan
+            menyilang bidang)',
+            'odp_26'=> 'Kabel harus melekat dengan kuat (menggunakan kabel
+            tray, clip atau lem)',
+            'odp_27'=> 'Kabel melalui jalur yang sudah disiapkan di rumah',
+            'odp_28'=> 'Pengukuran Redaman Power ONT Rx Level mengunakan
+            Ibooster',
+      
+        ];
+    
+        $pelanggan = Pelanggan::findOrFail($id);
+        $pelanggans = $pelanggan->fotos()
+        ->where('status', 'NOK')
+        ->orderBy('updated_at', 'desc')
+        ->get();
+
+        foreach ($pelanggans as $foto) {
+            $foto->time_diff = Carbon::parse($foto->updated_at)->diffForHumans();
+            
+        }
+        
+        return view('validator-revisi', compact('pelanggans','areas','odpDescriptions'));
+    }
+
+    public function updateRevisi(Request $request,$id) {
+        $request->validate([
+            'status' => 'required',
+            'catatan_keseluruhan' => 'required'
+        ]);
+
+        $status = PelangganFoto::findOrFail($id);
+        $status->status = $request->input('status');
+        $status->catatan_keseluruhan = $request->input('catatan_keseluruhan');
+        $status->save();
+      
+
+        return redirect()->route('validator.index')->with('success', 'Revisi berhasil ditambahkan.');
+
     }
 }

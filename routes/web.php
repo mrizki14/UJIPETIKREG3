@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
@@ -20,9 +21,7 @@ use App\Models\Role;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
-})->middleware('auth');
+Route::get('/', [DashboardController::class,'index'])->middleware('auth');
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -50,3 +49,4 @@ Route::get('/validator', [ValidatorController::class,'index'])->name('validator.
 Route::get('/validator/cek/{id}', [ValidatorController::class,'validatorDetail'])->name('validator.cek')->middleware('auth');
 Route::put('/validator/{id}/save', [ValidatorController::class,'update'])->name('validator.update')->middleware('auth');
 Route::get('validator/revisi/{id}',[ValidatorController::class,'revisiDariPetugas'])->name('validator.revisi')->middleware('auth');
+Route::patch('validator/revisi/{id}/save',[ValidatorController::class,'updateRevisi'])->name('validator.revisi.update')->middleware('auth');

@@ -154,15 +154,37 @@
                                           </tr>
   
                                           <tr>
-                               
-                            
-                                        <form action="{{route('petugas.store', $pelanggans->id)}}" method="post" enctype="multipart/form-data">
-                                            @csrf                  
+                                       
+                                        {{-- <div id="flash-messages">
+                                            @foreach ($flashMessages as $odp => $message)
+                                                <div class="alert alert-success" data-odp="{{ $odp }}">
+                                                    {{ $message }}
+                                                </div>
+                                            @endforeach
+                                        </div>   --}}
+                                        {{-- @if(session()->has('form_message_' . $odp))
+                                        <div class="alert alert-success">
+                                            {{ session('form_message_' . $odp) }}
+                                        </div>
+                                        @endif --}}
+                                        {{-- @foreach ($areas as $odp => $area)
+                                        @if(session()->has('form_message_' . $odp))
+                                            <div class="alert alert-success" data-odp="{{ $odp }}">
+                                                {{ session('form_message_' . $odp) }}
+                                            </div>
+                                        @endif
+                                        @endforeach --}}
+                                    
+                                        <form action="{{route('petugas.store', $pelanggans->id)}}" method="post" enctype="multipart/form-data" class="odp-form">
+                                            @csrf         
+                                             
                                           <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">1. Konektor dan Adapter tipe SC-UPC</td>
                                           <td style="vertical-align: middle !important;">:</td>                    
                                           <td style="vertical-align: middle !important;">  
                                             <div class="form-floating d-flex">
-                                                <input type="hidden" name="odp" value="odp_1">
+                                            
+                                              
+                                                <input type="hidden" name="odp" value="odp_1" data-odp="odp_1">
                                                 <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                 <label for="floatingTextarea">Catatan</label>
                                                 <!-- Button trigger modal -->
@@ -211,10 +233,24 @@
                                                                     </div>
                                                                 </div>
                                                                 </div>
+                                                        
+                                               
                                                 </div>
+                                             
                                             </div>        
                                         </td>                                  
-                                        </form>                                     
+                                        </form>   
+
+                                        {{-- @php
+                                        $odp = 'odp_1'; // Ganti dengan nilai odp yang sesuai
+                                        $formMessageKey = 'form_message_' . $odp;
+
+                                        if (session()->has($formMessageKey)) {
+                                            session()->push('flashMessages', [$odp => session($formMessageKey)]);
+                                            session()->forget($formMessageKey); // Hapus pesan flash dari session setelah digunakan
+                                        }
+                                        @endphp --}}
+                                                                  
                                       
                                           </tr>
   
@@ -223,10 +259,6 @@
                                           <td style="vertical-align: middle !important;" width="1%">:</td>                    
                                           </td>
                                           <td style="vertical-align: middle !important;">      
-                                            
-                                         
-                                
-                                         
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf            
                                               <div class="form-floating d-flex">
@@ -278,11 +310,8 @@
                                                                 </div>
                                                                 </div>
                                                 </div>
-                                        
                                               </div>
                                             </form>
-                                        
-                            
                                           </td>
                                           </tr>
   
@@ -1914,5 +1943,23 @@
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
     <script src="{{asset('assets/js/script.js')}}"></script>
     <script src="https://kit.fontawesome.com/e360b5871d.js" crossorigin="anonymous"></script>
+    {{-- <script>
+        $(document).ready(function () {
+            // Menampilkan pesan flash saat halaman dimuat
+            showFlashMessages();
+    
+            // Fungsi untuk menampilkan pesan flash berdasarkan ODP
+            function showFlashMessages() {
+                var flashMessages = document.querySelectorAll('.alert[data-odp]');
+                flashMessages.forEach(function (flashMessage) {
+                    var odp = flashMessage.getAttribute('data-odp');
+                    var message = flashMessage.textContent;
+                    alert(odp + ': ' + message);
+                });
+            }
+        });
+    </script> --}}
+    
+
 </body>
 </html>

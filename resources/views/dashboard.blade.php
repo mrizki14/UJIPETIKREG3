@@ -32,34 +32,37 @@
                                     </div>
                                 </div>
 
-                                <form action="" method="">
+                                {{-- <form action="" method="get">
                                     <div class="form-group">
                                         <label for="" style="">Periode :</label>
                                         <div class="bulan">
-                                            <select class="form-cs" type="text" name="bulan" id="">
-                                                <option value="01">Januari</option>
-                                                <option value="02">Februari</option>
-                                                <option value="03">Maret</option>
-                                                <option value="04">April</option>
-                                                <option value="05">Mei</option>
-                                                <option value="06">Juni</option>
-                                                <option value="07" selected>Juli</option>
-                                                <option value="08">Agustus</option>
-                                                <option value="09">September</option>
-                                                <option value="10">Oktober</option>
-                                                <option value="11">November</option>
-                                                <option value="12">Desember</option>
-                                                </select>
+                                            <select class="form-cs" name="months" >
+                                                @foreach ($months as $key => $month)
+                                                @if (isset($_GET['month']))
+                                                    <option value="{{ $key }}" {{ $key == $_GET['month'] ? 'selected' : '' }}>
+                                                        {{ $month }}</option>
+                                                @else
+                                                    <option value="{{ $key }}" {{ date('m') == $key ? 'selected' : '' }}>
+                                                        {{ $month }}</option>
+                                                @endif
+                                            @endforeach
+                                            </select>
                                         </div>                     
                                         <div class="tahun">
                                             <select class="form-cs" type="text" name="tahun" id="">
-                                                <option value="01" selected>2023</option>
-                                                <option value="02">2023</option>
-                                                <option value="03">2023</option>
+                                                @foreach ($years as $key => $year)
+                                                @if (isset($_GET['year']))
+                                                    <option value="{{ $key }}" {{ $_GET['year'] == $key ? 'selected' : '' }}>
+                                                        {{ $year }}</option>
+                                                @else
+                                                    <option value="{{ $key }}" {{ date('Y') == $key ? 'selected' : '' }}>
+                                                        {{ $year }}</option>
+                                                @endif
+                                            @endforeach
                                             </select>
                                         </div>                     
                                         <div class="tombol">
-                                            <button type="submit" name="filter" class="button">
+                                            <button type="submit" class="button">
                                                 <i class="uil uil-setting"></i>
                                                 Filter
                                             </button>   
@@ -67,7 +70,7 @@
                                                 Export Excel
                                             </button>                                  </div>
                                         </div>
-                                </form>
+                                </form> --}}
                                 <div class="data-table-section table-responsive">
                                     <table class="table table-striped" style="width:100%">
                                         <thead>
@@ -87,20 +90,64 @@
                                           </thead>
                           
                                           <tbody>
+                                            @foreach ($finalResults as $result)
+                                            <tr>
+                                                <td>{{ $result['area_name'] }}</td>
+                                                <td style="text-align: center;">{{ $result['total_pelanggan']}}</td>
+                                                <td style="text-align: center;">{{ $result['total_ok'] }}</td>
+                                                <td style="text-align: center;">{{ $result['total_nok']}}</td>
+                                                <td style="text-align: center;">75</td>
+                                                <td style="text-align: center;">{{ $result['total_ok'] > 0 ? number_format(($result['total_pelanggan'] / $result['total_ok']) * 100, 0) . '%' : '0%' }}</td>
+                                                <td style="text-align: center;">{{ number_format($result['upload_percentage'], 0) }}%</td>
+                                                <td style="text-align: center;">{{ number_format($result['valid_percentage'], 0) }}%</td>
+                                            </tr>
+                                        @endforeach
+                                            {{-- @php
+                                            $totalOK = 0;
+                                            $totalNOK = 0;
+                                            @endphp
+                                            @foreach ($areaStatusCounts as $pelanggan)
                                             <tr>
                                                 <td style="text-align: left; padding-left: 15px;">
                                                     <i class="uil uil-plus-square"></i>
-                                                    <a href="">BANDUNG</a>
+                                                    <a href="#">@foreach ($areas as $key => $item)
+                                                        {{$pelanggan->area == $key ? $item  : '' }}
+                                                        @endforeach <br> </a>
                                                 </td>
                                                 <td style="text-align: center;">
-                                                    <a href=""">100</a>
+                                                    <a href=""">{{ $pelanggan->count() }}</a>
+                                                </td>
+                                                @if ($pelanggan->status === 'OK')
+                                                @php
+                                                    $totalOK += $pelanggan->count;
+                                                @endphp
+                                                @elseif ($pelanggan->status === 'NOK')
+                                                    @php
+                                                        $totalNOK += $pelanggan->count;
+                                                    @endphp
+                                                @endif
+                                                <td style="text-align: center;">
+                                                    <a href="">{{ $totalOK }}</a>
                                                 </td>
                                                 <td style="text-align: center;">
-                                                    <a href="">75</a>
+                                                    <a href="">{{ $totalNOK }}</a>
                                                 </td>
+                                                @if ($pelanggan->status === 'OK')
+                                                @php
+                                                $totalOK += $pelanggan->count;
+                                                @endphp
                                                 <td style="text-align: center;">
-                                                    <a href="">25</a>
+                                                    <a href="">{{ $totalOK }}</a>
                                                 </td>
+                                                @endif
+                                                @if ($pelanggan->status === 'NOK')
+                                                @php
+                                                $totalNOK += $pelanggan->count;
+                                                @endphp
+                                                <td style="text-align: center;">
+                                                    <a href="">{{ $totalNOK }}</a>
+                                                </td>
+                                                @endif
                                                 <td style="text-align: center;">
                                                     <a href="">75</a>
                                                 </td>
@@ -114,8 +161,10 @@
                                                     <a href="">0%</a>
                                                 </td>
                                             </tr>
+                                            @break
+                                            @endforeach --}}
                           
-                                            <tr>
+                                            {{-- <tr>
                                                 <td style="text-align: left; padding-left: 15px;">
                                                     <i class="uil uil-plus-square"></i>
                                                     <a href="">BANDUNG BARAT</a>
@@ -141,117 +190,7 @@
                                                 <td style="text-align: center;">
                                                     <a href="">0%</a>
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: left; padding-left: 15px;">
-                                                    <i class="uil uil-plus-square"></i>
-                                                    <a href="">CIREBON</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">75</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                            </tr>
-                          
-                                            <tr>
-                                                <td style="text-align: left; padding-left: 15px;">
-                                                    <i class="uil uil-plus-square"></i>
-                                                    <a href="">KARAWANG</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">75</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td  style="text-align: left; padding-left: 15px;">
-                                                    <i class="uil uil-plus-square"></i>
-                                                    <a href="">SUKABUMI</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">75</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                            </tr>
-                          
-                                            <tr>
-                                              <td style="text-align: left; padding-left: 15px;">
-                                                <i class="uil uil-plus-square"></i>
-                                                <a href="">TASIKMALAYA</a>
-                                              </td>
-                                              <td style="text-align: center;">
-                                                <a href="">0</a>
-                                              </td>
-                                              <td style="text-align: center;">
-                                                <a href="">0</a>
-                                              </td>
-                                              <td style="text-align: center;">
-                                                <a href="">0</a>
-                                              </td>
-                                              <td style="text-align: center;">
-                                                <a href="">75</a>
-                                              </td>
-                                              <td style="text-align: center;">
-                                                <a href="">0%</a>
-                                              </td>
-                                              <td style="text-align: center;">
-                                                <a href="">0%</a>
-                                              </td>
-                                              <td style="text-align: center;">
-                                                <a href="">0%</a>
-                                              </td>
-                                            </tr>
+                                            </tr> --}}
                           
                                           </tbody>
                                         <!-- <tfoot>

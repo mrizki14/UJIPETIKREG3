@@ -162,7 +162,7 @@
                                               </td>
                                               <td style="vertical-align: middle !important;">
                                                 @if ($item->odp === 'odp_1' && $item->pelanggan->id)
-                                                <font size="1">{{ $item->status }}</font>
+                                                {{-- <font size="1">{{ $item->status }}</font> --}}
                                                 @endif
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
@@ -208,7 +208,7 @@
                                               </td>
                                               <td style="vertical-align: middle !important;">
                                                 @if ($item->pelanggans_id === true && $item->odp === 'odp_2'  )
-                                                <font size="1">{{ $item->status }}</font>
+                                                {{-- <font size="1">{{ $item->status }}</font> --}}
                                                 @endif
                                               </td>
                                                   @if ($pelanggansFoto->isNotEmpty())
@@ -254,7 +254,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">{{ $item->status }}</font>
+                                                {{-- <font size="1">{{ $item->status }}</font> --}}
                                               </td>
                                               <td style="vertical-align: middle;">
                                                 <div class="pull-right">
@@ -299,7 +299,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">{{ $item->status }}</font>
+                                                {{-- <font size="1">{{ $item->status }}</font> --}}
                                               </td>
                                               <td style="vertical-align: middle;">
                                                 <div class="pull-right">
@@ -344,7 +344,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">{{ $item->status }}</font>
+                                                {{-- <font size="1">{{ $item->status }}</font> --}}
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -386,7 +386,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">{{ $item->status }}</font>
+                                                {{-- <font size="1">{{ $item->status }}</font> --}}
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -429,7 +429,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">{{ $item->status }}</font>
+                                                {{-- <font size="1">{{ $item->status }}</font> --}}
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -471,7 +471,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">{{ $item->status }}</font>
+                                                {{-- <font size="1">{{ $item->status }}</font> --}}
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -513,7 +513,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">{{ $item->status }}</font>
+                                                {{-- <font size="1">{{ $item->status }}</font> --}}
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -555,7 +555,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">{{ $item->status }}</font>
+                                                {{-- <font size="1">{{ $item->status }}</font> --}}
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -597,7 +597,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">{{ $item->status }}</font>
+                                                {{-- <font size="1">{{ $item->status }}</font> --}}
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -639,7 +639,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">{{ $item->status }}</font>
+                                                {{-- <font size="1">{{ $item->status }}</font> --}}
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -681,7 +681,7 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                <font size="1">{{ $item->status }}</font>
+                                                {{-- <font size="1">{{ $item->status }}</font> --}}
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -733,7 +733,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -777,7 +777,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -820,7 +820,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -863,7 +863,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -907,7 +907,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -950,7 +950,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -993,7 +993,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1037,7 +1037,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1080,7 +1080,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1132,7 +1132,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1176,7 +1176,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1220,7 +1220,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1264,7 +1264,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -1307,7 +1307,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1351,7 +1351,7 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              <font size="1">{{ $item->status }}</font>
+                                              {{-- <font size="1">{{ $item->status }}</font> --}}
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">

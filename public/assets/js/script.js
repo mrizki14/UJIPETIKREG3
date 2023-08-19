@@ -17,3 +17,27 @@ $(document).ready(function () {
 });
 
 $("#example").DataTable();
+
+// $(document).ready(function () {
+//   $('.odp-form').on('submit', function (e) {
+//       e.preventDefault();
+      
+//       var form = $(this);
+//       var odp = form.find('input[name="odp"]').data('odp');
+      
+//       $.ajax({
+//           url: form.attr('action'),
+//           type: form.attr('method'),
+//           data: form.serialize(),
+//           success: function () {
+//               var flashMessage = $('<div class="alert alert-success" data-odp="' + odp + '">Form dengan ODP ' + odp + ' berhasil dikirim.</div>');
+//               $('#flash-messages').append(flashMessage);
+              
+//               form.trigger('reset');
+//           },
+//           error: function () {
+//               alert('Terjadi kesalahan saat mengirim form.');
+//           }
+//       });
+//   });
+// });

@@ -317,7 +317,7 @@
                                                         </div>
                                                         @endif
                                                         @endforeach
-                                                        <button type="submit">Add Progres</button>
+                                                        <button class="btn-primary" type="submit">Add revisi</button>
                                                     </form>
                                                 </td>
                                             </tr>

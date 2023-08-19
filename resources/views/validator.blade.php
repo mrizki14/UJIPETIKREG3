@@ -76,7 +76,12 @@
                                                                <td>LOC_ID</td> 
                                                                <td>##</td>
                                                                <td>STATUS</td>
-                                                               <td>aAction</td>
+                                                               @foreach ($pelangganFoto as $pelanggan)
+                                                                @if ($pelanggan->status != 'OK' )
+                                                                <td>Action</td>
+                                                                @endif
+                                                                @break
+                                                               @endforeach
                                                             </tr>
                                                         </thead>
                         
@@ -99,17 +104,18 @@
                                                                         <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
                                                                     </td>
                                                                     <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
-                                                                    <td>ODP-BDG-TST/123</td>
+                                                                    <td>ODP-{{$pelanggan->area}}/123</td>
                                                                     <td> <button type="submit">
                                                                         <i class="uil uil-process"></i>
                                                                         Process
                                                                     </button></td>
                                                                     <td>Open</td>
+                                                                    @if ($pelanggan->status != 'OK')
                                                                     <td>
                                                                         <a href="/validator/cek/{{$pelanggan->id}}">Cek Bukti</a>
                                                                     </td>
+                                                                    @endif
                                                                 </tr>
-                    
                                                             @endforeach
                                                         </tbody>
                                                     </table>
@@ -125,7 +131,12 @@
                                                                <td>LOC_ID</td> 
                                                                <td>##</td>
                                                                <td>STATUS</td>
-                                                               <td>aAction</td>
+                                                               @foreach ($pelangganFoto as $pelanggan)
+                                                                @if ($pelanggan->status != 'OK' )
+                                                                <td>Action</td>
+                                                                @endif
+                                                                @break
+                                                               @endforeach
                                                             </tr>
                                                         </thead>
                         
@@ -148,15 +159,17 @@
                                                                         <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
                                                                     </td>
                                                                     <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
-                                                                    <td>ODP-BDG-TST/123</td>
+                                                                    <td>ODP-{{$pelanggan->area}}/123</td>
                                                                     <td> <button type="submit">
                                                                         <i class="uil uil-process"></i>
                                                                         Process
                                                                     </button></td>
                                                                     <td>Open</td>
+                                                                    @if ($pelanggan->status != 'OK')
                                                                     <td>
                                                                         <a href="/validator/cek/{{$pelanggan->id}}">Cek Bukti</a>
                                                                     </td>
+                                                                    @endif
                                                                 </tr>
                     
                                                             @endforeach
