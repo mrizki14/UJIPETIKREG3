@@ -43,9 +43,7 @@ class PetugasController extends Controller
                 ];
             }
         }
-        // $pelanggans = Pelanggan::with(['fotos' => function ($query) {
-        //     $query->where('status', 'NOK');
-        // }])->get();
+   
      
         return view('petugas', compact('pelanggansIndex','pelanggansRevisi', 'areas','revisiData' ));
     }
@@ -74,36 +72,15 @@ class PetugasController extends Controller
         $pelanggans = Pelanggan::findOrFail($id);
         $images = PelangganFoto::all();
   
-        // $formSubmittedKey = 'form_submitted_' . $pelanggans->id;
-        // $formSubmitted = session($formSubmittedKey, false);
-        // $flashMessages = [
-        //     'odp_1' => 'Pesan flash untuk ODP 1.',
-        //     'odp_2' => 'Pesan flash untuk ODP 2.',
-        // //     // ... tambahkan pesan flash untuk ODP lainnya ...
-        // ];
         return view('petugas-detail',[
         'pelanggans' => $pelanggans, 
         'areas' => $areas,
         'images' => $images,
-        // 'flashMessages' => $flashMessages,
-
-        // 'formSubmitted' => $formSubmitted, 
-        
         ]);
        
     }
 
-    //     public function markAsRead($notificationId)
-    // {
-    //     $user = Auth::user();
-    //     $notification = $user->notifications->findOrFail($notificationId);
 
-    //     if (!$notification->read_at) {
-    //         $notification->markAsRead();
-    //     }
-
-    //     return redirect()->back();
-    // }
     public function store(Request $request, $pelanggans_id) {
        
         $validator = Validator::make($request->all(),[
@@ -143,30 +120,11 @@ class PetugasController extends Controller
         $notificationThreshold = 28;
     
         if ($validatorUsers->count() >= $notificationThreshold) {
-            Notification::send($validatorUsers, new PelangganCreatedNotification($pelanggan));
+            Notification::send($validatorUsers, new ValidatorCreatedNotification($pelanggan));
         }
-        // session()->put('form_completed', true);
-        // Session::flash('formSubmitted', true);
-        // $messageKey = 'messages_' . $pelanggans_id;
-        // $messages = session($messageKey, []);
-        // $messages[] = 'Catatan dan file form ' . $pelanggans_id . ' sudah terkirim.';
-        // session([$messageKey => $messages]);
-        // $flagKey = 'form_sent_' . $pelanggans_id;
-        // session([$flagKey => true]);
-        // $request->session()->flash('form_sent_' . $pelanggans_id, true);
-        // session(['form_submitted_' . $pelanggans_id => true]);
-        // session(['form_submitted_' . $pelanggans_id . '_' . $form_number => true]);
-        // Cookie::queue('form_message_' . $odp, 'Form ' . $odp . ' berhasil dikirim.');
-        // $flashMessage = 'Form ' . $odp . ' berhasil dikirim.';
-        // session()->flash('form_message_' . $odp, $flashMessage);
-        $flashMessages = [
-            'odp_1' => 'Pesan flash untuk ODP 1.',
-            'odp_2' => 'Pesan flash untuk ODP 2.',
-            // ... tambahkan pesan flash untuk ODP lainnya ...
-        ];
+
         
-        // Simpan data flash message ke dalam session
-        // session()->flash('flashMessages', $flashMessages);
+
         $flashMessage = 'Form ' . $odp . ' berhasil dikirim.';
         session()->flash('form_message_' . $odp, $flashMessage);
         return redirect()->back()->with('success', 'Data pelanggan berhasil dikirim.');
@@ -283,29 +241,8 @@ class PetugasController extends Controller
     }
 
     
-    return redirect()->route('petugas.revisi',['id' => $pelanggan->id])
-    ->with('success', 'Data revisi berhasil diupdate');
-        // foreach ($request->input('foto_id') as $index => $fotoId) {
-        //     $foto = PelangganFoto::findOrFail($fotoId);
-    
-        //     if ($foto->status === 'NOK') {
-        //         $inputCatatan = $request->input('catatan_' . $fotoId);
-        //         $inputFile = $request->file('file_' . $index);
-    
-        //         $updateData = [
-        //             'catatan' => $inputCatatan,
-        //         ];
-    
-        //         if ($inputFile) {
-        //             $newFileName = $inputFile->getClientOriginalName(); // Customize filename if needed
-        //             $inputFile->storeAs('public/images', $newFileName);
-        //             $updateData['file'] = $newFileName;
-        //         }
-    
-        //         $foto->update($updateData);
-        //     }
-        // }
-   
+    return redirect()->route('petugas.index',['id' => $pelanggan->id])
+    ->with('success', 'Data revisi berhasil direvisi, tunggu validator untuk cek.');
       
     }
 }

@@ -31,33 +31,25 @@
                                         <b>Dashboard Ujipetik Regional 3</b>
                                     </div>
                                 </div>
-
-                                {{-- <form action="" method="get">
+                                
+                                <form action="/" method="get">
                                     <div class="form-group">
                                         <label for="" style="">Periode :</label>
                                         <div class="bulan">
-                                            <select class="form-cs" name="months" >
-                                                @foreach ($months as $key => $month)
-                                                @if (isset($_GET['month']))
-                                                    <option value="{{ $key }}" {{ $key == $_GET['month'] ? 'selected' : '' }}>
-                                                        {{ $month }}</option>
-                                                @else
-                                                    <option value="{{ $key }}" {{ date('m') == $key ? 'selected' : '' }}>
-                                                        {{ $month }}</option>
-                                                @endif
-                                            @endforeach
+                                            <select class="form-cs" name="month">
+                                                @foreach ($months as $key => $monthName)
+                                                <option value="{{ $key }}" {{ $key == $month ? 'selected' : '' }}>
+                                                    {{ $monthName }}
+                                                </option>
+                                                @endforeach
                                             </select>
                                         </div>                     
                                         <div class="tahun">
-                                            <select class="form-cs" type="text" name="tahun" id="">
-                                                @foreach ($years as $key => $year)
-                                                @if (isset($_GET['year']))
-                                                    <option value="{{ $key }}" {{ $_GET['year'] == $key ? 'selected' : '' }}>
-                                                        {{ $year }}</option>
-                                                @else
-                                                    <option value="{{ $key }}" {{ date('Y') == $key ? 'selected' : '' }}>
-                                                        {{ $year }}</option>
-                                                @endif
+                                            <select class="form-cs" name="year">
+                                            @foreach ($years as $key => $yearOption)
+                                            <option value="{{ $key }}" {{ $key == $year ? 'selected' : '' }}>
+                                                {{ $yearOption }}
+                                            </option>
                                             @endforeach
                                             </select>
                                         </div>                     
@@ -65,12 +57,15 @@
                                             <button type="submit" class="button">
                                                 <i class="uil uil-setting"></i>
                                                 Filter
-                                            </button>   
-                                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            </button>                               
+                                            
+                                            <a href="{{ route('export.excel',['month' => $month, 'year' => $year]) }}" class="btn btn-lg btn-success">
                                                 Export Excel
-                                            </button>                                  </div>
+                                            </a> 
                                         </div>
-                                </form> --}}
+                                    </div>
+                                </form> 
+                               
                                 <div class="data-table-section table-responsive">
                                     <table class="table table-striped" style="width:100%">
                                         <thead>
@@ -90,6 +85,7 @@
                                           </thead>
                           
                                           <tbody>
+                                            @if (!is_null($finalResults))
                                             @foreach ($finalResults as $result)
                                             <tr>
                                                 <td>{{ $result['area_name'] }}</td>
@@ -101,110 +97,22 @@
                                                 <td style="text-align: center;">{{ number_format($result['upload_percentage'], 0) }}%</td>
                                                 <td style="text-align: center;">{{ number_format($result['valid_percentage'], 0) }}%</td>
                                             </tr>
-                                        @endforeach
-                                            {{-- @php
-                                            $totalOK = 0;
-                                            $totalNOK = 0;
-                                            @endphp
-                                            @foreach ($areaStatusCounts as $pelanggan)
+                                            @endforeach
+                                            @else
                                             <tr>
-                                                <td style="text-align: left; padding-left: 15px;">
-                                                    <i class="uil uil-plus-square"></i>
-                                                    <a href="#">@foreach ($areas as $key => $item)
-                                                        {{$pelanggan->area == $key ? $item  : '' }}
-                                                        @endforeach <br> </a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href=""">{{ $pelanggan->count() }}</a>
-                                                </td>
-                                                @if ($pelanggan->status === 'OK')
-                                                @php
-                                                    $totalOK += $pelanggan->count;
-                                                @endphp
-                                                @elseif ($pelanggan->status === 'NOK')
-                                                    @php
-                                                        $totalNOK += $pelanggan->count;
-                                                    @endphp
-                                                @endif
-                                                <td style="text-align: center;">
-                                                    <a href="">{{ $totalOK }}</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">{{ $totalNOK }}</a>
-                                                </td>
-                                                @if ($pelanggan->status === 'OK')
-                                                @php
-                                                $totalOK += $pelanggan->count;
-                                                @endphp
-                                                <td style="text-align: center;">
-                                                    <a href="">{{ $totalOK }}</a>
-                                                </td>
-                                                @endif
-                                                @if ($pelanggan->status === 'NOK')
-                                                @php
-                                                $totalNOK += $pelanggan->count;
-                                                @endphp
-                                                <td style="text-align: center;">
-                                                    <a href="">{{ $totalNOK }}</a>
-                                                </td>
-                                                @endif
-                                                <td style="text-align: center;">
-                                                    <a href="">75</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
                                             </tr>
-                                            @break
-                                            @endforeach --}}
-                          
-                                            {{-- <tr>
-                                                <td style="text-align: left; padding-left: 15px;">
-                                                    <i class="uil uil-plus-square"></i>
-                                                    <a href="">BANDUNG BARAT</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">75</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                                <td style="text-align: center;">
-                                                    <a href="">0%</a>
-                                                </td>
-                                            </tr> --}}
-                          
+                                            @endif
                                           </tbody>
-                                        <!-- <tfoot>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Position</th>
-                                                <th>Office</th>
-                                                <th>Age</th>
-                                                <th>Start date</th>
-                                                <th>Salary</th>
-                                            </tr>
-                                        </tfoot> -->
                                     </table>
-
+                                   
                                     <div class="earn">
                                        <h2>Note :</h2>
                                        <p>Hasil : JUMLAH / OK %</p>
@@ -212,6 +120,8 @@
                                        <p>VALID : UPLOAD + TARGET %</p>
                                     </div>
                                 </div>
+                            
+                                
                             </div>
                         </div>
                     </div>

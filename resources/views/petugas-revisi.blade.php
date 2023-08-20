@@ -115,37 +115,7 @@
                                 {{-- @foreach ($pelanggans as $pelanggan) --}}
                                     
                                 <div class="table-responsive table-cs">
-                                    
-                                    @if (session('error'))
-                                    <div class="alert alert-danger">
-                                      {{ session('error') }}
-                                    </div>
-                                    @endif
-
-                                    {{-- <form action="{{ route('petugas.update', $pelanggans->id) }}" method="post" enctype="multipart/form-data">
-                                        @csrf
-                                        @method('PUT')
-                                        
-                                        @foreach ($pelanggans->fotos as $index => $foto)
-                                            @if ($foto->status === 'NOK')
-                                                <div>
-                                                    
-                                                    <label for="catatan_{{ $foto->id }}">Catatan Revisi {{ $index + 1 }}:</label>
-                                                    <textarea name="catatan_{{ $foto->id }}" id="catatan_{{ $foto->id }}" rows="4"></textarea>
-                                                    <input type="file" name="file_{{ $foto->id }}" accept="image/*">
-                                                </div>
-                                                <div>
-                                                    @if (isset($odpDescriptions[$foto->odp]))
-                                                        {{ $odpDescriptions[$foto->odp] }}
-                                                    @else
-                                                        Kode ODP: {{ $foto->odp }}
-                                                    @endif
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                        
-                                        <button type="submit">Submit Revisi</button>
-                                    </form> --}}
+        
                                 <table class="table table-condensed table-striped" style="color:#000000">
                                 @foreach ($pelanggans->fotos as $pelanggan)
                                         <div class="col">
@@ -165,90 +135,7 @@
                                               <input type="text" class="fc1 input-sm" value="Telkom University" disabled=""></td>
                                           </tr>
                                       </div>
-                                      <!-- kolom 1 -->
-                                      {{-- <div class="kolom 1">
-                                          <tr>
-                                          <th style="color:red;" width="1%" nowrap="">REVISI ODP </th>
-                                          <th width="1%" nowrap="">:</th>
-                                          </tr>
-  
-                                          <tr>
-                                          
-                                        <form action="{{route('petugas.update', $pelanggans->id)}}" method="post" enctype="multipart/form-data">
-                                            @csrf      
-                                            @foreach ($pelanggans->fotos as $index => $foto)
-                                            @method('PUT') 
-                                                @if ($foto->status === 'NOK')
-                                                <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap=""> @if (isset($odpDescriptions[$foto->odp]))
-                                                    {{ $odpDescriptions[$foto->odp] }}
-                                                @else
-                                                    Kode ODP: {{ $foto->odp }}
-                                                @endif</td>
-                                                <td style="vertical-align: middle !important;">:</td>                    
-                                                <td style="vertical-align: middle !important;">  
-                                                  <div class="form-floating d-flex">
-                                                      <textarea class="form-control" name="catatan_{{ $foto->id }}" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                                                      <label for="floatingTextarea">Catatan</label>
-                                                      <!-- Button trigger modal -->
-                                                      <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal1">
-                                                          <i class="fa fa-plus-circle"></i>
-                                                      </button> 
-                                                      <!-- Modal -->
-                                                      <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                      <div class="modal-dialog">
-                                                                      <div class="modal-content">
-                                                                          <div class="modal-header">
-                                                                              <h5 class="modal-title" id="exampleModalLabel">UPLOAD</h5>
-                                                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                          </div>
-                                                                          <div class="modal-body">
-                                                                              <div class="row">
-                                                                                  <div class="col-md-12">
-                                                                                      <form action="">
-                                                                                          <div class="form-group">
-                                                                                              <label for="" class="col-md-2 control-label">Berkas</label>
-                                                                                              <div class="col-md-10 ms-3">
-                                                                                                  <input type="file" name="file_{{ $foto->id }}" accept="image/*"area-required="true">
-                                                                                                  <p class="help-block">
-                                                                                                      <em>
-                                                                                                          File extension jpg. jpeg or png
-                                                                                                      </em>
-                                                                                                  </p>
-                                                                                                  <hr class="inner">
-                                                                                                  <div class="form-group d-flex justify-content-lg-center">
-                                                                                                      <button class="btn btn-primary" type="submit">
-                                                                                                          <i class="fa fa-check-circle"></i>
-                                                                                                          Submit
-                                                                                                      </button>
-                                                                                                  </div>
-                                                                                              </div>
-                                                                                          </div>
-                                                                                      </form>
-                                                                                  </div>
-                                                                              </div>
-                                                                          
-                                                                          </div>
-                                                                          <div class="modal-footer">
-                                                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                          </div>
-                                                                      </div>
-                                                                      </div>
-                                                      </div>
-                                                  </div>       
-                                                @endif
-                                                
-                                            @endforeach           
-                                               
-                                        </form>                                     
-                                   
-                                          </td>                                  
-                                          </tr>
-  
-                                          
-                                        
-                                        </td>
-                                    
-                                    </div> --}}
+                      
                                     <div class="kolom 1">
                                         <table class="table table-bordered">
                                             <tr>

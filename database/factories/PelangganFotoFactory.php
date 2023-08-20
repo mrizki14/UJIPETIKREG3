@@ -32,7 +32,7 @@ class PelangganFotoFactory extends Factory
           }
 
         return [
-            'pelanggans_id' => 6, // Assuming Pelanggan IDs range from 1 to 100
+            'pelanggans_id' => 41, // Assuming Pelanggan IDs range from 1 to 100
             'odp' => $odp,
             'file' => fake()->word . '.png',
             'catatan' => fake()->sentence,

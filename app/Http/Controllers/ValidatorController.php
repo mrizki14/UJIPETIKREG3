@@ -50,11 +50,11 @@ class ValidatorController extends Controller
             "TSM" => 'TASIKMALAYA'
         ];
 
-            // $cekBukti = PelangganFoto::where('pelanggans_id', $id)->count();
+            $cekBukti = PelangganFoto::where('pelanggans_id', $id)->count();
 
-            // if ($cekBukti < 28) {
-            //     return redirect()->route('validator.index')->with('errors', 'Bukti kurang cukup petugas harus mengisi semua intruksi.');
-            // }
+            if ($cekBukti < 28) {
+                return redirect()->route('validator.index')->with('errors', 'Bukti kurang cukup petugas harus mengisi semua intruksi.');
+            }
             $pelanggansFoto = PelangganFoto::with('pelanggan')
             ->where('pelanggans_id', $id)
             ->orderBy('file','asc')
@@ -73,21 +73,6 @@ class ValidatorController extends Controller
                 }
             }
 
-            // foreach ($pelanggansFoto as $foto) {
-            //     $foto->time_diff = Carbon::parse($foto->created_at)->diffForHumans();
-            // }
-            
-            // $revisiData = [];
-            // foreach ($pelanggansFoto as $pelanggan) {
-            //     foreach ($pelanggan as $foto) {
-            //         $selisihWaktu = Carbon::parse($foto->created_at)->diffForHumans();
-                    
-            //         $revisiData[] = [
-            //             'selisih_waktu' => $selisihWaktu,
-            //             'catatan' => $foto->input_catatan,
-            //         ];
-            //     }
-            // }
             return view('validator-detail', compact('pelanggansFoto','areas','revisiData'));
     }
 

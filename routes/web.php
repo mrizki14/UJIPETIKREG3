@@ -20,9 +20,12 @@ use App\Models\Role;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+//DASHBOARD
 Route::get('/', [DashboardController::class,'index'])->middleware('auth');
+Route::get('/export', [DashboardController::class,'export'])->name('export.excel')->middleware('auth');
 
+
+//LOGIN
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
@@ -37,7 +40,7 @@ Route::get('/pelanggan', [PelangganController::class,'index'])->middleware('auth
 Route::post('/pelanggan', [PelangganController::class,'store'])->name('pelanggan.store')->middleware('auth');
 
 //PETUGAS
-Route::get('/petugas', [PetugasController::class,'index'])->middleware('auth');
+Route::get('/petugas', [PetugasController::class,'index'])->middleware('auth')->name('petugas.index');
 Route::get('/petugas/add/{id}', [PetugasController::class,'petugasDetail'])->name('petugas.detail')->middleware('auth');
 Route::post('/petugas/{id}', [PetugasController::class,'store'])->name('petugas.store')->middleware('auth');
 Route::get('/petugas/revisi/{id}', [PetugasController::class,'revisiBukti'])->name('petugas.revisi')->middleware('auth');

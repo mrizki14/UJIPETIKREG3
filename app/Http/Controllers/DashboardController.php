@@ -7,11 +7,17 @@ use Carbon\Carbon;
 use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use App\Models\PelangganFoto;
+use Illuminate\Support\Collection;
+use App\Exports\UjiPetikReg3Export;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
-    public function index() {
-        $areas = [
+    protected $areas;
+
+    public function __construct()
+    {
+        $this->areas = [
             "BDG" => 'BANDUNG',
             "BGB" => 'BANDUNG BARAT',
             "CRB" => 'CIREBON',
@@ -19,6 +25,9 @@ class DashboardController extends Controller
             "SKB" => 'SUKABUMI',
             "TSM" => 'TASIKMALAYA'
         ];
+    }
+
+    public function index(Request $request) {
 
         $months = [
             1 => 'Januari',
@@ -35,92 +44,48 @@ class DashboardController extends Controller
             12 => 'Desember'
         ];
         $years = [
-            2015 => 2015,
-            2016 => 2016,
-            2017 => 2017,
-            2018 => 2018,
-            2019 => 2019,
-            2020 => 2020,
-            2021 => 2021,
             2022 => 2022,
             2023 => 2023,
             2024 => 2024,
             2025 => 2025,
         ];
-        
-        // $currentTime = now(); 
-        // $fifeteenMinutesAgo = now()->subMinutes(15);
 
-        // $today = Carbon::now()->isoFormat('D MMMM Y');
-        // new Carbon();
-        // $timestemp = "2023-01-01 01:02:03";
-        // $year = Carbon::createFromFormat('Y-m-d H:i:s', $timestemp)->year;
-        // if (isset($_GET['month'])) {
-        //     $month = $_GET['month'];
-        //     $pelanggans = Pelanggan::whereMonth('created_at', $month)
-        //         ->get();
-        // }
+        $currentDate = Carbon::now();
 
-        // if (isset($_GET['year'])) {
-        //     $year = $_GET['year']; // The year you want to filter by
-        //     $pelanggans = Pelanggan::whereYear('created_at', $year)->get();
-        // }
 
-        // if (isset($_GET['month']) && isset($_GET['year'])) {
-        //     $month = $_GET['month'];
-        //     $year = $_GET['year']; // The year you want to filter by
-        //     $pelanggans = Pelanggan::whereMonth('created_at', $month)
-        //         ->whereYear('created_at', $year)
-        //         ->get();
-        // }
-        // if (!isset($_GET['month']) && !isset($_GET['year'])) {
-        //     $pelanggans = Pelanggan::
-        //         whereDate('created_at', $currentTime->toDateString())
-        //         ->whereTime('created_at', '>=', $fifeteenMinutesAgo->toTimeString())
-        //         ->get();
-        // }
-
-        // $areaStatusCounts = PelangganFoto::select('pelanggans.area', 'pelanggan_fotos.status', DB::raw('COUNT(*) as count'))
-        // ->join('pelanggans', 'pelanggan_fotos.pelanggans_id', '=', 'pelanggans.id')
-        // ->whereIn('pelanggan_fotos.status', ['OK', 'NOK'])
-        // ->groupBy('pelanggans.area', 'pelanggan_fotos.status')
-        // ->get();
-
-        // $month = Carbon::now()->month; // Ganti dengan bulan yang ingin Anda hitung
-        // $year = Carbon::now()->year;   // Ganti dengan tahun yang ingin Anda hitung
-
-        // $pelanggans = Pelanggan::whereMonth('created_at', $month)
-        // ->whereYear('created_at', $year)
-        // ->get();
-
-        // $statusCounts = PelangganFoto::with('pelanggan')
-        // ->select('pelanggans_id', 'status')
-        // ->selectRaw('COUNT(*) as count')
-        // ->groupBy('pelanggans_id', 'status')
-        // ->get()
-        // ->groupBy('pelanggan.area', 'status')
-        // ->map(function ($group) {
-        //     return $group->sum('count');
-        // });
-        
-        // $statusTarget = [];
-        // foreach ($areas as $areaKey => $areaName) {
-        //     $statusTarget[$areaKey] = $statusCounts[$areaKey]['jumlah'] ?? 0;
-        // }
+        // Dapatkan bulan dan tahun dari tanggal sekarang
+        $currentMonth = $currentDate->month;
+        $currentYear = $currentDate->year;
+        $month = $request->input('month', $currentMonth);
+        $year = $request->input('year', $currentYear);
+    
+        // Lakukan query Eloquent sesuai dengan filter bulan dan tahun yang diterima
         $results = Pelanggan::select('area')
+        ->whereYear('pelanggans.created_at', $year) // Tentukan tabel 'created_at' secara eksplisit
+        ->whereMonth('pelanggans.created_at', $month) // Tentukan tabel 'created_at' secara eksplisit
         ->selectRaw('COUNT(DISTINCT pelanggans.id) AS total_pelanggan')
         ->selectRaw('SUM(CASE WHEN pelanggan_fotos.status = "ok" THEN 1 ELSE 0 END) AS total_ok')
         ->selectRaw('SUM(CASE WHEN pelanggan_fotos.status = "nok" THEN 1 ELSE 0 END) AS total_nok')
         ->leftJoin('pelanggan_fotos', 'pelanggans.id', '=', 'pelanggan_fotos.pelanggans_id')
-        ->whereIn('area', array_keys($areas))
+        ->whereIn('area', array_keys($this->areas))
         ->groupBy('area')
         ->get();
 
-   
+        if ($results->isEmpty()) {
+            return view('dashboard', [
+                'months' => $months,
+                'years' => $years,
+                'areas' => $this->areas,
+                'month' => $month,
+                'year' => $year,
+                'finalResults' => null // Tidak ada data untuk ditampilkan
+            ]);
+        }
+           
         $finalResults = [];
         foreach ($results as $result) {
             $areaCode = $result->area;
-            $areaName = $areas[$areaCode];
+            $areaName = $this->areas[$areaCode];
             $ok = $result->total_ok;
             $nok = $result->total_nok;
             $target = 75;
@@ -139,20 +104,22 @@ class DashboardController extends Controller
             ];
         }
 
-
-      
         return view('dashboard', [
-            // 'areas' => $areas,
-            // 'pelanggans' => $pelanggans,
-            // 'today' => $today,
-            // 'year' => $year,
-            // 'months' => $months,
-            // 'years' => $years,
-            // 'statusCounts' => $statusCounts,
-            // 'statusTarget' => $statusTarget,
-            // 'areaStatusCounts' => $areaStatusCounts
+            'months' => $months,
+            'years' => $years,
+            'areas' => $this->areas, 
+            'month' => $month,
+            'year' => $year,
             'finalResults' => $finalResults
         ]);
+        
+    }
 
+    public function export(Request $request) {
+
+        $month = $request->input('month');
+        $year = $request->input('year');
+
+        return Excel::download(new UjiPetikReg3Export($month, $year, $this->areas), 'uji_petik_reg_3'.Carbon::now()->format('m').'.xlsx');
     }
 }

@@ -17,7 +17,7 @@ class Pelanggan extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-
+    
     protected static function boot() {
         parent::boot();
         self::creating(function($model) {
@@ -39,4 +39,6 @@ class Pelanggan extends Model
     {
         return $this->hasMany(PelangganFoto::class, 'pelanggans_id', 'id');
     }
+
+    
 }
