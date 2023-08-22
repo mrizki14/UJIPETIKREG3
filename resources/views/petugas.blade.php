@@ -85,7 +85,7 @@
                                                                <td>LOC_ID</td> 
                                                                <td>##</td>
                                                                <td>STATUS</td>
-                                                               <td>action</td>
+                                                               <td>Action</td>
                                                             </tr>
                                                         </thead>
                         
@@ -137,7 +137,7 @@
                                                                <td>LOC_ID</td> 
                                                                <td>##</td> 
                                                                <td>STATUS</td> 
-                                                               <td>action</td>
+                                                               <td>Action</td>
                                                             </tr>
                                                         </thead>
                         
@@ -168,16 +168,21 @@
                                                                         </button></td>
                                                                         @foreach ($pelanggan->fotos as $foto)
                                                                             @if ($foto->status === 'NOK')
-                                                                                <td>{{ $foto->status }}</td>
-                                                                                @endif
-                                                                                @break
-                                                                                @endforeach
+                                                                                <td>NOK</td>
+                                                                            @else 
+                                                                            <td>---</td>
+                                                                            @endif
+                                                                            @break
+                                                                        @endforeach
+                                                                        @if (session('bukti_direvisi_' . $pelanggan->id))
+                                                                        <td>Revisi sudah dikirim</td>
+                                                                        @else
                                                                         <td>
-                                                                            <a href="{{ route('petugas.revisi', ['id'=>$pelanggan->id]) }}">Edit Bukti</a>
+                                                                            <a href="{{ route('petugas.revisi', ['id'=>$pelanggan->id]) }}">Cek Revisi</a>
                                                                         </td>
-                                                                        
+                                                                        @endif
                                                                     </tr>
-                                                             @endforeach
+                                                            @endforeach
                                                                     
                                                         </tbody>
                                                     </table>

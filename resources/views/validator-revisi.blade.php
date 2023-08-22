@@ -105,6 +105,7 @@
                                             </th>
                                             <td colspan="2"> ODP-BDG-BJS/123 </td>
                                             </tr>
+                                            @break
                                             @endforeach
                                           </tbody>
                                         </table>
@@ -125,10 +126,7 @@
                                         @break
                                         @endforeach
                                     <h6>Wajib di ceklist isi semua !</h6>
-                                    @foreach ($pelanggans as $index => $foto)
-                                    <form action="{{route('validator.revisi.update', $foto->id) }}" method="post">
-                                      @csrf
-                                      @method('PATCH')
+                              
                                       <table class="table table-condensed table-striped" style="color:#000000">
                                         
                                         <tbody>
@@ -139,6 +137,10 @@
                                               <th style="color:red;" width="1%" nowrap="">CHEKLIST ODP </th>
                                               <th width="1%" nowrap="">:</th>
                                             </tr>
+                                            @foreach ($pelanggans as $index => $foto)
+                                            <form action="{{route('validator.revisi.update', $foto->id) }}" method="post">
+                                              @csrf
+                                              @method('PATCH')
                                             <tr>
                                               <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">{{ $odpDescriptions[$foto->odp] }}</td>
                                               <td style="vertical-align: middle !important;" width="1%">:</td>

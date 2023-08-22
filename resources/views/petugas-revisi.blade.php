@@ -118,13 +118,13 @@
         
                                 <table class="table table-condensed table-striped" style="color:#000000">
                                 @foreach ($pelanggans->fotos as $pelanggan)
-                                        <div class="col">
-                                            <div class="alert alert-danger">
-                                                <strong class="">Catatan validator: {{ $pelanggan->catatan_keseluruhan }}</strong>
-                                                <p>{{ $pelanggan->time_diff }}</p>
-                                            </div>
-                                        </div>        
-                                        @break
+                                <div class="col">
+                                    <div class="alert alert-danger">
+                                        <strong class="">Catatan validator: {{ $pelanggan->catatan_keseluruhan }}</strong>
+                                        <p>{{ $pelanggan->time_diff }}</p>
+                                    </div>
+                                </div>        
+                                @break
                                 @endforeach
                                   <tbody>
                                       <div class="validator">
@@ -149,9 +149,11 @@
                                                             @csrf      
                                                             @method('PUT') 
                                                             @if ($foto->status === 'NOK')
-                                                                <div class="form-group row">
-                                                                    <label class="col-md-3 col-form-label">{{ isset($odpDescriptions[$foto->odp]) ? $odpDescriptions[$foto->odp] : 'Kode ODP: ' . $foto->odp }}</label>
-                                                                    <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <div class="col-md-3">
+                                                                        <p class="col-form-label">{{ isset($odpDescriptions[$foto->odp]) ? $odpDescriptions[$foto->odp] : 'Kode ODP: ' . $foto->odp }}</p>
+                                                                    </div>
+                                                                    <div class="col-md-6 ms-5">
                                                                         <div class="input-group">
                                                                             <textarea class="form-control" name="catatan_{{ $foto->id }}" placeholder="Leave a comment here" id="floatingTextarea" required></textarea>
                                                                             <div class="input-group-append">

@@ -13,6 +13,11 @@
     <link rel="stylesheet" href="{{asset('assets/css/sass.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <style>
+        .hidden-form {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     @include('templates.nav')
@@ -153,166 +158,124 @@
                                           <th width="1%" nowrap="">:</th>
                                           </tr>
   
-                                          <tr>
-                                       
-                                        {{-- <div id="flash-messages">
-                                            @foreach ($flashMessages as $odp => $message)
-                                                <div class="alert alert-success" data-odp="{{ $odp }}">
-                                                    {{ $message }}
-                                                </div>
-                                            @endforeach
-                                        </div>   --}}
-                                        {{-- @if(session()->has('form_message_' . $odp))
-                                        <div class="alert alert-success">
-                                            {{ session('form_message_' . $odp) }}
-                                        </div>
-                                        @endif --}}
-                                        {{-- @foreach ($areas as $odp => $area)
-                                        @if(session()->has('form_message_' . $odp))
-                                            <div class="alert alert-success" data-odp="{{ $odp }}">
-                                                {{ session('form_message_' . $odp) }}
-                                            </div>
-                                        @endif
-                                        @endforeach --}}
-                                    
-                                        <form action="{{route('petugas.store', $pelanggans->id)}}" method="post" enctype="multipart/form-data" class="odp-form">
-                                            @csrf         
-                                             
-                                          <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">1. Konektor dan Adapter tipe SC-UPC</td>
-                                          <td style="vertical-align: middle !important;">:</td>                    
-                                          <td style="vertical-align: middle !important;">  
-                                            <div class="form-floating d-flex">
-                                            
-                                              
-                                                <input type="hidden" name="odp" value="odp_1" data-odp="odp_1">
-                                                <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                                                <label for="floatingTextarea">Catatan</label>
-                                                <!-- Button trigger modal -->
-                                                <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal1">
-                                                    <i class="fa fa-plus-circle"></i>
-                                                </button> 
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="exampleModalLabel">UPLOAD</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <form action="">
-                                                                                    <div class="form-group">
-                                                                                    <input type="hidden" name="pelanggans_id" value="1">
-                                                                                        <label for="" class="col-md-2 control-label">Berkas</label>
-                                                                                        <div class="col-md-10 ms-3">
-                                                                                        <input type="hidden" name="odp_id">
-                                                                                            <input type="file" name="file" area-required="true">
-                                                                                            <p class="help-block">
-                                                                                                <em>
-                                                                                                    File extension jpg. jpeg or png
-                                                                                                </em>
-                                                                                            </p>
-                                                                                            <hr class="inner">
-                                                                                            <div class="form-group d-flex justify-content-lg-center">
-                                                                                                <button class="btn btn-primary" type="submit">
-                                                                                                    <i class="fa fa-check-circle"></i>
-                                                                                                    Submit
-                                                                                                </button>
+                                        <tr>
+                                            <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">1. Konektor dan Adapter tipe SC-UPC</td>
+                                            <td style="vertical-align: middle !important;">:</td>                    
+                                            <td style="vertical-align: middle !important;">  
+                                                <form action="{{route('petugas.store', $pelanggans->id)}}" method="post" enctype="multipart/form-data" >
+                                                    @csrf         
+                                                    <div class="form-floating d-flex">
+                                                        <input type="hidden" name="odp" value="odp_1">
+                                                        <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                                                        <label for="floatingTextarea">Catatan</label>
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                                                            <i class="fa fa-plus-circle"></i>
+                                                        </button> 
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title" id="exampleModalLabel">UPLOAD</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                            <div class="form-group">
+                                                                                                <label for="" class="col-md-2 control-label">Berkas</label>
+                                                                                                <div class="col-md-10 ms-3">
+                                                                                                <input type="hidden" name="odp_id">
+                                                                                                    <input type="file" name="file" area-required="true">
+                                                                                                    <p class="help-block">
+                                                                                                        <em>
+                                                                                                            File extension jpg. jpeg or png
+                                                                                                        </em>
+                                                                                                    </p>
+                                                                                                    <hr class="inner">
+                                                                                                    <div class="form-group d-flex justify-content-lg-center">
+                                                                                                        <button class="btn btn-primary" type="submit">
+                                                                                                            <i class="fa fa-check-circle"></i>
+                                                                                                            Submit
+                                                                                                        </button>
+                                                                                                    </div>
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
                                                                                     </div>
-                                                                                </form>
+                                                                                </div>
+                                                                            
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                                             </div>
                                                                         </div>
-                                                                    
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                    </div>
-                                                                </div>
-                                                                </div>
-                                                        
-                                               
-                                                </div>
-                                             
-                                            </div>        
-                                        </td>                                  
-                                        </form>   
-
-                                        {{-- @php
-                                        $odp = 'odp_1'; // Ganti dengan nilai odp yang sesuai
-                                        $formMessageKey = 'form_message_' . $odp;
-
-                                        if (session()->has($formMessageKey)) {
-                                            session()->push('flashMessages', [$odp => session($formMessageKey)]);
-                                            session()->forget($formMessageKey); // Hapus pesan flash dari session setelah digunakan
-                                        }
-                                        @endphp --}}
-                                                                  
-                                      
-                                          </tr>
+                                                                        </div>
+                                                                
+                                                    
+                                                        </div>
+                                                    
+                                                    </div>        
+                                                </form>   
+                                            </td>                                               
+                                        </tr>
   
                                           <tr>
-                                          <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">2. Instalasi kabel, pastikan rapi (tidak ada bending)</td>
-                                          <td style="vertical-align: middle !important;" width="1%">:</td>                    
-                                          </td>
-                                          <td style="vertical-align: middle !important;">      
-                                            <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
-                                                @csrf            
-                                              <div class="form-floating d-flex">
-                                                <input type="hidden" name="odp" value="odp_2">
-                                                <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                                                <label for="floatingTextarea">Catatan</label>
-                                                <!-- Button trigger modal -->
-                                                <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                                                    <i class="fa fa-plus-circle"></i>
-                                                </button> 
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="exampleModalLabel">UPLOAD</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                              
-                                                                                    <div class="form-group">
-                                                                                      <input type="hidden" name="pelanggans_id" value="2">
-                                                                                        <label for="" class="col-md-2 control-label">Berkas</label>
-                                                                                        <div class="col-md-10 ms-3">
-                                                                                            <input type="file" name="file" area-required="true">
-                                                                                            <p class="help-block">
-                                                                                                <em>
-                                                                                                    File extension jpg. jpeg or png
-                                                                                               </em>
-                                                                                            </p>
-                                                                                            <hr class="inner">
-                                                                                            <div class="form-group d-flex justify-content-lg-center">
-                                                                                                <button class="btn btn-primary" type="submit">
-                                                                                                    <i class="fa fa-check-circle"></i>
-                                                                                                    Submit
-                                                                                                </button>
+                                            <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">2. Instalasi kabel, pastikan rapi (tidak ada bending)</td>
+                                            <td style="vertical-align: middle !important;" width="1%">:</td>                    
+                                            <td style="vertical-align: middle !important;">      
+                                                <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data" onsubmit="return submitForm(this);">
+                                                    @csrf            
+                                                <div class="form-floating d-flex">
+                                                    <input type="hidden" name="odp" value="odp_2">
+                                                    <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                                                    <label for="floatingTextarea">Catatan</label>
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                                                        <i class="fa fa-plus-circle"></i>
+                                                    </button> 
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">UPLOAD</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                        <div class="form-group">
+                                                                                            <label for="" class="col-md-2 control-label">Berkas</label>
+                                                                                            <div class="col-md-10 ms-3">
+                                                                                                <input type="file" name="file" area-required="true">
+                                                                                                <p class="help-block">
+                                                                                                    <em>
+                                                                                                        File extension jpg. jpeg or png
+                                                                                                </em>
+                                                                                                </p>
+                                                                                                <hr class="inner">
+                                                                                                <div class="form-group d-flex justify-content-lg-center">
+                                                                                                    <button class="btn btn-primary" type="submit">
+                                                                                                        <i class="fa fa-check-circle"></i>
+                                                                                                        Submit
+                                                                                                    </button>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                              
+                                                                                
+                                                                                </div>
                                                                             </div>
                                                                         </div>
+                                                                        <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                                     </div>
-                                                                </div>
-                                                                </div>
+                                                    </div>
                                                 </div>
-                                              </div>
-                                            </form>
-                                          </td>
+                                                </form>
+                                            </td>
                                           </tr>
   
                                           <tr>
@@ -321,7 +284,7 @@
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
                                               <td style="vertical-align: middle !important;
                                               ">       
-                                                <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
+                                                <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data" onsubmit="return submitForm(this);">
                                                     @csrf                 
                                                   <div class="form-floating d-flex">
                                                     <input type="hidden" name="odp" value="odp_3">
@@ -379,7 +342,7 @@
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
                                               <td style="vertical-align: middle !important;
                                               ">                       
-                                                <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
+                                                <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data" onsubmit="return submitForm(this);">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
                                                     <input type="hidden" name="odp" value="odp_4">
@@ -400,7 +363,7 @@
                                                                           <div class="modal-body">
                                                                               <div class="row">
                                                                                   <div class="col-md-12">
-                                                                                      <form action="">
+                                                                                      
                                                                                           <div class="form-group">
                                                                                               <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                               <div class="col-md-10 ms-3">
@@ -419,7 +382,7 @@
                                                                                                   </div>
                                                                                               </div>
                                                                                           </div>
-                                                                                      </form>
+                                                                                    
                                                                                   </div>
                                                                               </div>
                                                                           </div>
@@ -460,7 +423,7 @@
                                                                           <div class="modal-body">
                                                                               <div class="row">
                                                                                   <div class="col-md-12">
-                                                                                      <form action="">
+                                                                                
                                                                                           <div class="form-group">
                                                                                               <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                               <div class="col-md-10 ms-3">
@@ -479,7 +442,7 @@
                                                                                                   </div>
                                                                                               </div>
                                                                                           </div>
-                                                                                      </form>
+                                                                                      
                                                                                   </div>
                                                                               </div>
                                                                           </div>
@@ -520,7 +483,7 @@
                                                                           <div class="modal-body">
                                                                               <div class="row">
                                                                                   <div class="col-md-12">
-                                                                                      <form action="">
+                                                                                      
                                                                                           <div class="form-group">
                                                                                               <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                               <div class="col-md-10 ms-3">
@@ -539,7 +502,7 @@
                                                                                                   </div>
                                                                                               </div>
                                                                                           </div>
-                                                                                      </form>
+                                                                                    
                                                                                   </div>
                                                                               </div>
                                                                           </div>
@@ -581,7 +544,7 @@
                                                                           <div class="modal-body">
                                                                               <div class="row">
                                                                                   <div class="col-md-12">
-                                                                                      <form action="">
+                                                                                      
                                                                                           <div class="form-group">
                                                                                               <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                               <div class="col-md-10 ms-3">
@@ -600,7 +563,7 @@
                                                                                                   </div>
                                                                                               </div>
                                                                                           </div>
-                                                                                      </form>
+                                                                                    
                                                                                   </div>
                                                                               </div>
                                                                           </div>
@@ -641,7 +604,7 @@
                                                                           <div class="modal-body">
                                                                               <div class="row">
                                                                                   <div class="col-md-12">
-                                                                                      <form action="">
+                                                                                 
                                                                                           <div class="form-group">
                                                                                               <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                               <div class="col-md-10 ms-3">
@@ -660,7 +623,7 @@
                                                                                                   </div>
                                                                                               </div>
                                                                                           </div>
-                                                                                      </form>
+                                                                                  
                                                                                   </div>
                                                                               </div>
                                                                           </div>
@@ -700,7 +663,7 @@
                                                                           <div class="modal-body">
                                                                               <div class="row">
                                                                                   <div class="col-md-12">
-                                                                                      <form action="">
+                                                                                      
                                                                                           <div class="form-group">
                                                                                               <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                               <div class="col-md-10 ms-3">
@@ -719,7 +682,7 @@
                                                                                                   </div>
                                                                                               </div>
                                                                                           </div>
-                                                                                      </form>
+                                                                                  
                                                                                   </div>
                                                                               </div>
                                                                           </div>
@@ -760,7 +723,7 @@
                                                                           <div class="modal-body">
                                                                               <div class="row">
                                                                                   <div class="col-md-12">
-                                                                                      <form action="">
+                                                                                      
                                                                                           <div class="form-group">
                                                                                               <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                               <div class="col-md-10 ms-3">
@@ -820,7 +783,7 @@
                                                                           <div class="modal-body">
                                                                               <div class="row">
                                                                                   <div class="col-md-12">
-                                                                                      <form action="">
+                                                                                      
                                                                                           <div class="form-group">
                                                                                               <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                               <div class="col-md-10 ms-3">
@@ -880,7 +843,7 @@
                                                                           <div class="modal-body">
                                                                               <div class="row">
                                                                                   <div class="col-md-12">
-                                                                                      <form action="">
+                                                                                      
                                                                                           <div class="form-group">
                                                                                               <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                               <div class="col-md-10 ms-3">
@@ -940,7 +903,7 @@
                                                                           <div class="modal-body">
                                                                               <div class="row">
                                                                                   <div class="col-md-12">
-                                                                                      <form action="">
+                                                                                      
                                                                                           <div class="form-group">
                                                                                               <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                               <div class="col-md-10 ms-3">
@@ -1010,7 +973,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1073,7 +1036,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1134,7 +1097,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1195,7 +1158,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1235,11 +1198,12 @@
                                         <td style="vertical-align: middle !important;" width="1%" nowrap="">:
                                         </td>
                                         <td style="vertical-align: middle !important;">    
-                                            <input type="hidden" name="odp" value="odp_
-                                            18">                   
+                                                    
                                             <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                 @csrf 
                                           <div class="form-floating d-flex">
+                                            <input type="hidden" name="odp" value="odp_
+                                            18">          
                                               <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
@@ -1257,7 +1221,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1318,7 +1282,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1379,7 +1343,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1441,7 +1405,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1572,7 +1536,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1634,7 +1598,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1696,7 +1660,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1758,7 +1722,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1819,7 +1783,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1881,7 +1845,7 @@
                                                                   <div class="modal-body">
                                                                       <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <form action="">
+                                                                              
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
@@ -1943,22 +1907,30 @@
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
     <script src="{{asset('assets/js/script.js')}}"></script>
     <script src="https://kit.fontawesome.com/e360b5871d.js" crossorigin="anonymous"></script>
+
     {{-- <script>
-        $(document).ready(function () {
-            // Menampilkan pesan flash saat halaman dimuat
-            showFlashMessages();
+        // Objek untuk melacak status pengiriman form berdasarkan odp
+        var formStatus = {};
     
-            // Fungsi untuk menampilkan pesan flash berdasarkan ODP
-            function showFlashMessages() {
-                var flashMessages = document.querySelectorAll('.alert[data-odp]');
-                flashMessages.forEach(function (flashMessage) {
-                    var odp = flashMessage.getAttribute('data-odp');
-                    var message = flashMessage.textContent;
-                    alert(odp + ': ' + message);
-                });
+        // Fungsi untuk mengirim form
+        function submitForm(form) {
+            var odp = form.querySelector('input[name="odp"]').value;
+    
+            if (formStatus[odp]) {
+                alert('Form dengan ODP ' + odp + ' sudah dikirimkan.');
+                return false; // Mencegah pengiriman ulang
             }
-        });
+    
+            // Tandai form sebagai sudah dikirimkan
+            formStatus[odp] = true;
+    
+            // Lanjutkan pengiriman form (anda bisa menambahkan kode AJAX di sini jika perlu)
+    
+            return true;
+        }
     </script> --}}
+    
+    
     
 
 </body>

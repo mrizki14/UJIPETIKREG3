@@ -104,6 +104,14 @@ class PetugasController extends Controller
         $file = $request->file('file');
         $input = $request->input('pelanggans_id');
         $odp = $request->input('odp');
+        $existingData = PelangganFoto::where('pelanggans_id', $pelanggans_id)
+        ->where('odp', $odp)
+        ->exists();
+
+        if ($existingData) {
+            return redirect()->back()->with('error', 'Form dengan ' . $odp . ' sudah dikirimkan.');
+        }
+
         $file_name = time() . '_' . $file->getClientOriginalName();
         $foto = new PelangganFoto([
             'file' => $file_name,
@@ -236,6 +244,11 @@ class PetugasController extends Controller
                 $validator = User::where('role_id', 2)->get();
                 Notification::send($validator, new ValidatorRevisiNotification($pelanggan));
             }
+
+            session()->put('bukti_direvisi_' . $id, true);
+
+            // UNTUK VALIDATOR
+            session()->put('revisi_selesai_' . $id, true);
         }
    
     }

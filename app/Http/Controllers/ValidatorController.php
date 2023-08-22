@@ -22,14 +22,44 @@ class ValidatorController extends Controller
             "SKB" => 'SUKABUMI',
             "TSM" => 'TASIKMALAYA'
         ];
-
-        $pelangganFoto = Pelanggan::has('fotos')
+        
+        $pelangganFoto = Pelanggan::has('fotos','>=', 28)
         ->with(['fotos' => function ($query) {
             $query->select('pelanggans_id', 'file', 'catatan');
         }])
         ->get();
+        
+        // $pelangganFoto = Pelanggan::has('fotos')
+        // ->with(['fotos' => function ($query) {
+        //     $query->select('pelanggans_id', 'file', 'catatan');
+        // }])
+        // ->get();
+
+        // $hasilRevisi = Pelanggan::join('pelanggan_fotos', 'pelanggans.id', '=', 'pelanggan_fotos.pelanggans_id')
+        // ->where('pelanggan_fotos.status', 'NOK')
+        // ->select('pelanggans.*')
+        // ->with('fotos')
+        // ->take(1)
+        // ->get();
+        $hasilRevisi = Pelanggan::whereHas('fotos', function ($query) {
+            $query->where('status', 'NOK');
+        })->with(['fotos' => function ($query) {
+            $query->select('id', 'pelanggans_id', 'status');
+        }])->get();
+
+        $revisiData = [];
+        foreach ($hasilRevisi as $pelanggan) {
+            foreach ($pelanggan->fotos as $foto) {
+                $revisiData[] = [
+                    'selisih_waktu' => Carbon::parse($foto->updated_at)->diffForHumans(),
+                    'catatan_keseluruhan' => $foto->catatan_keseluruhan,
+                ];
+            }
+        }
+
+      
      
-        return view('validator', compact('pelangganFoto', 'areas'));
+        return view('validator', compact('pelangganFoto', 'areas','hasilRevisi'));
     }
 
     public function validatorDetail(Request $request,$id) {
@@ -50,11 +80,11 @@ class ValidatorController extends Controller
             "TSM" => 'TASIKMALAYA'
         ];
 
-            $cekBukti = PelangganFoto::where('pelanggans_id', $id)->count();
+            // $cekBukti = PelangganFoto::where('pelanggans_id', $id)->count();
 
-            if ($cekBukti < 28) {
-                return redirect()->route('validator.index')->with('errors', 'Bukti kurang cukup petugas harus mengisi semua intruksi.');
-            }
+            // if ($cekBukti < 28) {
+            //     return redirect()->route('validator.index')->with('errors', 'Bukti kurang cukup petugas harus mengisi semua intruksi.');
+            // }
             $pelanggansFoto = PelangganFoto::with('pelanggan')
             ->where('pelanggans_id', $id)
             ->orderBy('file','asc')
@@ -86,7 +116,7 @@ class ValidatorController extends Controller
 
          $statusValues = $request->input('status');
          $catatanKeseluruhan = $request->input('catatan_keseluruhan');
-    
+         $alreadyNotified = false;
         foreach ($statusValues as $pelangganId => $statusArray) {
             foreach ($statusArray as $odp => $status) {
                 $foto = PelangganFoto::where('pelanggans_id', $pelangganId)
@@ -97,15 +127,27 @@ class ValidatorController extends Controller
                     $foto->catatan_keseluruhan = $catatanKeseluruhan; 
                     $foto->save();
 
-                    if ($status === 'NOK') {
+                    
+
+                    if ($status === 'NOK' && !$alreadyNotified) {
                         $pelanggan = Pelanggan::findOrFail($pelangganId);
                         $validator = User::where('role_id', 3)->get();
-                        Notification::send($validator, new PelangganRevisiNotification($pelanggan));
+                        
+                        // Kirim notifikasi hanya jika ada validator yang tersedia
+                        if ($validator->isNotEmpty()) {
+                            Notification::send($validator, new PelangganRevisiNotification($pelanggan));
+                            $alreadyNotified = true; // Setel flag menjadi true setelah notifikasi dikirim
+                        }
+
+                        session()->put('bukti_dicek_' . $pelangganId, true);
                     }
+
                 }
             }
         }
+
       
+
         return redirect()->route('validator.index')->with('success', 'Status dan catatan berhasil disimpan.');
     }
     

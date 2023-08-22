@@ -120,6 +120,6 @@ class DashboardController extends Controller
         $month = $request->input('month');
         $year = $request->input('year');
 
-        return Excel::download(new UjiPetikReg3Export($month, $year, $this->areas), 'uji_petik_reg_3'.Carbon::now()->format('m').'.xlsx');
+        return Excel::download(new UjiPetikReg3Export($month, $year, $this->areas), 'uji_petik_reg_3'.'.'.Carbon::now()->format('m-Y').'.xlsx');
     }
 }

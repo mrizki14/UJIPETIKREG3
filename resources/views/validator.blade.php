@@ -90,6 +90,9 @@
                                                                 $no = 1
                                                             @endphp
                                                             @foreach ($pelangganFoto as $pelanggan)
+                                                            {{-- @php
+                                                                $buktiDiCek = session('bukti_dicek_' . $pelanggan->id)
+                                                            @endphp --}}
                                                                 <tr>
                                                                     <td>{{$no++}}</td>
                                                                     <td>
@@ -110,11 +113,15 @@
                                                                         Process
                                                                     </button></td>
                                                                     <td>Open</td>
-                                                                    @if ($pelanggan->status != 'OK')
+                                                                    
                                                                     <td>
-                                                                        <a href="/validator/cek/{{$pelanggan->id}}">Cek Bukti</a>
+                                                                        @if (session('bukti_dicek_' . $pelanggan->id))
+                                                                            Bukti Sudah Dicek
+                                                                        @else
+                                                                            <a class="cek-bukti-link" href="/validator/cek/{{$pelanggan->id}}">Cek Bukti</a>
+                                                                        @endif
                                                                     </td>
-                                                                    @endif
+                                                                  
                                                                 </tr>
                                                             @endforeach
                                                         </tbody>
@@ -131,48 +138,54 @@
                                                                <td>LOC_ID</td> 
                                                                <td>##</td>
                                                                <td>STATUS</td>
-                                                               @foreach ($pelangganFoto as $pelanggan)
-                                                                @if ($pelanggan->status != 'OK' )
-                                                                <td>Action</td>
-                                                                @endif
-                                                                @break
-                                                               @endforeach
-                                                            </tr>
+                                                               <td>Action</td>
+                                                             
                                                         </thead>
                         
                                                         <tbody>
                                                             @php
                                                                 $no = 1
                                                             @endphp
-                                                            @foreach ($pelangganFoto as $pelanggan)
-                                                                <tr>
-                                                                    <td>{{$no++}}</td>
-                                                                    <td>
-                                                                        @foreach ($areas as $key => $item)
-                                                                                {{$pelanggan->area == $key ? $item  : '' }}
-                                                                                @endforeach <br> 
-                                                                    <span class="label">{{$pelanggan->area}}</span>
-                                                                    </td>
-                                                                    <td>SC.{{ $pelanggan->number }}
-                                                                        <small>(/{{ $pelanggan->inet }})</small><br>
-                                                                        <span class="label-sales">NEW SALES</span>
-                                                                        <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
-                                                                    </td>
-                                                                    <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
-                                                                    <td>ODP-{{$pelanggan->area}}/123</td>
-                                                                    <td> <button type="submit">
-                                                                        <i class="uil uil-process"></i>
-                                                                        Process
-                                                                    </button></td>
-                                                                    <td>Open</td>
-                                                                    @if ($pelanggan->status != 'OK')
-                                                                    <td>
-                                                                        <a href="/validator/cek/{{$pelanggan->id}}">Cek Bukti</a>
-                                                                    </td>
+                                                           @foreach ($hasilRevisi as $pelanggan)
+                                                            {{-- @if ($pelanggan->status === 'NOK' ) --}}
+                                                            <tr>
+                                                                <td>{{$no++}}</td>
+                                                                <td>
+                                                                    @foreach ($areas as $key => $item)
+                                                                            {{$pelanggan->area == $key ? $item  : '' }}
+                                                                            @endforeach <br> 
+                                                                <span class="label">{{$pelanggan->area}}</span>
+                                                                </td>
+                                                                <td>SC.{{ $pelanggan->number }}
+                                                                    <small>(/{{ $pelanggan->inet }})</small><br>
+                                                                    <span class="label-sales">NEW SALES</span>
+                                                                    <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
+                                                                </td>
+                                                                <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
+                                                                <td>ODP-{{$pelanggan->area}}/123</td>
+                                                                <td> <button type="submit">
+                                                                    <i class="uil uil-process"></i>
+                                                                    Process
+                                                                </button></td>
+                                                                @foreach ($pelanggan->fotos as $foto)
+                                                                    @if ($foto->status === 'NOK')
+                                                                        <td>NOK</td>
+                                                                    @else 
+                                                                    <td>---</td>
                                                                     @endif
-                                                                </tr>
-                    
-                                                            @endforeach
+                                                                    @break
+                                                                @endforeach
+
+                                                                @if (session('revisi_selesai_' . $pelanggan->id))
+                                                                <td>
+                                                                    <a href="{{ route('validator.revisi', ['id'=>$pelanggan->id]) }}">Cek Revisi</a>
+                                                                </td>
+                                                                @else 
+                                                                <td>---</td>
+                                                                @endif
+                                                            </tr>
+                                                            {{-- @endif --}}
+                                                           @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -192,5 +205,23 @@
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
     <script src="assets/js/script.js"></script>
     <script src="https://kit.fontawesome.com/e360b5871d.js" crossorigin="anonymous"></script>
+    {{-- <script>
+        // Mendapatkan semua elemen dengan class "cek-bukti-link"
+    var links = document.querySelectorAll('.cek-bukti-link');
+
+    links.forEach(function(link) {
+        // Mengecek apakah bukti sudah dicek berdasarkan data-pelanggan-id
+        var pelangganId = link.getAttribute('data-pelanggan-id');
+        var buktiDicek = {{ session('bukti_dicek_' . $pelangganId) || 'false' }};
+
+        // Jika bukti sudah dicek, ubah teks link menjadi "Bukti Sudah Dicek"
+        if (buktiDicek) {
+            link.textContent = 'Bukti Sudah Dicek';
+            link.removeAttribute('href'); // Menghapus atribut href agar tidak lagi menjadi link
+        }
+    });
+
+      </script> --}}
+      
 </body>
 </html>
