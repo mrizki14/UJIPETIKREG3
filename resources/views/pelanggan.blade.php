@@ -53,47 +53,39 @@
                                     </div>
                                 </div>
 
-                                <form action="{{route('pelanggan.store')}}" method="POST">
-                                    @csrf
-                                    <div class="form-group">
+                                    <form action="" method="get">
+                                        <div class="form-group">
                                         <label for="" style="">Periode</label>
                                         <div class="bulan">
-                                            <select class="form-cs" type="text">
-                                          <option value="01">Januari</option>
-                                          <option value="02">Februari</option>
-                                          <option value="03">Maret</option>
-                                          <option value="04">April</option>
-                                          <option value="05">Mei</option>
-                                          <option value="06">Juni</option>
-                                          <option value="07" selected>Juli</option>
-                                          <option value="08">Agustus</option>
-                                          <option value="09">September</option>
-                                          <option value="10">Oktober</option>
-                                          <option value="11">November</option>
-                                          <option value="12">Desember</option>
+                                            <select class="form-cs" name="month">
+                                                @foreach($months as $key => $month)
+                                                <option value="{{ $key }}" {{ $key == $selectedMonth ? 'selected' : '' }}>{{ $month }}</option>
+                                            @endforeach
                                         </select>
                                         </div>
-                      
+                                        
                                         <div class="tahun">
-                                            <select class="form-cs" type="text">
-                                                <option value="01" selected>2023</option>
-                                                <option value="02">2023</option>
-                                                <option value="03">2023</option>
+                                            <select class="form-cs" name="year">
+                                                @foreach($years as $year)
+                                                    <option value="{{ $year }}" {{ $year == $selectedYear ? 'selected' : '' }}>{{ $year }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
-                      
+                                       
                                         <div class="tombol">
                                             <button type="submit" name="filter" class="button">
                                                 <i class="uil uil-setting"></i>
                                                 Filter
                                             </button>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            <i class="uil uil-plus"></i>
-                                            Data Pelanggan
-                                        </button>
-                                      
-                                          <!-- Modal -->
-                                          
+                                        </div>
+                                    </form> 
+                                    
+                                    <!-- Modal -->
+                                    
+                                            <button type="button" class="btn btn-primary btn-sm w-25" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                <i class="uil uil-plus"></i>
+                                                Data Pelanggan
+                                            </button>
                                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -104,7 +96,8 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form>
+                                                        <form action="{{route('pelanggan.store')}}" method="POST">
+                                                            @csrf
                                                             <div class="mb-3">
                                                                 <label for="exampleInputEmail1" class="form-label">AREA</label>
                                                                 <select class="form-select form-select-sm" name="area" id="area_pertama">
@@ -120,41 +113,41 @@
                                                                     <option value="TSM">TASIMALAYA</option> --}}
                                                                 </select>
                                                             </div>
-                                                        <div class="mb-3">
-                                                            <label for="exampleInputEmail1" class="form-label">CODE AREA</label>
-                                                            {{-- <fieldset disabled="disabled"> --}}
-                                                                <select class="form-select form-select-sm" id="area_kedua" disabled>
-                                                                    <option value="">Code Area</option>
-                                                                    {{-- <option value="" selected>BDG</option>
-                                                                    <option value="BDG">BDG</option>                    
-                                                                    <option value="CRB">CRB</option>
-                                                                    <option value="KRW">KRW</option>
-                                                                    <option value="SKB">SKB</option>
-                                                                    <option value="TSM">TSM</option> --}}
-                                                                  </select>
-                                                              {{-- </fieldset> --}}
-                                                          </div>
-                                                          <div class="mb-3">
-                                                              <label for="" class="form-label">Pelanggan</label>
-                                                              <input type="text" name="nama" class="form-control">
-                                                          </div>
-                                                          <div class="mb-3">
-                                                              <label for="exampleInputPassword1" class="form-label">Kontak</label>
-                                                              <input type="number" name="kontak" class="form-control">
+                                                            <div class="mb-3">
+                                                                <label for="exampleInputEmail1" class="form-label">CODE AREA</label>
+                                                                {{-- <fieldset disabled="disabled"> --}}
+                                                                    <select class="form-select form-select-sm" id="area_kedua" disabled>
+                                                                        <option value="">Code Area</option>
+                                                                        {{-- <option value="" selected>BDG</option>
+                                                                        <option value="BDG">BDG</option>                    
+                                                                        <option value="CRB">CRB</option>
+                                                                        <option value="KRW">KRW</option>
+                                                                        <option value="SKB">SKB</option>
+                                                                        <option value="TSM">TSM</option> --}}
+                                                                    </select>
+                                                                {{-- </fieldset> --}}
                                                             </div>
-                                                          <div class="mb-3">
-                                                            <label for="exampleInputPassword1" class="form-label">Location</label>
-                                                            <input type="text" name="location" class="form-control">
-                                                          </div>
-                                                          <div class="mb-3">
-                                                            <label for="exampleInputPassword1" class="form-label">ODP_LOC</label>
-                                                            <input type="text" name="odp_loc" class="form-control">
-                                                          </div>
+                                                            <div class="mb-3">
+                                                                <label for="" class="form-label">Pelanggan</label>
+                                                                <input type="text" name="nama" class="form-control">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="exampleInputPassword1" class="form-label">Kontak</label>
+                                                                <input type="number" name="kontak" class="form-control">
+                                                                </div>
+                                                            <div class="mb-3">
+                                                                <label for="exampleInputPassword1" class="form-label">Location</label>
+                                                                <input type="text" name="location" class="form-control">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="exampleInputPassword1" class="form-label">ODP_LOC</label>
+                                                                <input type="text" name="odp_loc" class="form-control">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                                            </div>
                                                         </form>
-                                                  </div>
-                                                  <div class="modal-footer">
-                                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                  <button type="submit" class="btn btn-primary">Save changes</button>
                                                   </div>
                                               </div>
                                               </div>
@@ -163,7 +156,6 @@
 
                                       </div>
                                     </div>
-                                </form>
                                 <div class="data-table-section table-responsive">
                                     <table id="example" class="table table-striped" style="width:100%">
                                         <thead>

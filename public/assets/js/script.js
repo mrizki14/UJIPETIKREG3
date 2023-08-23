@@ -41,3 +41,25 @@ $("#example").DataTable();
 //       });
 //   });
 // });
+$(document).ready(function () {
+  $('#sendNotificationBtn').click(function () {
+      // Kirim permintaan AJAX untuk mengirim notifikasi ke petugas dengan role_id 2
+      $.ajax({
+          type: 'POST',
+          url: '{{ route("send.notification") }}',
+          data: {
+              _token: '{{ csrf_token() }}',
+          },
+          success: function (response) {
+              if (response.success) {
+                  alert('Notifikasi berhasil dikirim!');
+              } else {
+                  alert('Gagal mengirim notifikasi.');
+              }
+          },
+          error: function () {
+              alert('Terjadi kesalahan saat mengirim notifikasi.');
+          },
+      });
+  });
+});

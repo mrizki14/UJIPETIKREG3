@@ -37,12 +37,13 @@ Route::resource('users', UserController::class)->only(['edit', 'update', 'destro
 
 //PELANGGAN
 Route::get('/pelanggan', [PelangganController::class,'index'])->middleware('auth')->name('pelanggan.index');
+Route::get('/pelanggan/filter', [PelangganController::class,'filter'])->middleware('auth')->name('pelanggan.filter');
 Route::post('/pelanggan', [PelangganController::class,'store'])->name('pelanggan.store')->middleware('auth');
 
 //PETUGAS
 Route::get('/petugas', [PetugasController::class,'index'])->middleware('auth')->name('petugas.index');
 Route::get('/petugas/add/{id}', [PetugasController::class,'petugasDetail'])->name('petugas.detail')->middleware('auth');
-Route::post('/petugas/{id}', [PetugasController::class,'store'])->name('petugas.store')->middleware('auth');
+Route::post('/petugas/{id}/{odp}', [PetugasController::class,'store'])->name('petugas.store')->middleware('auth');
 Route::get('/petugas/revisi/{id}', [PetugasController::class,'revisiBukti'])->name('petugas.revisi')->middleware('auth');
 Route::put('/petugas/revisi/{id}', [PetugasController::class,'updateBukti'])->name('petugas.update')->middleware('auth');
 

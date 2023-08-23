@@ -71,7 +71,13 @@ class PetugasController extends Controller
         ];
         $pelanggans = Pelanggan::findOrFail($id);
         $images = PelangganFoto::all();
-  
+        // session()->forget('success_odp_1');
+        // session()->forget('success_odp_2');
+        // session()->forget('success_odp_3');
+        // session()->forget('success_odp_19');
+        // session()->forget('success_' . $pelanggans->id . '_' . 'odp_26');
+        // session()->forget('success_' . $pelanggans->id . '_' . 'odp_27');
+
         return view('petugas-detail',[
         'pelanggans' => $pelanggans, 
         'areas' => $areas,
@@ -81,7 +87,7 @@ class PetugasController extends Controller
     }
 
 
-    public function store(Request $request, $pelanggans_id) {
+    public function store(Request $request, $pelanggans_id, $odp) {
        
         $validator = Validator::make($request->all(),[
             "file" => "required|image|mimes:jpeg,png,jpg",
@@ -102,7 +108,7 @@ class PetugasController extends Controller
             return redirect()->back()->with('error', 'Pelanggan tidak ditemukan.');
         }
         $file = $request->file('file');
-        $input = $request->input('pelanggans_id');
+        // $input = $request->input('pelanggans_id');
         $odp = $request->input('odp');
         $existingData = PelangganFoto::where('pelanggans_id', $pelanggans_id)
         ->where('odp', $odp)
@@ -112,30 +118,59 @@ class PetugasController extends Controller
             return redirect()->back()->with('error', 'Form dengan ' . $odp . ' sudah dikirimkan.');
         }
 
+        // if (!$existingData) {
+        //     // Form belum pernah dikirim, simpan status dalam session
+        //     session(['form_status_' . $odp => 'Dikirim']);
+        // }
+
         $file_name = time() . '_' . $file->getClientOriginalName();
         $foto = new PelangganFoto([
             'file' => $file_name,
             'catatan' => $request->catatan,
             'odp' => $odp,
-            'pelanggans_id' => $input
+            'pelanggans_id' => $pelanggans_id
             
         ]);
 
         $file->storeAs('public/images', $file_name);
         $pelanggan->fotos()->save($foto);
+        // $validatorUsers = User::where('role_id', 2)->get();
+        //     $notificationThreshold = 28;
+        //     if ($validatorUsers->count() >= $notificationThreshold) {
+        //             Notification::send($validatorUsers, new ValidatorCreatedNotification($pelanggan));
+        //         }
+      
+        // $sessionKey = 'form_count_' . auth()->user()->id;
+        // $formCount = session($sessionKey, 0);
 
-        $validatorUsers = User::where('role_id', 2)->get();
-        $notificationThreshold = 28;
-    
-        if ($validatorUsers->count() >= $notificationThreshold) {
+        // $formCount++;
+
+        // session([$sessionKey => $formCount]);
+
+        // if ($formCount >= 28) {
+        //     $validatorUsers = User::where('role_id', 2)->get();
+        //     Notification::send($validatorUsers, new ValidatorCreatedNotification($pelanggan));
+        // }
+        
+        if ($odp === 'odp_28') {
+            $validatorUsers = User::where('role_id', 2)->get();
             Notification::send($validatorUsers, new ValidatorCreatedNotification($pelanggan));
+            return redirect()->route('petugas.index')->with('success', 'Semua form ODP telah berhasil diisi.');
         }
 
-        
+       
 
+        // $validatorUsers = User::where('role_id', 2)->get();
+        // $notificationThreshold = 28;
+    
+        // if ($validatorUsers->count() >= $notificationThreshold) {
+        //     Notification::send($validatorUsers, new ValidatorCreatedNotification($pelanggan));
+        // }
         // $flashMessage = 'Form ' . $odp . ' berhasil dikirim.';
         // session()->flash('form_message_' . $odp, $flashMessage);
-        return redirect()->back()->with('success', 'Data pelanggan berhasil dikirim.');
+        $sessionName = 'success_' . $pelanggans_id . '_' . $odp;
+        $request->session()->put($sessionName, 'Form ' . $odp . ' berhasil dikirim.');
+        return redirect()->back();
 
     }
 
@@ -222,6 +257,7 @@ class PetugasController extends Controller
         ]);
     
         $pelanggan = Pelanggan::findOrFail($id);
+        $isRevised = false; 
         foreach ($pelanggan->fotos as $index => $foto) {
         if ($foto->status === 'NOK') {
             $inputCatatan = $request->input('catatan_' . $foto->id);
@@ -241,23 +277,35 @@ class PetugasController extends Controller
 
             if (!empty($updateData)) {
                 $foto->update($updateData);
-                $validator = User::where('role_id', 2)->get();
-                Notification::send($validator, new ValidatorRevisiNotification($pelanggan));
+                $isRevised = true; 
+                // $validator = User::where('role_id', 2)->get();
+                // Notification::send($validator, new ValidatorRevisiNotification($pelanggan));
             }
 
-            session()->put('bukti_direvisi_' . $id, true);
-
-            // UNTUK VALIDATOR
-            session()->put('revisi_selesai_' . $id, true);
+         
+            // session()->put('bukti_direvisi_' . $id, true);
+            
+        
+            // session()->put('revisi_selesai_' . $id, true);
         }
    
     }
 
-    
+    if ($isRevised) {
+        // Jika ada revisi, kirim notifikasi ke validator
+        $validator = User::where('role_id', 2)->get();
+        Notification::send($validator, new ValidatorRevisiNotification($pelanggan));
+
+    }
+
+    session()->put('bukti_direvisi_' . $id, true);
+    session()->put('revisi_selesai_' . $id, true);
     return redirect()->route('petugas.index',['id' => $pelanggan->id])
     ->with('success', 'Data revisi berhasil direvisi, tunggu validator untuk cek.');
       
     }
+
+   
 }
 
 

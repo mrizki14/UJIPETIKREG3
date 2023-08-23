@@ -42,6 +42,13 @@
                         </div>
                         @endif
                       @endif
+                      @if ($message = Session::get('success'))
+                      <div class="col-4 mt-3">
+                          <div class="alert alert-success">
+                              <strong class="">{{ $message }}</strong>
+                          </div>
+                      </div>
+                      @endif
                         <div class="bg-white top-chart-earn">
                             <div class="col-sm-12 my-2 ps-0">
                                     <div class="classic-tabs ms-2">

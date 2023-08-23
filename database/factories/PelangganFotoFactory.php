@@ -32,11 +32,11 @@ class PelangganFotoFactory extends Factory
           }
 
         return [
-            'pelanggans_id' => 41, // Assuming Pelanggan IDs range from 1 to 100
+            'pelanggans_id' => 27, // Assuming Pelanggan IDs range from 1 to 100
             'odp' => $odp,
             'file' => fake()->word . '.png',
             'catatan' => fake()->sentence,
-            'status' => fake()->randomElement(['NOK', 'OK']),
+            'status' => null,
             'catatan_keseluruhan' => fake()->sentence,
             'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
             'updated_at' => fake()->dateTimeBetween('-1 year', 'now'), //

@@ -4,8 +4,8 @@
             <ul id="sidebar">
                 <div class="profile">
                     <!-- <i class="uil uil-user"></i> -->
-                    <h5>Agung Hardianto</h5>
-                    <p>Admin</p>
+                    <h5>{{Auth()->user()->name}}</h5>
+                    <p>{{Auth()->user()->role->name}}</p>
                 </div>
                 <li class="active sub-menu">
                     <a href="#">

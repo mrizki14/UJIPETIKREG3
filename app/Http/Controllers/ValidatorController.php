@@ -23,17 +23,17 @@ class ValidatorController extends Controller
             "TSM" => 'TASIKMALAYA'
         ];
         
-        // $pelangganFoto = Pelanggan::has('fotos','>=', 28)
-        // ->with(['fotos' => function ($query) {
-        //     $query->select('pelanggans_id', 'file', 'catatan');
-        // }])
-        // ->get();
-        
-        $pelangganFoto = Pelanggan::has('fotos')
+        $pelangganFoto = Pelanggan::has('fotos','>=', 28)
         ->with(['fotos' => function ($query) {
             $query->select('pelanggans_id', 'file', 'catatan');
         }])
         ->get();
+        
+        // $pelangganFoto = Pelanggan::has('fotos')
+        // ->with(['fotos' => function ($query) {
+        //     $query->select('pelanggans_id', 'file', 'catatan');
+        // }])
+        // ->get();
 
         // $hasilRevisi = Pelanggan::join('pelanggan_fotos', 'pelanggans.id', '=', 'pelanggan_fotos.pelanggans_id')
         // ->where('pelanggan_fotos.status', 'NOK')
