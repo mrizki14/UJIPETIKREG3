@@ -49,14 +49,14 @@
         <tbody>
             @foreach($finalResults as $result)
                 <tr>
-                    <td colspan="3">{{ $result['AREA / WITEL'] }}</td>
-                    <td >{{ $result['JUMLAH'] }}</td>
-                    <td >{{ $result['OK'] }}</td>
-                    <td >{{ $result['NOTOK'] }}</td>
-                    <td >{{ $result['TARGET'] }}</td>
-                    <td >{{ $result['HASIL %'] }}</td>
-                    <td >{{ $result['UPLOAD %'] }}</td>
-                    <td >{{ $result['VALID %'] }}</td>
+                    <td colspan="3">{{ $result->area_name }}</td>
+                    <td>{{ $result->total_pelanggan }}</td>
+                    <td>{{ $result->total_ok }}</td>
+                    <td>{{ $result->total_nok }}</td>
+                    <td>{{ $result->target ?: 75 }}</td> <!-- Nilai target default adalah 75 jika tidak ada target -->
+                    <td>{{ number_format(($result->total_ok / ($result->target ?: 75)) * 100, 0) }}%</td> <!-- Hitung hasil -->
+                    <td>{{ round($result->upload_percentage) }}%</td>
+                    <td>{{ round($result->valid_percentage) }}%</td>
                 </tr>
             @endforeach
         </tbody>

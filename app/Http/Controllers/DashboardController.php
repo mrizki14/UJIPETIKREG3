@@ -71,38 +71,58 @@ class DashboardController extends Controller
         ->groupBy('area')
         ->get();
 
-        if ($results->isEmpty()) {
-            return view('dashboard', [
-                'months' => $months,
-                'years' => $years,
-                'areas' => $this->areas,
-                'month' => $month,
-                'year' => $year,
-                'finalResults' => null // Tidak ada data untuk ditampilkan
-            ]);
-        }
-           
-        $finalResults = [];
-        foreach ($results as $result) {
-            $areaCode = $result->area;
-            $areaName = $this->areas[$areaCode];
-            $ok = $result->total_ok;
-            $nok = $result->total_nok;
-            $target = 75;
-            $totalUpload = $ok + $nok;// Jumlah OK dan NOK
-            $uploadPercentage = $target > 0 ? ($totalUpload / $target) * 100 : 0; // UPLOAD % (OK + NOK : Target)
-            $validPercentage = $ok > 0 ? ($totalUpload / $ok) * 100 : 0;
-
-            $finalResults[] = [
+        $finalResults = collect($this->areas)->map(function($areaName, $areaCode) {
+            return [
                 'area_code' => $areaCode,
                 'area_name' => $areaName,
-                'total_pelanggan' => $result->total_pelanggan,
-                'total_ok' => $ok,
-                'total_nok' => $nok,
-                'upload_percentage' => $uploadPercentage,
-                'valid_percentage' => $validPercentage,
+                'total_pelanggan' => 0,
+                'total_ok' => 0,
+                'total_nok' => 0,
+                'upload_percentage' => 0,
+                'valid_percentage' => 0,
             ];
+        })->toArray();
+
+        $results = Pelanggan::select('area')
+            ->whereYear('pelanggans.created_at', $year)
+            ->whereMonth('pelanggans.created_at', $month)
+            ->selectRaw('COUNT(DISTINCT pelanggans.id) AS total_pelanggan')
+            ->selectRaw('SUM(CASE WHEN pelanggan_fotos.status = "ok" THEN 1 ELSE 0 END) AS total_ok')
+            ->selectRaw('SUM(CASE WHEN pelanggan_fotos.status = "nok" THEN 1 ELSE 0 END) AS total_nok')
+            ->leftJoin('pelanggan_fotos', 'pelanggans.id', '=', 'pelanggan_fotos.pelanggans_id')
+            ->whereIn('area', array_keys($this->areas))
+            ->groupBy('area')
+            ->get();
+
+        foreach ($results as $result) {
+            $areaCode = $result['area']; // Gunakan notasi array
+            $ok = $result['total_ok']; // Gunakan notasi array
+            $nok = $result['total_nok']; // Gunakan notasi array
+
+            // Perbarui hasil akhir untuk wilayah yang sesuai
+            $finalResults[$areaCode]['total_pelanggan'] += $result['total_pelanggan'];
+            $finalResults[$areaCode]['total_ok'] += $ok;
+            $finalResults[$areaCode]['total_nok'] += $nok;
+
+            // Perhitungan upload_percentage dan valid_percentage
+            $target = 75;
+            $totalUpload = $ok + $nok;
+            $uploadPercentage = $target > 0 ? ($totalUpload / $target) * 100 : 0;
+            $validPercentage = $ok > 0 ? ($totalUpload / $ok) * 100 : 0;
+
+            // Update hasil akhir untuk upload_percentage dan valid_percentage
+            $finalResults[$areaCode]['upload_percentage'] += $uploadPercentage;
+            $finalResults[$areaCode]['valid_percentage'] += $validPercentage;
         }
+
+        // Pastikan nilai upload_percentage dan valid_percentage dihitung dengan benar untuk semua wilayah
+        foreach ($finalResults as &$result) {
+            $result['upload_percentage'] = count($results) > 0 ? $result['upload_percentage'] / count($results) : 0;
+            $result['valid_percentage'] = count($results) > 0 ? $result['valid_percentage'] / count($results) : 0;
+        }
+
+        // Konversi hasil akhir ke dalam array
+        $finalResults = array_values($finalResults);
 
         return view('dashboard', [
             'months' => $months,

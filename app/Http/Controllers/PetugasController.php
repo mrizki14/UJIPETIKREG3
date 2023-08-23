@@ -133,8 +133,8 @@ class PetugasController extends Controller
 
         
 
-        $flashMessage = 'Form ' . $odp . ' berhasil dikirim.';
-        session()->flash('form_message_' . $odp, $flashMessage);
+        // $flashMessage = 'Form ' . $odp . ' berhasil dikirim.';
+        // session()->flash('form_message_' . $odp, $flashMessage);
         return redirect()->back()->with('success', 'Data pelanggan berhasil dikirim.');
 
     }

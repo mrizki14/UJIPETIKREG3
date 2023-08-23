@@ -224,7 +224,7 @@
                                             <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">2. Instalasi kabel, pastikan rapi (tidak ada bending)</td>
                                             <td style="vertical-align: middle !important;" width="1%">:</td>                    
                                             <td style="vertical-align: middle !important;">      
-                                                <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data" onsubmit="return submitForm(this);">
+                                                <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf            
                                                 <div class="form-floating d-flex">
                                                     <input type="hidden" name="odp" value="odp_2">
@@ -284,7 +284,7 @@
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
                                               <td style="vertical-align: middle !important;
                                               ">       
-                                                <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data" onsubmit="return submitForm(this);">
+                                                <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf                 
                                                   <div class="form-floating d-flex">
                                                     <input type="hidden" name="odp" value="odp_3">
@@ -342,7 +342,7 @@
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
                                               <td style="vertical-align: middle !important;
                                               ">                       
-                                                <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data" onsubmit="return submitForm(this);">
+                                                <form action="{{route('petugas.store',$pelanggans->id)}}" method="post" enctype="multipart/form-data">
                                                     @csrf 
                                                   <div class="form-floating d-flex">
                                                     <input type="hidden" name="odp" value="odp_4">
