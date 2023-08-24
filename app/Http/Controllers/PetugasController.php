@@ -71,12 +71,9 @@ class PetugasController extends Controller
         ];
         $pelanggans = Pelanggan::findOrFail($id);
         $images = PelangganFoto::all();
-        // session()->forget('success_odp_1');
-        // session()->forget('success_odp_2');
-        // session()->forget('success_odp_3');
-        // session()->forget('success_odp_19');
+ 
         // session()->forget('success_' . $pelanggans->id . '_' . 'odp_26');
-        // session()->forget('success_' . $pelanggans->id . '_' . 'odp_27');
+        // session()->forget('success_' . $pelanggans->id . '_' . 'odp_15');
 
         return view('petugas-detail',[
         'pelanggans' => $pelanggans, 

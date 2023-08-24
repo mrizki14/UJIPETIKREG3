@@ -28,7 +28,6 @@ class DashboardController extends Controller
     }
 
     public function index(Request $request) {
-
         $months = [
             1 => 'Januari',
             2 => 'Februari',
@@ -43,27 +42,24 @@ class DashboardController extends Controller
             11 => 'November',
             12 => 'Desember'
         ];
-        
+    
         $years = [
             2022 => 2022,
             2023 => 2023,
             2024 => 2024,
             2025 => 2025,
         ];
-
+    
         $currentDate = Carbon::now();
-
-
-        // Dapatkan bulan dan tahun dari tanggal sekarang
         $currentMonth = $currentDate->month;
         $currentYear = $currentDate->year;
         $month = $request->input('month', $currentMonth);
         $year = $request->input('year', $currentYear);
-    
-        // Lakukan query Eloquent sesuai dengan filter bulan dan tahun yang diterima
-        $results = Pelanggan::select('area')
-        ->whereYear('pelanggans.created_at', $year) // Tentukan tabel 'created_at' secara eksplisit
-        ->whereMonth('pelanggans.created_at', $month) // Tentukan tabel 'created_at' secara eksplisit
+        // $today = Carbon::now()->format('Y-m-d');
+       
+        // Periksa jika ada data untuk hari ini, jika tidak, set $todayResults menjadi array kosong.
+        $todayResults = Pelanggan::select('area')
+        ->whereDate('pelanggans.created_at', Carbon::today())
         ->selectRaw('COUNT(DISTINCT pelanggans.id) AS total_pelanggan')
         ->selectRaw('SUM(CASE WHEN pelanggan_fotos.status = "ok" THEN 1 ELSE 0 END) AS total_ok')
         ->selectRaw('SUM(CASE WHEN pelanggan_fotos.status = "nok" THEN 1 ELSE 0 END) AS total_nok')
@@ -72,6 +68,51 @@ class DashboardController extends Controller
         ->groupBy('area')
         ->get();
 
+        // Jika tidak ada data untuk hari ini, buat hasil data kosong.
+        if ($todayResults->isEmpty()) {
+        $todayResults = collect($this->areas)->map(function($areaName, $areaCode) {
+            return [
+                'area' => $areaCode,
+                'area_name' => $areaName,
+                'total_pelanggan' => 0,
+                'total_ok' => 0,
+                'total_nok' => 0,
+                'upload_percentage' => 0,
+                'valid_percentage' => 0,
+            ];
+        });
+        }
+
+        if ($request->has('month') && $request->has('year')) {
+            $results = Pelanggan::select('area')
+                ->whereYear('pelanggans.created_at', $year)
+                ->whereMonth('pelanggans.created_at', $month)
+                ->selectRaw('COUNT(DISTINCT pelanggans.id) AS total_pelanggan')
+                ->selectRaw('SUM(CASE WHEN pelanggan_fotos.status = "ok" THEN 1 ELSE 0 END) AS total_ok')
+                ->selectRaw('SUM(CASE WHEN pelanggan_fotos.status = "nok" THEN 1 ELSE 0 END) AS total_nok')
+                ->leftJoin('pelanggan_fotos', 'pelanggans.id', '=', 'pelanggan_fotos.pelanggans_id')
+                ->whereIn('area', array_keys($this->areas))
+                ->groupBy('area')
+                ->get();
+
+                if ($results->isEmpty()) {
+                    $results = collect($this->areas)->map(function ($areaName, $areaCode) {
+                        return [
+                            'area' => $areaCode,
+                            'area_name' => $areaName,
+                            'total_pelanggan' => 0,
+                            'total_ok' => 0,
+                            'total_nok' => 0,
+                            'upload_percentage' => 0,
+                            'valid_percentage' => 0,
+                        ];
+                    });
+                }
+        }else {
+            // No filter applied, use the data for today
+            $results = $todayResults;
+        }
+            
         $finalResults = collect($this->areas)->map(function($areaName, $areaCode) {
             return [
                 'area_code' => $areaCode,
@@ -84,21 +125,11 @@ class DashboardController extends Controller
             ];
         })->toArray();
 
-        $results = Pelanggan::select('area')
-            ->whereYear('pelanggans.created_at', $year)
-            ->whereMonth('pelanggans.created_at', $month)
-            ->selectRaw('COUNT(DISTINCT pelanggans.id) AS total_pelanggan')
-            ->selectRaw('SUM(CASE WHEN pelanggan_fotos.status = "ok" THEN 1 ELSE 0 END) AS total_ok')
-            ->selectRaw('SUM(CASE WHEN pelanggan_fotos.status = "nok" THEN 1 ELSE 0 END) AS total_nok')
-            ->leftJoin('pelanggan_fotos', 'pelanggans.id', '=', 'pelanggan_fotos.pelanggans_id')
-            ->whereIn('area', array_keys($this->areas))
-            ->groupBy('area')
-            ->get();
 
         foreach ($results as $result) {
-            $areaCode = $result['area']; // Gunakan notasi array
-            $ok = $result['total_ok']; // Gunakan notasi array
-            $nok = $result['total_nok']; // Gunakan notasi array
+            $areaCode = $result['area'];
+            $ok = $result['total_ok'];
+            $nok = $result['total_nok']; 
 
             // Perbarui hasil akhir untuk wilayah yang sesuai
             $finalResults[$areaCode]['total_pelanggan'] += $result['total_pelanggan'];
@@ -115,26 +146,29 @@ class DashboardController extends Controller
             $finalResults[$areaCode]['upload_percentage'] += $uploadPercentage;
             $finalResults[$areaCode]['valid_percentage'] += $validPercentage;
         }
-
-        // Pastikan nilai upload_percentage dan valid_percentage dihitung dengan benar untuk semua wilayah
         foreach ($finalResults as &$result) {
             $result['upload_percentage'] = count($results) > 0 ? $result['upload_percentage'] / count($results) : 0;
             $result['valid_percentage'] = count($results) > 0 ? $result['valid_percentage'] / count($results) : 0;
         }
 
-        // Konversi hasil akhir ke dalam array
         $finalResults = array_values($finalResults);
-
+            
         return view('dashboard', [
             'months' => $months,
             'years' => $years,
             'areas' => $this->areas, 
             'month' => $month,
             'year' => $year,
-            'finalResults' => $finalResults
+            'finalResults' => $finalResults,
+            'todayResults' => $todayResults,
+            // 'combinedResults' => $combinedResults,
         ]);
         
     }
+    
+    
+    
+    
 
     public function export(Request $request) {
 

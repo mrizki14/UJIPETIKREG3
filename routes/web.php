@@ -5,10 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PelangganController;
-use App\Http\Controllers\PelangganFotoController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\ValidatorController;
-use App\Models\Role;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,37 +19,43 @@ use App\Models\Role;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-//DASHBOARD
-Route::get('/', [DashboardController::class,'index'])->middleware('auth');
-Route::get('/export', [DashboardController::class,'export'])->name('export.excel')->middleware('auth');
 
-
-//LOGIN
+// LOGIN
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 });
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
-//USERS
-Route::resource('users', UserController::class)->only(['edit', 'update', 'destroy', 'index', 'store'])->middleware('auth');
+Route::middleware('auth')->group(function(){
+    // DASHBOARD
+    Route::get('/', [DashboardController::class,'index']);
+    Route::get('/export', [DashboardController::class,'export'])->name('export.excel');
 
-//PELANGGAN
-Route::get('/pelanggan', [PelangganController::class,'index'])->middleware('auth')->name('pelanggan.index');
-Route::get('/pelanggan/filter', [PelangganController::class,'filter'])->middleware('auth')->name('pelanggan.filter');
-Route::post('/pelanggan', [PelangganController::class,'store'])->name('pelanggan.store')->middleware('auth');
+    // LOGOUT
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-//PETUGAS
-Route::get('/petugas', [PetugasController::class,'index'])->middleware('auth')->name('petugas.index');
-Route::get('/petugas/add/{id}', [PetugasController::class,'petugasDetail'])->name('petugas.detail')->middleware('auth');
-Route::post('/petugas/{id}/{odp}', [PetugasController::class,'store'])->name('petugas.store')->middleware('auth');
-Route::get('/petugas/revisi/{id}', [PetugasController::class,'revisiBukti'])->name('petugas.revisi')->middleware('auth');
-Route::put('/petugas/revisi/{id}', [PetugasController::class,'updateBukti'])->name('petugas.update')->middleware('auth');
+    // USERS
+    Route::resource('users', UserController::class)->only(['edit', 'update', 'destroy', 'index', 'store']);
+
+    // PELANGGAN
+    Route::get('/pelanggan', [PelangganController::class,'index'])->name('pelanggan.index');
+    Route::post('/pelanggan', [PelangganController::class,'store'])->name('pelanggan.store');
+
+    // PETUGAS
+    Route::get('/petugas', [PetugasController::class,'index'])->name('petugas.index');
+    Route::get('/petugas/add/{id}', [PetugasController::class,'petugasDetail'])->name('petugas.detail');
+    Route::post('/petugas/{id}/{odp}', [PetugasController::class,'store'])->name('petugas.store');
+    Route::get('/petugas/revisi/{id}', [PetugasController::class,'revisiBukti'])->name('petugas.revisi');
+    Route::put('/petugas/revisi/{id}', [PetugasController::class,'updateBukti'])->name('petugas.update');
+    
+    // VALIDATOR
+    Route::get('/validator', [ValidatorController::class,'index'])->name('validator.index');
+    Route::get('/validator/cek/{id}', [ValidatorController::class,'validatorDetail'])->name('validator.cek');
+    Route::put('/validator/{id}/save', [ValidatorController::class,'update'])->name('validator.update');
+    Route::get('validator/revisi/{id}',[ValidatorController::class,'revisiDariPetugas'])->name('validator.revisi');
+    Route::patch('validator/revisi/{id}/save',[ValidatorController::class,'updateRevisi'])->name('validator.revisi.update');
+
+});
 
 
-//VALIDATOR
-Route::get('/validator', [ValidatorController::class,'index'])->name('validator.index')->middleware('auth');;
-Route::get('/validator/cek/{id}', [ValidatorController::class,'validatorDetail'])->name('validator.cek')->middleware('auth');
-Route::put('/validator/{id}/save', [ValidatorController::class,'update'])->name('validator.update')->middleware('auth');
-Route::get('validator/revisi/{id}',[ValidatorController::class,'revisiDariPetugas'])->name('validator.revisi')->middleware('auth');
-Route::patch('validator/revisi/{id}/save',[ValidatorController::class,'updateRevisi'])->name('validator.revisi.update')->middleware('auth');
+

@@ -85,7 +85,18 @@
                                           </thead>
                           
                                           <tbody>
-                                            @if (!is_null($finalResults))
+                                            @if ($todayResults->isEmpty() && !$finalResults)
+                                            <tr>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
+                                                <td style="text-align: center;">0</td>
+                                            </tr>
+                                            @else
                                             @foreach ($finalResults as $result)
                                             <tr>
                                                 <td>{{ $result['area_name'] }}</td>
@@ -101,17 +112,6 @@
                                                 <td style="text-align: center;">{{ number_format($result['valid_percentage'], 0) }}%</td>
                                             </tr>
                                             @endforeach
-                                            @else
-                                            <tr>
-                                                <td style="text-align: center;">0</td>
-                                                <td style="text-align: center;">0</td>
-                                                <td style="text-align: center;">0</td>
-                                                <td style="text-align: center;">0</td>
-                                                <td style="text-align: center;">0</td>
-                                                <td style="text-align: center;">0</td>
-                                                <td style="text-align: center;">0</td>
-                                                <td style="text-align: center;">0</td>
-                                            </tr>
                                             @endif
                                           </tbody>
                                     </table>

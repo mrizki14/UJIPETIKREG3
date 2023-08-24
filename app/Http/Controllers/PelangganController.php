@@ -71,16 +71,6 @@ class PelangganController extends Controller
         ]);
     }
 
-    public function filter(Request $request) {
-        $selectedMonth = $request->input('month');
-        $selectedYear = $request->input('year');
-    
-        $filteredData = Pelanggan::whereMonth('created_at', $selectedMonth)
-            ->whereYear('created_at', $selectedYear)
-            ->get();
-
-        return view('/pelanggan',compact('filteredData', 'selectedMonth','selectedYear'));
-    }
     public function store(Request $request) {
         $validator = Validator::make($request->all(),[
             "area" => 'required',

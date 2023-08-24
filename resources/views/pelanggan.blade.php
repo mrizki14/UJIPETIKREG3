@@ -186,9 +186,8 @@
                                                     <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
                                                 </td>
                                                 <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
-                                                <td>ODP-{{$pelanggan->area}}/123</td>
+                                                <td>ODP-{{$pelanggan->area}}/{{ $pelanggan->odp_loc }}</td>
                                             </tr>
-
                                             @endforeach
                                             {{-- <tr>
                                                 <td>2</td>
