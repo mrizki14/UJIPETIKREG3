@@ -59,14 +59,14 @@
                                                 NOMER SC</th>
                                               <th style="vertical-align: middle;" width="1%" nowrap="">:
                                               </th>
-                                              <td colspan="2"> 123456   </td>
+                                              <td colspan="2"> {{ $item->pelanggan->number }}   </td>
                                             </tr>
                                             <tr>
                                               <th style="vertical-align: middle;" width="1%" nowrap="">INET
                                               </th>
                                               <th style="vertical-align: middle;" width="1%" nowrap="">:
                                               </th>
-                                              <td colspan="2">  1231234 </td>
+                                              <td colspan="2">  {{ $item->pelanggan->inet }} </td>
                                             </tr>
                                             <tr>
                                               <th style="vertical-align: middle;" width="1%" nowrap="">NAMA
@@ -102,7 +102,7 @@
                                                 LOC_ID</th>
                                               <th style="vertical-align: middle;" width="1%" nowrap="">:
                                               </th>
-                                              <td colspan="2"> ODP-BDG-BJS/123 </td>
+                                              <td colspan="2"> ODP-{{$item->pelanggan->area ?? ''}}/{{$item->pelanggan->odp_loc}} </td>
                                             </tr> 
                                                 @break
                                               @endforeach
@@ -133,7 +133,7 @@
                                       <table class="table table-condensed table-striped" style="color:#000000">
                                         <tbody>
                                           @foreach ($pelanggansFoto as $group)
-                                            @foreach ($group as $item)
+                                            @foreach ($group  as $item)
                                             <div class="kolom 1">
                                             <tr>
                                               <th style="color:red;" width="1%" nowrap="">CHEKLIST ODP </th>
@@ -160,10 +160,10 @@
                                                   </label>
                                                 </div>
                                               </td>
+                                        
                                               <td style="vertical-align: middle !important;">
-                                                @if ($item->odp === 'odp_1' && $item->pelanggan->id)
-                                                {{-- <font size="1">{{ $item->status }}</font> --}}
-                                                @endif
+                                                <font size="1">{{ $revisiData[0]['foto']->catatan }}</font>
+
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -206,10 +206,10 @@
                                                   </label>
                                                 </div>
                                               </td>
+                                         
                                               <td style="vertical-align: middle !important;">
-                                                @if ($item->pelanggans_id === true && $item->odp === 'odp_2'  )
-                                                {{-- <font size="1">{{ $item->status }}</font> --}}
-                                                @endif
+                                                <font size="1">{{ $revisiData[1]['foto']->catatan }}</font>
+
                                               </td>
                                                   @if ($pelanggansFoto->isNotEmpty())
                                                   <td style="vertical-align: middle;">
@@ -254,7 +254,8 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                {{-- <font size="1">{{ $item->status }}</font> --}}
+                                                <font size="1">{{ $revisiData[2]['foto']->catatan }}</font>
+
                                               </td>
                                               <td style="vertical-align: middle;">
                                                 <div class="pull-right">
@@ -299,7 +300,8 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                {{-- <font size="1">{{ $item->status }}</font> --}}
+                                                <font size="1">{{ $revisiData[3]['foto']->catatan }}</font>
+
                                               </td>
                                               <td style="vertical-align: middle;">
                                                 <div class="pull-right">
@@ -344,7 +346,8 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                {{-- <font size="1">{{ $item->status }}</font> --}}
+                                                <font size="1">{{ $revisiData[4]['foto']->catatan }}</font>
+
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -386,7 +389,8 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                {{-- <font size="1">{{ $item->status }}</font> --}}
+                                                <font size="1">{{ $revisiData[5]['foto']->catatan }}</font>
+
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -429,7 +433,8 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                {{-- <font size="1">{{ $item->status }}</font> --}}
+                                                <font size="1">{{ $revisiData[6]['foto']->catatan }}</font>
+
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -471,7 +476,8 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                {{-- <font size="1">{{ $item->status }}</font> --}}
+                                                <font size="1">{{ $revisiData[7]['foto']->catatan }}</font>
+
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -513,7 +519,8 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                {{-- <font size="1">{{ $item->status }}</font> --}}
+                                                <font size="1">{{ $revisiData[8]['foto']->catatan }}</font>
+
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -555,7 +562,8 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                {{-- <font size="1">{{ $item->status }}</font> --}}
+                                                <font size="1">{{ $revisiData[9]['foto']->catatan }}</font>
+
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -597,7 +605,8 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                {{-- <font size="1">{{ $item->status }}</font> --}}
+                                                <font size="1">{{ $revisiData[10]['foto']->catatan }}</font>
+
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -639,7 +648,8 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                {{-- <font size="1">{{ $item->status }}</font> --}}
+                                                <font size="1">{{ $revisiData[11]['foto']->catatan }}</font>
+
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -681,7 +691,8 @@
                                                 </div>
                                               </td>
                                               <td style="vertical-align: middle !important;">
-                                                {{-- <font size="1">{{ $item->status }}</font> --}}
+                                                <font size="1">{{ $revisiData[12]['foto']->catatan }}</font>
+
                                               </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -733,7 +744,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[13]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -777,7 +789,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[14]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -820,7 +833,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[15]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -863,7 +877,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[16]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -907,7 +922,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[17]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -950,7 +966,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[18]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -993,7 +1010,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[19]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1037,7 +1055,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[20]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1080,7 +1099,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[21]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1132,7 +1152,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[22]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1176,7 +1197,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[23]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1220,7 +1242,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[24]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1264,7 +1287,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[25]['foto']->catatan }}</font>
+
                                             </td>
                                               @if ($pelanggansFoto->isNotEmpty())
                                               <td style="vertical-align: middle;">
@@ -1307,7 +1331,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[26]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1351,7 +1376,8 @@
                                               </div>
                                             </td>
                                             <td style="vertical-align: middle !important;">
-                                              {{-- <font size="1">{{ $item->status }}</font> --}}
+                                              <font size="1">{{ $revisiData[27]['foto']->catatan }}</font>
+
                                             </td>
                                             @if ($pelanggansFoto->isNotEmpty())
                                             <td style="vertical-align: middle;">
@@ -1379,7 +1405,7 @@
                                             <th style="color:red;" width="1%" nowrap="">VALIDATOR</th>
                                             <th width="1%">:</th>
                                             <td colspan="3">
-                                              <input type="text" class="fc1 input-sm" value="Telkom University" disabled=""></td>
+                                              <input type="text" class="fc1 input-sm" value= "{{ Auth()->user()->name }}" disabled=""></td>
                                           </tr>
                                           <tr>
                                             <th style="color:red;" width="1%" nowrap="">CATATAN</th>

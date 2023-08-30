@@ -32,6 +32,7 @@
                             <div class="row">
                               <div class="col-lg-4">
                                 <div class="table-responsive top-chart-earn sticky-top">
+                                
                                     {{-- @if(!empty($errors)) --}}
                             
                                     {{-- @endif --}}
@@ -56,14 +57,14 @@
                                           NOMER SC</th>
                                         <th style="vertical-align: middle;" width="1%" nowrap="">:
                                         </th>
-                                        <td colspan="2"> 123456   </td>
+                                        <td colspan="2"> {{ $pelanggans->number }}   </td>
                                       </tr>
                                       <tr>
                                         <th style="vertical-align: middle;" width="1%" nowrap="">INET
                                         </th>
                                         <th style="vertical-align: middle;" width="1%" nowrap="">:
                                         </th>
-                                        <td colspan="2">  1231234 </td>
+                                        <td colspan="2">  {{ $pelanggans->inet }} </td>
                                       </tr>
                                       <tr>
                                         <th style="vertical-align: middle;" width="1%" nowrap="">NAMA
@@ -100,7 +101,7 @@
                                           LOC_ID</th>
                                         <th style="vertical-align: middle;" width="1%" nowrap="">:
                                         </th>
-                                        <td colspan="2"> ODP-BDG-BJS/123 </td>
+                                        <td colspan="2">ODP-{{ $pelanggans->area }}/{{ $pelanggans->odp_loc }} </td>
                                       </tr>
                                     </tbody>
                                   </table>
@@ -148,9 +149,10 @@
                                               <th width="1%" nowrap="">PETUGAS</th>
                                               <th width="1%">:</th>
                                               <td colspan="3">
-                                              <input type="text" class="fc1 input-sm" value="Telkom University" disabled=""></td>
+                                              <input type="text" class="fc1 input-sm" value= "{{ Auth()->user()->name }}" disabled=""></td>
                                             </tr>
-                                            <th style="color: red" width="1%">Pastikan mengisinya berurutan !</th>
+                                          
+                                            <th style="font-size: 14px" width="1%">Pastikan mengisinya berurutan !</th>
                                       </div>
                                       <!-- kolom 1 -->
                                       <div class="kolom 1">
@@ -645,7 +647,7 @@
                                                     @csrf 
                                                   <div class="form-floating d-flex">
                                                     <input type="hidden" name="odp" value="odp_8">
-                                                      <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                                                      <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea" required></textarea>
                                                       <label for="floatingTextarea">Catatan</label>
                                                       <!-- Button trigger modal -->
                                                       <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal8">
@@ -666,7 +668,7 @@
                                                                                           <div class="form-group">
                                                                                               <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                               <div class="col-md-10 ms-3">
-                                                                                                  <input type="file" name="file" area-required="true">
+                                                                                                  <input type="file" required name="file" area-required="true">
                                                                                                   <p class="help-block">
                                                                                                       <em>
                                                                                                           File extension jpg. jpeg or png

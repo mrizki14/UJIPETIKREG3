@@ -56,14 +56,14 @@
                                           NOMER SC</th>
                                         <th style="vertical-align: middle;" width="1%" nowrap="">:
                                         </th>
-                                        <td colspan="2"> 123456   </td>
+                                        <td colspan="2"> {{ $pelanggans->number }}   </td>
                                       </tr>
                                       <tr>
                                         <th style="vertical-align: middle;" width="1%" nowrap="">INET
                                         </th>
                                         <th style="vertical-align: middle;" width="1%" nowrap="">:
                                         </th>
-                                        <td colspan="2">  1231234 </td>
+                                        <td colspan="2">  {{ $pelanggans->inet }} </td>
                                       </tr>
                                       <tr>
                                         <th style="vertical-align: middle;" width="1%" nowrap="">NAMA
@@ -100,7 +100,8 @@
                                           LOC_ID</th>
                                         <th style="vertical-align: middle;" width="1%" nowrap="">:
                                         </th>
-                                        <td colspan="2"> ODP-BDG-BJS/123 </td>
+                                        
+                                        <td colspan="2"> ODP-{{ $pelanggans->area }}/{{ $pelanggans->odp_loc }} </td>
                                       </tr>
                                     </tbody>
                                   </table>
@@ -132,9 +133,12 @@
                                               <th width="1%" nowrap="">PETUGAS</th>
                                               <th width="1%">:</th>
                                               <td colspan="3">
-                                              <input type="text" class="fc1 input-sm" value="Telkom University" disabled=""></td>
-                                          </tr>
-                                      </div>
+                                              <input type="text" class="fc1 input-sm" value= "{{Auth()->user()->name}}" disabled=""></td>
+                                              <tr>
+                                                <th style="font-size: 14px" width="40%">Pastikan tidak akan ada revisi lagi !</th>
+                                            </tr>
+                                            </tr>
+                                        </div>
                       
                                     <div class="kolom 1">
                                         <table class="table table-bordered">
@@ -145,16 +149,20 @@
                                             <tr>
                                                 <td colspan="2">
                                                     <form action="{{ route('petugas.update', $pelanggans->id) }}" method="post" enctype="multipart/form-data">
+                                                        @php
+                                                            $no = 1;
+                                                        @endphp
                                                         @foreach ($pelanggans->fotos as $index => $foto)
                                                             @csrf      
                                                             @method('PUT') 
                                                             @if ($foto->status === 'NOK')
                                                                 <div class="form-group">
                                                                     <div class="col-md-3">
-                                                                        <p class="col-form-label">{{ isset($odpDescriptions[$foto->odp]) ? $odpDescriptions[$foto->odp] : 'Kode ODP: ' . $foto->odp }}</p>
+                                                                        <p class="col-form-label">{{ $no++ }}. {{ isset($odpDescriptions[$foto->odp]) ? $odpDescriptions[$foto->odp] : 'Kode ODP: ' . $foto->odp }}</p>
                                                                     </div>
                                                                     <div class="col-md-6 ms-5">
                                                                         <div class="input-group">
+                                                                            {{-- <input type="hidden" name="status_revisi" value="Dikirimkan"> --}}
                                                                             <textarea class="form-control" name="catatan_{{ $foto->id }}" placeholder="Leave a comment here" id="floatingTextarea" required></textarea>
                                                                             <div class="input-group-append">
                                                                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal1{{ $foto->id }}">
@@ -163,6 +171,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    <input type="hidden" name="status_revisi_{{ $foto->id }}" value="DIKIRIMKAN">
                                                                 </div>
                                                           
                                     
@@ -177,7 +186,7 @@
                                                                     <div class="modal-body">
                                                                         <div class="row">
                                                                             <div class="col-md-12">
-                                                                               
+
                                                                                     <div class="form-group">
                                                                                         <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                         <div class="col-md-10 ms-3">

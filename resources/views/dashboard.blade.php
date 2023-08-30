@@ -98,15 +98,21 @@
                                             </tr>
                                             @else
                                             @foreach ($finalResults as $result)
+                                            {{-- @dd($result) --}}
                                             <tr>
                                                 <td>{{ $result['area_name'] }}</td>
                                                 <td style="text-align: center;">{{ $result['total_pelanggan']}}</td>
                                                 <td style="text-align: center;">{{ $result['total_ok'] }}</td>
                                                 <td style="text-align: center;">{{ $result['total_nok']}}</td>
                                                 <td style="text-align: center;">75</td>
-                                                <td style="text-align: center;">{{ number_format(($result['total_ok'] / 75) * 100, 0) . '%' }}
-                                                </td>
                                                 {{-- <td style="text-align: center;">{{ $result['total_ok'] > 0 ? number_format(($result['total_pelanggan'] / $result['total_ok']) * 100, 0) . '%' : '0%' }}</td> --}}
+                                                <td style="text-align: center;">
+                                                    @if($result['total_ok'] > 0)
+                                                        {{ number_format(($result['total_pelanggan'] / $result['total_ok']) * 100, 0) . '%' }}
+                                                    @else
+                                                        0%
+                                                    @endif
+                                                </td>
                                                 
                                                 <td style="text-align: center;">{{ number_format($result['upload_percentage'], 0) }}%</td>
                                                 <td style="text-align: center;">{{ number_format($result['valid_percentage'], 0) }}%</td>

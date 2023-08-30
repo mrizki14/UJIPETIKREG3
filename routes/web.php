@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/validator/cek/{id}', [ValidatorController::class,'validatorDetail'])->name('validator.cek');
     Route::put('/validator/{id}/save', [ValidatorController::class,'update'])->name('validator.update');
     Route::get('validator/revisi/{id}',[ValidatorController::class,'revisiDariPetugas'])->name('validator.revisi');
-    Route::patch('validator/revisi/{id}/save',[ValidatorController::class,'updateRevisi'])->name('validator.revisi.update');
+    Route::put('validator/revisi/{id}/save',[ValidatorController::class,'updateRevisi'])->name('validator.revisi.update');
 
 });
 

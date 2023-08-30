@@ -30,14 +30,16 @@ class PelangganFotoFactory extends Factory
               $odp = $this->faker->randomElement($availableOdpValues);
               $this->usedOdpValues[] = $odp;
           }
-
+          $statusOptions = array_merge(array_fill(0, 26, 'OK'), array_fill(0, 2, 'NOK'));
+          $status = $this->faker->randomElement($statusOptions);
         return [
-            'pelanggans_id' => 27, // Assuming Pelanggan IDs range from 1 to 100
+            'pelanggans_id' => 25, // Assuming Pelanggan IDs range from 1 to 100
             'odp' => $odp,
             'file' => fake()->word . '.png',
             'catatan' => fake()->sentence,
-            'status' => null,
-            'catatan_keseluruhan' => fake()->sentence,
+            // 'status' => $this->faker->randomElement(['OK', 'NOK']),
+            'status' => 'PROGRESS',
+            // 'catatan_keseluruhan' => fake()->sentence,
             'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
             'updated_at' => fake()->dateTimeBetween('-1 year', 'now'), //
         ];

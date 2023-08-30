@@ -165,6 +165,7 @@
                                                 <td>ORDER_ID</td> 
                                                 <td>NAMA PELANGGAN</td> 
                                                 <td>LOC_ID</td>
+                                                <td>Status</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -187,22 +188,41 @@
                                                 </td>
                                                 <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
                                                 <td>ODP-{{$pelanggan->area}}/{{ $pelanggan->odp_loc }}</td>
-                                            </tr>
-                                            @endforeach
-                                            {{-- <tr>
-                                                <td>2</td>
                                                 <td>
-                                                    BANDUNG <br> 
-                                                <span class="label">BDG</span>
+                                                    @if ($pelanggan->fotos->isEmpty())
+                                                        Open
+                                                    @else
+                                                        @php
+                                                            $status = 'Open'; // Set status default
+                                                        @endphp
+
+                                                        @foreach ($pelanggan->fotos as $foto)
+                                                            @if ($foto->status === 'PROGRESS')
+                                                                @php
+                                                                    $status = 'Progress'; // Update status jika 'Progress' ditemukan
+                                                                @endphp
+                                                            @elseif ($foto->status_revisi === 'NOK') 
+                                                                @php
+                                                                    $status = 'NOK'; // Update status jika 'NOK' ditemukan
+                                                                @endphp
+                                                                @break // Keluar dari perulangan setelah menemukan 'NOK'
+                                                            @elseif ($foto->status_revisi === 'OK')
+                                                                @php
+                                                                    $status = 'Close'; // Update status jika 'OK' ditemukan
+                                                                @endphp
+                                                                @break // Keluar dari perulangan setelah menemukan 'OK'
+                                                            @endif
+                                                        @endforeach
+
+                                                        {{ $status }} 
+                                                    @endif
+
                                                 </td>
-                                                <td>SC.123487
-                                                    <small>(/12345)</small><br>
-                                                    <span class="label-sales">NEW SALES</span>
-                                                    <span class="label-tanggal">13-JUL-2023</span>
-                                                </td>
-                                                <td>AGUNG (+62-123456) <br> JALAN TELEKOMUNIKASI NO.1</td>
-                                                <td>ODP-{{$pelanggan->area}}/123</td>
-                                            </tr> --}}
+                                                
+                                            </tr>
+                                          
+                                            @endforeach
+                                            
                                                 
                                         </tbody>
                                         <!-- <tfoot>

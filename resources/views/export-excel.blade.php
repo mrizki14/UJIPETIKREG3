@@ -54,7 +54,11 @@
                     <td>{{ $result->total_ok }}</td>
                     <td>{{ $result->total_nok }}</td>
                     <td>{{ $result->target ?: 75 }}</td> <!-- Nilai target default adalah 75 jika tidak ada target -->
-                    <td>{{ number_format(($result->total_ok / ($result->target ?: 75)) * 100, 0) }}%</td> <!-- Hitung hasil -->
+                    <td>   @if($result->total_ok > 0)
+                        {{ number_format(($result->total_pelanggan / $result->total_ok) * 100, 0) . '%' }}
+                    @else
+                        0%
+                    @endif</td> <!-- Hitung hasil -->
                     <td>{{ round($result->upload_percentage) }}%</td>
                     <td>{{ round($result->valid_percentage) }}%</td>
                 </tr>

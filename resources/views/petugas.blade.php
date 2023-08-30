@@ -43,12 +43,15 @@
                         @endif
                       @endif
                       @if ($message = Session::get('success'))
-                      <div class="col-4 mt-3">
-                          <div class="alert alert-success">
+                      <div class="col-5 mt-3">
+                          <div class="alert alert-dismissible fade show alert-success" role="alert">
+
                               <strong class="">{{ $message }}</strong>
+                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                           </div>
                       </div>
                       @endif
+                  
                         <div class="bg-white top-chart-earn">
                             <div class="col-sm-12 my-2 ps-0">
                                     <div class="classic-tabs ms-2">
@@ -99,8 +102,9 @@
                                                         <tbody>
                                                             @php
                                                             $no = 1
-                                                        @endphp
+                                                            @endphp
                                                         @foreach ($pelanggansIndex as $pelanggan)
+                                                        @if ($pelanggan->fotos->count() < 28 )
                                                         <tr>
                                                             <td>{{$no++}}</td>
                                                             <td>
@@ -115,15 +119,12 @@
                                                                 <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
                                                             </td>
                                                             <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
-                                                            <td>ODP-{{$pelanggan->area}}/123</td>
+                                                            <td>ODP-{{$pelanggan->area}}/{{ $pelanggan->odp_loc }}</td>
                                                             <td> <button type="submit">
                                                                 <i class="uil uil-process"></i>
                                                                 Process
                                                             </button></td>
                                                             <td>Open</td>
-                                                            @if ($pelanggan->fotos->count() >=28 )
-                                                            <td>Bukti sudah terupload</td>
-                                                            @elseif($pelanggan->fotos->count() <=28 )
                                                             <td>
                                                                 <a href="/petugas/add/{{$pelanggan->id}}">Add Bukti</a>
                                                             </td>
@@ -147,50 +148,57 @@
                                                                <td>Action</td>
                                                             </tr>
                                                         </thead>
-                        
+
                                                         <tbody>
                                                             @php
                                                                 $no = 1
                                                             @endphp
-                                                       
+                                                         
                                                             @foreach ($pelanggansRevisi as $pelanggan)
-                                                                    <tr>
-                                                                        <td>{{$no++}}</td>
-                                                                        <td>
-                                                                            @foreach ($areas as $key => $item)
-                                                                                    {{$pelanggan->area == $key ? $item  : '' }}
-                                                                                    @endforeach <br> 
-                                                                        <span class="label">{{$pelanggan->area}}</span>
-                                                                        </td>
-                                                                        <td>SC.{{ $pelanggan->number }}
-                                                                            <small>(/{{ $pelanggan->inet }})</small><br>
-                                                                            <span class="label-sales">NEW SALES</span>
-                                                                            <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
-                                                                        </td>
-                                                                        <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
-                                                                        <td>ODP-{{$pelanggan->area}}/123</td>
-                                                                        <td> <button type="submit">
-                                                                            <i class="uil uil-process"></i>
-                                                                            Process
-                                                                        </button></td>
-                                                                        @foreach ($pelanggan->fotos as $foto)
-                                                                            @if ($foto->status === 'NOK')
-                                                                                <td>NOK</td>
-                                                                            @else 
-                                                                            <td>---</td>
-                                                                            @endif
-                                                                            @break
-                                                                        @endforeach
-                                                                        @if (session('bukti_direvisi_' . $pelanggan->id))
-                                                                        <td>Revisi sudah dikirim</td>
-                                                                        @else
-                                                                        <td>
-                                                                            <a href="{{ route('petugas.revisi', ['id'=>$pelanggan->id]) }}">Cek Revisi</a>
-                                                                        </td>
-                                                                        @endif
-                                                                    </tr>
+                                                          
+                                                            <tr>
+                                                                <td>{{$no++}}</td>
+                                                                <td>
+                                                                    @foreach ($areas as $key => $item)
+                                                                            {{$pelanggan->area == $key ? $item  : '' }}
+                                                                            @endforeach <br> 
+                                                                <span class="label">{{$pelanggan->area}}</span>
+                                                                </td>
+                                                                <td>SC.{{ $pelanggan->number }}
+                                                                    <small>(/{{ $pelanggan->inet }})</small><br>
+                                                                    <span class="label-sales">NEW SALES</span>
+                                                                    <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
+                                                                </td>
+                                                                <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
+                                                                <td>ODP-{{$pelanggan->area}}/{{ $pelanggan->odp_loc }}</td>
+                                                                <td> <button type="submit">
+                                                                    <i class="uil uil-process"></i>
+                                                                    Process
+                                                                </button></td>
+                                                                <td>NOK</td>
+                                                                {{-- @foreach ($pelanggan->fotos as $item)
+                                                                {{ $item->status_revisi }}
+                                                                @if ($item->status_revisi === 'NOK')
+                                                                <td>
+                                                                    <a href="{{ route('petugas.revisi', ['id' => $pelanggan->id]) }}">Cek Revisi</a>
+                                                                </td>
+                                                                @else 
+                                                                <td>---</td>
+                                                                @endif
+                                                                @break
+                                                                @endforeach --}}
+
+                                                                @if (!$statusRevisiOK)
+                                                                <td>
+                                                                    <a href="{{ route('petugas.revisi', ['id' => $pelanggan->id]) }}">Cek Revisi</a>
+                                                                </td>
+                                                                @else 
+                                                                <td>
+                                                                    ---
+                                                                </td>
+                                                                @endif
+                                                            </tr>
                                                             @endforeach
-                                                                    
                                                         </tbody>
                                                     </table>
                                                 </div>

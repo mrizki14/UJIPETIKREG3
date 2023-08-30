@@ -54,11 +54,12 @@ class PelangganController extends Controller
         $selectedYear = $request->input('year', $currentYear);
 
         // Query untuk mendapatkan data pelanggan berdasarkan bulan dan tahun yang dipilih
-        $pelanggans = Pelanggan::whereMonth('created_at', $selectedMonth)
+        $pelanggans = Pelanggan::with('fotos')
+            ->whereMonth('created_at', $selectedMonth)
             ->whereYear('created_at', $selectedYear)
             ->get();
-        
-   
+
+     
         return view('pelanggan', [
             "areas" => $areas,
             "pelanggans" => $pelanggans,

@@ -11,7 +11,8 @@ class PelangganFoto extends Model
 {
     use HasFactory;
     // protected $table = 'pelanggan_fotos';
-    protected $fillable = ['pelanggans_id', 'file', 'catatan', 'odp','status','catatan_keseluruhan'];
+    protected $fillable = ['pelanggans_id', 'file', 'catatan', 'odp','status','status_revisi','catatan_keseluruhan'];
+    
     protected $factories = [
 
         PelangganFoto::class => PelangganFotoFactory::class,

@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Pelanggan;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Events\AfterSheet;
@@ -70,9 +71,9 @@ class UjiPetikReg3Export implements FromView, WithHeadings, WithStyles, WithEven
             ->whereYear('pelanggans.created_at', $this->year)
             ->whereMonth('pelanggans.created_at', $this->month)
             ->selectRaw('COUNT(DISTINCT pelanggans.id) AS total_pelanggan')
-            ->selectRaw('SUM(CASE WHEN pelanggan_fotos.status = "ok" THEN 1 ELSE 0 END) AS total_ok')
-            ->selectRaw('SUM(CASE WHEN pelanggan_fotos.status = "nok" THEN 1 ELSE 0 END) AS total_nok')
-            ->leftJoin('pelanggan_fotos', 'pelanggans.id', '=', 'pelanggan_fotos.pelanggans_id')
+            ->selectRaw('SUM(CASE WHEN subquery.total_nok > 0 THEN 1 ELSE 0 END) AS total_nok')
+            ->selectRaw('SUM(CASE WHEN subquery.total_ok = 28 THEN 1 ELSE 0 END) AS total_ok')
+            ->leftJoin(DB::raw('(SELECT pelanggans_id, SUM(CASE WHEN status = "nok" THEN 1 ELSE 0 END) AS total_nok, SUM(CASE WHEN status = "ok" THEN 1 ELSE 0 END) AS total_ok FROM pelanggan_fotos GROUP BY pelanggans_id) AS subquery'), 'pelanggans.id', '=', 'subquery.pelanggans_id')
             ->whereIn('area', array_keys($this->areas))
             ->groupBy('area')
             ->get();
@@ -100,25 +101,29 @@ class UjiPetikReg3Export implements FromView, WithHeadings, WithStyles, WithEven
         
                 // Perbarui hasil akhir untuk wilayah yang sesuai
                 $finalResults[$areaCode]->total_pelanggan += $result->total_pelanggan;
+
+                // Jika ada pelanggan dengan status "OK", tambahkan ke nilai "OK"
                 $finalResults[$areaCode]->total_ok += $ok;
+
+                // Jika ada pelanggan dengan status "NOK", tambahkan ke nilai "NOK"
                 $finalResults[$areaCode]->total_nok += $nok;
         
                 // Perhitungan upload_percentage dan valid_percentage
                 $target = 75;
                 $totalUpload = $ok + $nok;
-                $uploadPercentage = $target > 0 ? ($totalUpload / $target) * 100 : 0;
-                $validPercentage = $ok > 0 ? ($totalUpload / $ok) * 100 : 0;
+                $uploadPercentage =  $ok / $result->total_pelanggan * 100; 
+                $validPercentage = ($ok + $nok) / $result->total_pelanggan * 100;
         
                 // Update hasil akhir untuk upload_percentage dan valid_percentage
                 $finalResults[$areaCode]->upload_percentage += $uploadPercentage;
                 $finalResults[$areaCode]->valid_percentage += $validPercentage;
             }
-        
-            // Pastikan nilai upload_percentage dan valid_percentage dihitung dengan benar untuk semua wilayah
-            foreach ($finalResults as $result) {
-                $result->upload_percentage = count($results) > 0 ? $result->upload_percentage / count($results) : 0;
-                $result->valid_percentage = count($results) > 0 ? $result->valid_percentage / count($results) : 0;
-            }
+            
+            // // Pastikan nilai upload_percentage dan valid_percentage dihitung dengan benar untuk semua wilayah
+            // foreach ($finalResults as $result) {
+            //     $result->upload_percentage = count($results) > 0 ? $result->upload_percentage / count($results) : 0;
+            //     $result->valid_percentage = count($results) > 0 ? $result->valid_percentage / count($results) : 0;
+            // }
     
         return view('export-excel', [
             'finalResults' => $finalResults->values()->toArray(), // Menggunakan ->values() untuk menghilangkan kunci wilayah

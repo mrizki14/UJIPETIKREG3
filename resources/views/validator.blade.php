@@ -90,9 +90,6 @@
                                                                 $no = 1
                                                             @endphp
                                                             @foreach ($pelangganFoto as $pelanggan)
-                                                            {{-- @php
-                                                                $buktiDiCek = session('bukti_dicek_' . $pelanggan->id)
-                                                            @endphp --}}
                                                                 <tr>
                                                                     <td>{{$no++}}</td>
                                                                     <td>
@@ -107,13 +104,12 @@
                                                                         <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
                                                                     </td>
                                                                     <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
-                                                                    <td>ODP-{{$pelanggan->area}}/123</td>
+                                                                    <td>ODP-{{$pelanggan->area}}/{{ $pelanggan->odp_loc }}</td>
                                                                     <td> <button type="submit">
                                                                         <i class="uil uil-process"></i>
                                                                         Process
                                                                     </button></td>
-                                                                    <td>Open</td>
-                                                                    
+                                                                    <td>Progress</td>
                                                                     <td>
                                                                         @if (session('bukti_dicek_' . $pelanggan->id))
                                                                             Bukti Sudah Dicek
@@ -121,7 +117,6 @@
                                                                             <a class="cek-bukti-link" href="/validator/cek/{{$pelanggan->id}}">Cek Bukti</a>
                                                                         @endif
                                                                     </td>
-                                                                  
                                                                 </tr>
                                                             @endforeach
                                                         </tbody>
@@ -147,6 +142,7 @@
                                                                 $no = 1
                                                             @endphp
                                                            @foreach ($hasilRevisi as $pelanggan)
+                                                           
                                                             {{-- @if ($pelanggan->status === 'NOK' ) --}}
                                                             <tr>
                                                                 <td>{{$no++}}</td>
@@ -162,27 +158,19 @@
                                                                     <span class="label-tanggal">{{ $pelanggan->created_at_formatted }}</span>
                                                                 </td>
                                                                 <td>{{$pelanggan->nama}} ({{$pelanggan->kontak}}) <br> {{$pelanggan->location}}</td>
-                                                                <td>ODP-{{$pelanggan->area}}/123</td>
+                                                                <td>ODP-{{$pelanggan->area}}/{{ $pelanggan->odp_loc }}</td>
                                                                 <td> <button type="submit">
                                                                     <i class="uil uil-process"></i>
                                                                     Process
                                                                 </button></td>
-                                                                @foreach ($pelanggan->fotos as $foto)
-                                                                    @if ($foto->status === 'NOK')
-                                                                        <td>NOK</td>
-                                                                    @else 
-                                                                    <td>---</td>
-                                                                    @endif
-                                                                    @break
-                                                                @endforeach
+                                                               
+                                                                <td>NOK</td>
 
-                                                                @if (session('revisi_selesai_' . $pelanggan->id))
+                                                                
                                                                 <td>
                                                                     <a href="{{ route('validator.revisi', ['id'=>$pelanggan->id]) }}">Cek Revisi</a>
                                                                 </td>
-                                                                @else 
-                                                                <td>---</td>
-                                                                @endif
+                                                               
                                                             </tr>
                                                             {{-- @endif --}}
                                                            @endforeach

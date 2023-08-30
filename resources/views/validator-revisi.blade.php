@@ -59,14 +59,14 @@
                                                 NOMER SC</th>
                                             <th style="vertical-align: middle;" width="1%" nowrap="">:
                                             </th>
-                                            <td colspan="2"> 123456   </td>
+                                            <td colspan="2"> {{$pelanggan->pelanggan->number}}    </td>
                                             </tr>
                                             <tr>
                                             <th style="vertical-align: middle;" width="1%" nowrap="">INET
                                             </th>
                                             <th style="vertical-align: middle;" width="1%" nowrap="">:
                                             </th>
-                                            <td colspan="2">  1231234 </td>
+                                            <td colspan="2">  {{$pelanggan->pelanggan->inet}}  </td>
                                             </tr>
                                             <tr>
                                             <th style="vertical-align: middle;" width="1%" nowrap="">NAMA
@@ -103,7 +103,7 @@
                                                 LOC_ID</th>
                                             <th style="vertical-align: middle;" width="1%" nowrap="">:
                                             </th>
-                                            <td colspan="2"> ODP-BDG-BJS/123 </td>
+                                            <td colspan="2"> ODP-{{ $pelanggan->pelanggan->area }}/{{ $pelanggan->pelanggan->odp_loc }} </td>
                                             </tr>
                                             @break
                                             @endforeach
@@ -137,17 +137,20 @@
                                               <th style="color:red;" width="1%" nowrap="">CHEKLIST ODP </th>
                                               <th width="1%" nowrap="">:</th>
                                             </tr>
+                                            @php
+                                                $no = 1
+                                            @endphp
                                             @foreach ($pelanggans as $index => $foto)
                                             <form action="{{route('validator.revisi.update', $foto->id) }}" method="post">
                                               @csrf
-                                              @method('PATCH')
+                                              @method('PUT')
                                             <tr>
-                                              <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">{{ $odpDescriptions[$foto->odp] }}</td>
+                                              <td style="vertical-align: middle !important;font-size:12px;" width="1%" nowrap="">{{ $no++ }}. {{ $odpDescriptions[$foto->odp] }}</td>
                                               <td style="vertical-align: middle !important;" width="1%">:</td>
                                               <td style="vertical-align: middle;width:100px;">
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status" value="OK">
+                                                    <input type="radio" name="status_revisi[{{ $foto->id }}]" value="OK">
                                                     <div class="badge" style="width:50px;background-color:#008000;color:white;font-weight:bold;">
                                                       OKE
                                                     </div>
@@ -155,7 +158,7 @@
                                                 </div>
                                                 <div class="radio">
                                                   <label>
-                                                    <input type="checkbox" name="status" value="NOK" checked>
+                                                    <input type="radio" name="status_revisi[{{ $foto->id }}]" value="NOK" checked>
                                                     <div class="badge" style="width:50px;background-color:red;color:white;font-weight:bold;">
                                                       NOK
                                                     </div>
@@ -164,14 +167,13 @@
                                               </td>
                                               <td style="vertical-align: middle !important;">
                                             
-                                                <font size="1">NOK</font>
+                                                <font size="1">{{ $foto->catatan }}</font>
                                               
                                               </td>
                                               
                                               <td style="vertical-align: middle;">
                                                 <div class="pull-right">
                                                         <img src="{{ asset('storage/images/' . $foto->file) }}" alt="Foto Pelanggan" width="150px" class="img-thumbnail">
-                                                     
                                                 </div>
                                               </td>
                                               @endforeach
@@ -184,7 +186,7 @@
                                             <th style="color:red;" width="1%" nowrap="">VALIDATOR</th>
                                             <th width="1%">:</th>
                                             <td colspan="3">
-                                              <input type="text" class="fc1 input-sm" value="Telkom University" disabled=""></td>
+                                              <input type="text" class="fc1 input-sm" value="{{Auth()->user()->name}}" disabled=""></td>
                                           </tr>
                                           <tr>
                                             <th style="color:red;" width="1%" nowrap="">CATATAN</th>
@@ -205,14 +207,9 @@
                                             </td>
                                           </tr>
                                         </div>
-                                            <!-- kolom 1 -->
-                                            
-                                            
-                                      
+                                          </form>
                                         </tbody>
                                       </table>
-                                    </form>
-                                  
                                   </div>
                             </div>
                           </div>

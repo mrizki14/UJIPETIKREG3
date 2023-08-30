@@ -23,30 +23,28 @@ class ValidatorController extends Controller
             "TSM" => 'TASIKMALAYA'
         ];
         
-        $pelangganFoto = Pelanggan::has('fotos','>=', 28)
-        ->with(['fotos' => function ($query) {
-            $query->select('pelanggans_id', 'file', 'catatan');
-        }])
-        ->get();
-        
-        // $pelangganFoto = Pelanggan::has('fotos')
+        // $pelangganFoto = Pelanggan::has('fotos','>=', 28)
         // ->with(['fotos' => function ($query) {
         //     $query->select('pelanggans_id', 'file', 'catatan');
         // }])
         // ->get();
+        $pelangganFoto = Pelanggan::with(['fotos' => function ($query) {
+            $query->select('pelanggans_id', 'file', 'catatan');
+        }])
+        ->whereHas('fotos', function ($subQuery) {
+            $subQuery->where('status', 'progress')
+                ->groupBy('pelanggans_id')
+                ->havingRaw('COUNT(*) = 28');
+        })
+        ->get();
 
-        // $hasilRevisi = Pelanggan::join('pelanggan_fotos', 'pelanggans.id', '=', 'pelanggan_fotos.pelanggans_id')
-        // ->where('pelanggan_fotos.status', 'NOK')
-        // ->select('pelanggans.*')
-        // ->with('fotos')
-        // ->take(1)
-        // ->get();
+
         $hasilRevisi = Pelanggan::whereHas('fotos', function ($query) {
-            $query->where('status', 'NOK');
+            $query->where('status_revisi', 'DIKIRIMKAN');
         })->with(['fotos' => function ($query) {
             $query->select('id', 'pelanggans_id', 'status');
         }])->get();
-
+        
         $revisiData = [];
         foreach ($hasilRevisi as $pelanggan) {
             foreach ($pelanggan->fotos as $foto) {
@@ -63,6 +61,7 @@ class ValidatorController extends Controller
     }
 
     public function validatorDetail(Request $request,$id) {
+
         if ($request->query('mark_as_read')) {
             $notificationId = $request->query('notification_id');
             $notification = auth()->user()->notifications->find($notificationId);
@@ -80,21 +79,23 @@ class ValidatorController extends Controller
             "TSM" => 'TASIKMALAYA'
         ];
 
-            // $cekBukti = PelangganFoto::where('pelanggans_id', $id)->count();
+            $cekBukti = PelangganFoto::where('pelanggans_id', $id)->count();
 
-            // if ($cekBukti < 28) {
-            //     return redirect()->route('validator.index')->with('errors', 'Bukti kurang cukup petugas harus mengisi semua intruksi.');
-            // }
+            if ($cekBukti < 28) {
+                return redirect()->route('validator.index')->with('errors', 'Bukti kurang cukup petugas harus mengisi semua intruksi.');
+            }
             $pelanggansFoto = PelangganFoto::with('pelanggan')
             ->where('pelanggans_id', $id)
             ->orderBy('file','asc')
+            // ->orderBy('odp','asc')
             ->get()
             ->groupBy('pelanggans_id')
             ->values();
-            
+      
             $revisiData = [];
             foreach ($pelanggansFoto as $collection) {
                 foreach ($collection as $foto) {
+                    // $catatan = PelangganFoto::where('pelanggans_id', $foto->pelanggan->id)->first();
                     $revisiData[] = [
                         'pelanggan' => $foto->pelanggan, // Dapatkan objek Pelanggan
                         'foto' => $foto, // Dapatkan objek PelangganFoto
@@ -102,9 +103,14 @@ class ValidatorController extends Controller
                     ];
                 }
             }
+            // dd($revisiData);
 
+            // $odps = ['odp_1', 'odp_2', 'odp_3','odp_4','odp_5', 'odp_7','odp_8','odp_9','odp_10','odp_11','odp_12','odp_13','odp_14','odp_15','odp_16','odp_17','odp_18','odp_19','odp_20','odp_21','odp_21','odp_22','odp_23','odp_24','odp_25','odp_26','odp_27','odp_28'];
+          
             return view('validator-detail', compact('pelanggansFoto','areas','revisiData'));
     }
+
+
 
     public function update(Request $request,$id) {
 
@@ -125,6 +131,11 @@ class ValidatorController extends Controller
                 if ($foto) {
                     $foto->status = $status;
                     $foto->catatan_keseluruhan = $catatanKeseluruhan; 
+
+                    if ($status === 'NOK') {
+                        $foto->status_revisi = 'NOK';
+                    }
+                    
                     $foto->save();
 
                     
@@ -204,17 +215,17 @@ class ValidatorController extends Controller
             'odp_26'=> 'Kabel harus melekat dengan kuat (menggunakan kabel
             tray, clip atau lem)',
             'odp_27'=> 'Kabel melalui jalur yang sudah disiapkan di rumah',
-            'odp_28'=> 'Pengukuran Redaman Power ONT Rx Level mengunakan
+            'odp_28'=> 'Pengukuran Redaman Power ONT Rx Level mengun    akan
             Ibooster',
       
         ];
     
         $pelanggan = Pelanggan::findOrFail($id);
         $pelanggans = $pelanggan->fotos()
-        ->where('status', 'NOK')
+        ->where('status_revisi', 'DIKIRIMKAN')
         ->orderBy('updated_at', 'desc')
         ->get();
-
+   
         foreach ($pelanggans as $foto) {
             $foto->time_diff = Carbon::parse($foto->updated_at)->diffForHumans();
             
@@ -223,19 +234,43 @@ class ValidatorController extends Controller
         return view('validator-revisi', compact('pelanggans','areas','odpDescriptions'));
     }
 
-    public function updateRevisi(Request $request,$id) {
+    public function updateRevisi(Request $request, $id) {
         $request->validate([
-            'status' => 'required',
-            'catatan_keseluruhan' => 'required'
+            'catatan_keseluruhan' => 'required',
+            'status_revisi' => 'required'
         ]);
 
-        $status = PelangganFoto::findOrFail($id);
-        $status->status = $request->input('status');
-        $status->catatan_keseluruhan = $request->input('catatan_keseluruhan');
-        $status->save();
-      
+        $statusRevisi = $request->input('status_revisi');
+        $catatanKeseluruhan = $request->input('catatan_keseluruhan');
+        $alreadyNotified = false; 
+        
+        foreach ($request->input('status_revisi') as $fotoId => $status) {
+            $foto = PelangganFoto::findOrFail($fotoId);
+            
+            // Periksa apakah status revisi yang dikirimkan berbeda dengan status saat ini
+            if ($status !== $foto->status_revisi) {
+                $foto->status_revisi = $status;
+                $foto->save();
 
+                if ($status === 'NOK' && !$alreadyNotified) {
+                    $pelanggan = Pelanggan::findOrFail($foto->pelanggans_id);
+                    $validator = User::where('role_id', 3)->get(); 
+                    
+                    // Kirim notifikasi hanya jika ada validator yang tersedia
+                    if ($validator->isNotEmpty()) {
+                        Notification::send($validator, new PelangganRevisiNotification($pelanggan));
+                        $alreadyNotified = true; // Setel flag menjadi true setelah notifikasi dikirim
+                    }
+                }
+            }
+        }
+
+      // Set catatan keseluruhan, status_revisi untuk semua foto yang diperbarui
+        PelangganFoto::whereIn('id', array_keys($statusRevisi))
+        ->update(['catatan_keseluruhan' => $catatanKeseluruhan]);
+
+    
         return redirect()->route('validator.index')->with('success', 'Revisi berhasil ditambahkan.');
-
     }
+    
 }
