@@ -122,7 +122,17 @@
                                       {{ session('error') }}
                                     </div>
                                     @endif
-                                  
+                                    @if($errors->any())
+                                    <div class="col">
+                                        <div class="alert alert-danger"> 
+                                            <ul>
+                                                @foreach($errors->all() as $error)
+                                                    <li>{!! $error !!}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    @endif
                                         <table class="table table-condensed table-striped" style="color:#000000">
                              
                                   <tbody>
@@ -647,7 +657,7 @@
                                                     @csrf 
                                                   <div class="form-floating d-flex">
                                                     <input type="hidden" name="odp" value="odp_8">
-                                                      <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea" required></textarea>
+                                                      <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                                       <label for="floatingTextarea">Catatan</label>
                                                       <!-- Button trigger modal -->
                                                       <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal8">
@@ -668,7 +678,7 @@
                                                                                           <div class="form-group">
                                                                                               <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                               <div class="col-md-10 ms-3">
-                                                                                                  <input type="file" required name="file" area-required="true">
+                                                                                                  <input type="file"  name="file" area-required="true">
                                                                                                   <p class="help-block">
                                                                                                       <em>
                                                                                                           File extension jpg. jpeg or png
@@ -1057,7 +1067,7 @@
                                             @csrf 
                                           <div class="form-floating d-flex">
                                              <input type="hidden" name="odp" value="odp_14">
-                                              <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea" required></textarea>
+                                              <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea" ></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
                                               <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal14">
@@ -1078,7 +1088,7 @@
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
-                                                                                          <input type="file" name="file" required area-required="true">
+                                                                                          <input type="file" name="file" area-required="true">
                                                                                           <p class="help-block">
                                                                                               <em>
                                                                                                   File extension jpg. jpeg or png
@@ -1127,7 +1137,7 @@
                                                 @csrf 
                                           <div class="form-floating d-flex">
                                             <input type="hidden" name="odp" value="odp_15">
-                                              <textarea class="form-control" name="catatan" required placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                                              <textarea class="form-control" name="catatan" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
                                               <label for="floatingTextarea">Catatan</label>
                                               <!-- Button trigger modal -->
                                               <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal15">
@@ -1148,7 +1158,7 @@
                                                                                   <div class="form-group">
                                                                                       <label for="" class="col-md-2 control-label">Berkas</label>
                                                                                       <div class="col-md-10 ms-3">
-                                                                                          <input type="file" name="file" required area-required="true">
+                                                                                          <input type="file" name="file" area-required="true">
                                                                                           <p class="help-block">
                                                                                               <em>
                                                                                                   File extension jpg. jpeg or png
